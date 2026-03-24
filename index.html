@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduverse - Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'poppins': ['Poppins', 'sans-serif'] },
+                    colors: {
+                        dark: { 900: '#0a0a0a', 800: '#121212', 700: '#1a1a1a', 600: '#222222', 500: '#2a2a2a' },
+                        accent: { orange: '#f97316', yellow: '#eab308', pink: '#ec4899' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Poppins', sans-serif !important; }
+        :root { --bg: #0a0a0a; --fg: #ffffff; --muted: #a3a3a3; --accent: #f97316; --card: #1a1a1a; --border: #333333; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: var(--fg); overflow-x: hidden; }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); } 50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.6); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes bounce-subtle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        
+        .animate-fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-bounce-subtle { animation: bounce-subtle 0.3s ease; }
+        
+        .glass { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(16px); }
+        .gradient-text { background: linear-gradient(135deg, #f97316, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+        
+        .btn-primary { position: relative; overflow: hidden; transition: all 0.3s ease; cursor: pointer; }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4); }
+        
+        .btn-orange { background-color: #f97316; color: black; font-weight: 800; border-radius: 8px; transition: all 0.3s; border: none; cursor: pointer; }
+        .btn-orange:hover { background-color: #fb923c; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3); }
+
+        .card-hover { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .card-hover:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+        
+        .tech-tag { transition: all 0.3s ease; cursor: pointer; user-select: none; }
+        .tech-tag:hover { background: var(--accent); color: white; transform: scale(1.1); }
+        .tech-tag:active { transform: scale(0.95); }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+        
+        .bg-grid-pattern { background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; }
+        .bg-dots-pattern { background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 24px 24px; }
+        
+        .category-tab { padding: 10px 24px; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
+        .category-tab:hover { background: rgba(249, 115, 22, 0.1); }
+        .category-tab.active { background: #f97316; color: white; }
+        
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 2.5rem; width: 90%; max-width: 900px; transform: scale(0.9); transition: 0.3s; overflow-y: auto; max-height: 85vh; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        .outline-text { -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05); color: transparent; }
+        
+        .leader-row { transition: all 0.3s ease; border-width: 2px; }
+        .leader-row:hover { background: rgba(249, 115, 22, 0.1); transform: translateX(10px); border-color: #f97316; }
+        .level-badge { background: rgba(20, 184, 166, 0.2); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
+            transition: transform 0.2s ease;
+        }
+        .cart-badge.pulse { animation: bounce-subtle 0.3s ease; }
+
+        /* PERBAIKAN NAVBAR - Dropdown Styles */
+        .nav-link { position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #f97316; transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 8px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            color: #a3a3a3;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .dropdown-item:hover {
+            background: rgba(249, 115, 22, 0.1);
+            color: #ffffff;
+        }
+
+        .glow-border { position: relative; }
+        .glow-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(135deg, #f97316, #ec4899, #f97316); z-index: -1; opacity: 0; transition: opacity 0.3s; }
+        .glow-border:hover::before { opacity: 1; }
+
+        .price-toggle { transition: all 0.3s ease; }
+        .price-toggle.active { background: #f97316; }
+        .price-toggle.active .toggle-dot { transform: translateX(24px); }
+        .toggle-dot { transition: transform 0.3s ease; }
+
+        .shop-card { position: relative; overflow: hidden; }
+        .shop-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(249,115,22,0.1) 100%); opacity: 0; transition: opacity 0.3s; }
+        .shop-card:hover::before { opacity: 1; }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content !max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Masuk</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-400 text-sm mb-2">Nama Pengguna</label>
+                    <input type="text" id="usernameInput" class="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="Masukkan username">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-400 text-sm mb-2">Kata Sandi</label>
+                    <input type="password" id="passwordInput" class="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="Masukkan password">
+                </div>
+                <button type="submit" class="w-full btn-orange py-3 text-white font-semibold">Masuk</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content !max-w-lg">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Keranjang Belanja</h3>
+                <button onclick="closeCartModal()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close cart">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="cartItemsContainer" class="space-y-4 max-h-96 overflow-y-auto mb-6 pr-2">
+                <p class="text-gray-500 text-center py-8">Keranjang masih kosong</p>
+            </div>
+            <div class="border-t border-gray-700 pt-4">
+                <div class="flex justify-between items-center text-xl font-bold text-white mb-6">
+                    <span>Total:</span>
+                    <span id="cartTotal">0 Koin</span>
+                </div>
+                <button onclick="checkout()" class="w-full btn-orange py-3 text-white font-semibold">Checkout Sekarang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Shop Modal -->
+    <div id="shopModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-3xl font-black text-white">Toko <span class="text-orange-500">Koleksi</span></h3>
+                <button onclick="closeFullShop()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close shop">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="shopGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal-overlay">
+        <div class="modal-content !max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-white">Profil Pengguna</h3>
+                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close profile">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="profileContent" class="space-y-4">
+                <!-- Profile content will be populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12 pt-4 pb-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#hero" class="text-2xl font-black uppercase text-white hover:text-orange-500 transition-colors">Edu<span class="text-orange-500">Verse</span></a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <div class="flex items-center gap-6">
+                        <a href="#hero" class="nav-link text-white text-sm font-medium hover:text-orange-500 transition">Beranda</a>
+                        <a href="#courses" class="nav-link text-white text-sm font-medium hover:text-orange-500 transition">Kursus</a>
+                        
+                        <!-- Dropdown -->
+                        <div class="dropdown">
+                            <button class="text-white text-sm font-medium hover:text-orange-500 transition flex items-center gap-1">
+                                Lainnya
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#about" class="dropdown-item">Tentang Kami</a>
+                                <a href="#learningPath" class="dropdown-item">Jalur Belajar</a>
+                                <a href="#shop" class="dropdown-item">Belanja</a>
+                                <a href="#pricing" class="dropdown-item">Harga</a>
+                                <a href="#leaderboard" class="dropdown-item">Papan Peringkat</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KOIN NAVBAR -->
+                    <div class="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg text-white font-bold text-sm">
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472a4.265 4.265 0 01.264-.521z"/></svg>
+                        <span id="coinBalanceNav">0</span>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="flex items-center gap-4 pl-6 border-l border-white/10">
+                        <button onclick="openCartModal()" class="text-white hover:text-orange-500 transition relative p-2" aria-label="Shopping cart">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            <span id="cartBadgeNav" class="cart-badge hidden">0</span>
+                        </button>
+                        <button id="profileBtn" onclick="openProfileModal()" class="text-white hover:text-orange-500 transition p-2 hidden" aria-label="Profile">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </button>
+                        <button id="signInBtn" class="btn-orange px-6 py-2 text-sm">Mendaftar</button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-white p-2" aria-label="Toggle menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-dark-900/95 border-t border-gray-800">
+            <div class="px-6 py-4 space-y-1">
+                <a href="#hero" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Beranda</a>
+                <a href="#courses" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Kursus</a>
+                <a href="#about" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Tentang Kami</a>
+                <a href="#learningPath" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Jalur Belajar</a>
+                <a href="#shop" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Belanja</a>
+                <a href="#pricing" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Harga</a>
+                <a href="#leaderboard" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Papan Peringkat</a>
+                <div class="pt-3 mt-2 border-t border-gray-700">
+                    <button onclick="openCartModal()" class="flex items-center gap-3 text-gray-300 hover:text-white py-3 px-4 w-full rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Keranjang (<span id="mobileCartCount">0</span>)
+                    </button>
+                    <button id="profileBtnMobile" onclick="openProfileModal()" class="flex items-center gap-3 text-gray-300 hover:text-white py-3 px-4 w-full rounded-lg hidden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Profil
+                    </button>
+                    <button id="signInBtnMobile" class="btn-orange w-full py-3 mt-2 text-white font-semibold">Mendaftar</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT SECTIONS (Hero, About, Learning Path, Pricing) - Tidak Diubah -->
+    
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen pt-24 md:pt-32 relative overflow-hidden bg-[#050505] bg-grid-pattern">
+        <div class="absolute top-20 left-10 w-80 h-80 bg-orange-500/25 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-20 right-10 w-[500px] h-[500px] bg-pink-500/15 rounded-full blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight animate-fade-up">
+                        <span class="text-white">Selamat Datang Di</span><br><span class="gradient-text">EDUVERSE</span>
+                    </h1>
+                    <p class="text-gray-400 text-lg md:text-xl max-w-lg animate-fade-up stagger-1" style="opacity: 0;">Platform belajar modern untuk meningkatkan skill teknologi dan masa depanmu. Pelajari berbagai kursus seperti programming, web development, dan teknologi terbaru.</p>
+                    <div class="animate-fade-up stagger-2" style="opacity: 0;">
+                        <button onclick="scrollToSection('courses')" class="btn-primary bg-orange-500 hover:bg-orange-400 text-white font-semibold px-8 py-4 rounded-xl text-lg">Jelajahi Kursus</button>
+                    </div>
+                    <div class="flex flex-wrap gap-3 animate-fade-up stagger-3" style="opacity: 0;">
+                        <span onclick="filterByTag('Node.js')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Node.js</span>
+                        <span onclick="filterByTag('Laravel')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Laravel</span>
+                        <span onclick="filterByTag('React')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">React</span>
+                        <span onclick="filterByTag('Java')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Java</span>
+                        <span onclick="filterByTag('Html')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Html</span>
+                        <span onclick="filterByTag('Css')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">CSS</span>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="space-y-4">
+                            <div class="card-hover bg-gradient-to-br from-pink-500/30 to-pink-600/20 rounded-2xl p-4 border border-pink-500/30">
+                                <div class="aspect-square bg-pink-400/20 rounded-xl mb-3 overflow-hidden">
+                                    <img src="data:image/png;base64,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" alt="Java" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-xs font-semibold text-pink-400">Java</span>
+                            </div>
+                            <div class="card-hover bg-gradient-to-br from-cyan-500/30 to-cyan-600/20 rounded-2xl p-4 border border-cyan-500/30">
+                                <div class="aspect-square bg-cyan-400/20 rounded-xl mb-3 overflow-hidden">
+                                    <img src="data:image/png;base64,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" alt="React" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-xs font-semibold text-cyan-400">React</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mt-8">
+                            <div class="card-hover bg-gradient-to-br from-green-500/30 to-green-600/20 rounded-2xl p-4 border border-green-500/30">
+                                <div class="aspect-square bg-green-400/20 rounded-xl mb-3 overflow-hidden">
+                                    <img src="data:image/png;base64,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" alt="Node.js" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-xs font-semibold text-green-400">Node.js</span>
+                            </div>
+                            <div class="card-hover bg-gradient-to-br from-red-500/30 to-red-600/20 rounded-2xl p-4 border border-red-500/30">
+                                <div class="aspect-square bg-red-400/20 rounded-xl mb-3 overflow-hidden">
+                                    <img src="data:image/png;base64,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" alt="Laravel" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-xs font-semibold text-red-400">Laravel</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="card-hover bg-gradient-to-br from-blue-500/30 to-blue-600/20 rounded-2xl p-4 border border-blue-500/30">
+                                <div class="aspect-square bg-blue-400/20 rounded-xl mb-3 overflow-hidden">
+                                    <img src="data:image/jpeg;base64,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" alt="CSS" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-xs font-semibold text-blue-400">CSS</span>
+                            </div>
+                            <div class="card-hover bg-gradient-to-br from-orange-500/30 to-orange-600/20 rounded-2xl p-4 border border-orange-500/30">
+                                <div class="aspect-square bg-orange-400/20 rounded-xl mb-3 overflow-hidden">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQuYP6w7vZZxw4BVP-oiN7bF9wZz7e0q8hA&s" alt="HTML" class="w-full h-full object-cover">
+                                </div>
+                                <span class="text-xs font-semibold text-orange-400">HTML</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interlude Section -->
+    <section class="py-24 relative bg-[#0a0a0a] bg-dots-pattern border-y border-gray-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-6 reveal">
+                <div class="card-hover bg-dark-700/50 backdrop-blur rounded-2xl p-6 border border-gray-700/50 flex items-center gap-4">
+                    <div class="w-16 h-16 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-10 h-10 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div><h3 class="text-xl font-semibold text-white mb-1">Laravel</h3><p class="text-gray-400 text-sm">Framework PHP untuk membuat website cepat, rapi, dan terstruktur</p></div>
+                </div>
+                <div class="card-hover bg-dark-700/50 backdrop-blur rounded-2xl p-6 border border-gray-700/50 flex items-center gap-4">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-10 h-10 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm16.525 13.707c-.131-.821-.666-1.511-2.252-2.155-.552-.259-1.165-.438-1.349-.854-.068-.248-.083-.382-.038-.528.132-.489.68-.635 1.124-.495.287.086.555.314.719.62.758-.49.758-.49 1.289-.814-.199-.312-.298-.448-.438-.576-.474-.508-1.107-.768-2.133-.744l-.528.066c-.507.124-.99.376-1.274.71-.805.917-.582 2.518.392 3.178.957.7 2.357.866 2.537 1.55.167.761-.564 1.006-1.277.917-.527-.086-.818-.368-1.136-.756l-1.321.762c.154.306.323.449.587.72.976.962 3.419 1.099 3.857-.565.017-.048.134-.391.049-.917zm-6.486-4.192h-1.627c0 1.406-.007 2.805-.007 4.214 0 .896.047 1.719-.104 1.971-.24.498-.859.438-1.141.344-.287-.119-.434-.287-.603-.545-.048-.076-.088-.139-.112-.166l-1.321.803c.221.453.537.844.942 1.087.629.371 1.476.476 2.361.275.577-.169 1.073-.514 1.332-1.061.375-.676.298-1.498.298-2.415.008-1.485 0-2.971 0-4.473l.082-.339z"/></svg>
+                    </div>
+                    <div><h3 class="text-xl font-semibold text-white mb-1">JavaScript</h3><p class="text-gray-400 text-sm">Bahasa pemrograman untuk membuat website interaktif dan dinamis</p></div>
+                </div>
+                <div class="card-hover bg-dark-700/50 backdrop-blur rounded-2xl p-6 border border-gray-700/50 flex items-center gap-4">
+                    <div class="w-16 h-16 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-10 h-10 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2.139" fill="currentColor"/><ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="currentColor" stroke-width="1"/><ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="currentColor" stroke-width="1" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="currentColor" stroke-width="1" transform="rotate(120 12 12)"/></svg>
+                    </div>
+                    <div><h3 class="text-xl font-semibold text-white mb-1">React</h3><p class="text-gray-400 text-sm">Library JavaScript untuk membuat tampilan website interaktif dan modern</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 relative overflow-hidden bg-gradient-to-br from-[#060b14] via-[#0a1020] to-[#080d18]">
+        <div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[150px]"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center reveal">
+                <div class="relative">
+                    <div class="aspect-square max-w-md mx-auto rounded-3xl overflow-hidden border border-blue-500/30 shadow-2xl shadow-blue-500/10">
+                        <img src="https://i.ibb.co.com/rRvkJ4fk/Screenshot-2026-03-16-213313.png" alt="About Eduverse" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div>
+                    <span class="text-sm font-semibold text-blue-400 mb-4 block">// Tentang Eduverse //</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ubah Pengalaman Belajar Anda</h2>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">Eduverse adalah platform pembelajaran online yang berfokus pada pengembangan keterampilan teknologi seperti programming dan web development. Dengan sistem pembelajaran interaktif, kuis, dan reward, Eduverse membantu pengguna belajar dengan cara yang lebih menyenangkan dan efektif.</p>
+                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-6 mb-8 backdrop-blur">
+                        <div class="flex items-center gap-4">
+                            <span class="text-5xl font-bold text-blue-400">61</span>
+                            <p class="text-gray-300">Mahasiswa merasa terbantu dengan adanya platform pembelajaran ini</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="scrollToSection('hero')" class="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl transition-colors">Sebelumnya</button>
+                        <button onclick="scrollToSection('learningPath')" class="px-6 py-3 bg-purple-500 hover:bg-purple-400 text-white font-semibold rounded-xl transition-colors">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEARNING PATH SECTION -->
+    <section id="learningPath" class="py-24 relative overflow-hidden bg-gradient-to-b from-[#150808] via-[#1f0c0c] to-[#150808]">
+        <div class="absolute inset-0 bg-dots-pattern opacity-30"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-900/20 rounded-full blur-[150px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Jalur Pembelajaran</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-6">Semua orang berhak memiliki jalurnya masing-masing. Pilih jalur Anda dan mulailah belajar hari ini.</p>
+                <button onclick="showAllPaths()" class="btn-primary bg-orange-500 hover:bg-orange-400 text-white font-semibold px-6 py-3 rounded-xl">Semua Jalur Pembelajaran <span class="ml-2">→</span></button>
+            </div>
+            <div class="relative reveal">
+                <div id="learningCarousel" class="overflow-hidden rounded-3xl">
+                    <div class="bg-gradient-to-r from-red-700/80 to-red-800/80 backdrop-blur rounded-3xl p-8 md:p-12 relative min-h-[400px] border border-red-500/20">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <span class="inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-medium mb-4">Jalur Unggulan</span>
+                                <h3 id="pathTitle" class="text-4xl md:text-5xl font-bold text-white mb-4">Laravel Developer</h3>
+                                <p id="pathDesc" class="text-white/80 text-lg mb-6">Kuasai framework PHP yang digemari oleh para pengembang di seluruh dunia. Bangun aplikasi web modern dan tangguh.</p>
+                                <button onclick="startPath()" class="btn-primary bg-white text-red-600 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100">Mulai Belajar</button>
+                            </div>
+                            <div class="relative flex justify-center">
+                                <div class="relative">
+                                    <div class="w-64 h-40 bg-gray-900 rounded-lg border-4 border-gray-700 flex items-center justify-center animate-float shadow-2xl">
+                                        <div id="pathIcon" class="text-2xl font-bold text-red-400">
+                                            <svg class="w-16 h-16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+                                        </div>
+                                    </div>
+                                    <div class="w-72 h-3 bg-gray-700 rounded-b-lg mx-auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-center gap-2 mt-8" id="pathDots">
+                            <button onclick="setPath(0)" class="w-3 h-3 rounded-full bg-white path-dot" aria-label="Path 1"></button>
+                            <button onclick="setPath(1)" class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/60 transition-colors path-dot" aria-label="Path 2"></button>
+                            <button onclick="setPath(2)" class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/60 transition-colors path-dot" aria-label="Path 3"></button>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="prevPath()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur" aria-label="Previous"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <button onclick="nextPath()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur" aria-label="Next"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 relative overflow-hidden bg-gradient-to-b from-[#0d0812] via-[#150c1a] to-[#0d0812]">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[150px]"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Temukan Paket yang Sempurna untuk Anda</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Percepat pertumbuhan anda dan bisnis Anda dengan solusi yang kami sesuaikan. Harga khusus tersedia untuk perusahaan besar.</p>
+                <div class="flex items-center justify-center gap-4 mt-8">
+                    <span class="text-white font-medium" id="monthlyLabel">Bulanan</span>
+                    <button id="pricingToggle" class="price-toggle w-14 h-7 bg-gray-700 rounded-full relative" aria-label="Toggle pricing period">
+                        <span id="toggleDot" class="toggle-dot absolute top-1 left-1 w-5 h-5 bg-purple-500 rounded-full"></span>
+                    </button>
+                    <span class="text-gray-400 font-medium" id="yearlyLabel">Tahunan</span>
+                    <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-semibold rounded">-20%</span>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto reveal">
+                <div class="card-hover bg-[#1a1520]/80 backdrop-blur rounded-3xl p-8 border border-gray-700/50">
+                    <h3 class="text-2xl font-bold text-white mb-2">Pro</h3>
+                    <div class="flex items-baseline gap-2 mb-6">
+                        <span class="text-5xl font-bold text-white" id="proPrice">$34</span>
+                        <span class="text-gray-400" id="proPeriod">/Bulan</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Analisis yang Ditingkatkan</li>
+                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Domain Kustom</li>
+                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dukungan Prioritas</li>
+                    </ul>
+                    <button onclick="selectPlan('Pro')" class="w-full btn-primary bg-purple-500 hover:bg-purple-400 text-white font-semibold py-4 rounded-xl">Mulai</button>
+                </div>
+                <div class="card-hover bg-[#1a1520]/80 backdrop-blur rounded-3xl p-8 border-2 border-purple-500 relative">
+                    <span class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-purple-500 text-white text-sm font-semibold rounded-full">Penawaran Terbaik</span>
+                    <h3 class="text-2xl font-bold text-white mb-2">Kelas Bisnis</h3>
+                    <div class="flex items-baseline gap-2 mb-6">
+                        <span class="text-5xl font-bold text-white" id="businessPrice">$56</span>
+                        <span class="text-gray-400" id="businessPeriod">/bulan</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Alat Pemasaran Tingkat Lanjut</li>
+                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Domain Tak Terbatas</li>
+                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>24/7 Dukungan Khusus</li>
+                    </ul>
+                    <button onclick="selectPlan('Business')" class="w-full btn-primary bg-purple-500 hover:bg-purple-400 text-white font-semibold py-4 rounded-xl animate-pulse-glow">Mulai</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOP SECTION (UPDATED) -->
+    <section id="shop" class="py-24 relative overflow-hidden bg-[#080808]">
+        <div class="absolute top-10 left-10 outline-text text-8xl md:text-[12rem] font-black opacity-10 pointer-events-none uppercase">Galeri</div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
+                <div class="w-full lg:w-1/2 relative flex justify-center items-center py-10 reveal">
+                    <div class="absolute w-[80%] h-[80%] bg-orange-600/20 blur-[100px]"></div>
+                    <div class="absolute w-[300px] h-[380px] bg-gradient-to-br from-orange-500 to-orange-700 rounded-[3rem] translate-x-6 translate-y-6"></div>
+                    <div id="itemPreviewCard" class="relative w-full max-w-[420px] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-6 shadow-2xl transition-all duration-500">
+                        <div class="rounded-[2rem] overflow-hidden mb-6 h-64 bg-dark-800">
+                            <img id="previewImg" src="https://picsum.photos/seed/shop-preview/600/400" class="w-full h-full object-cover" alt="Shop item preview">
+                        </div>
+                        <div class="px-2">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 id="previewTitle" class="text-3xl font-black text-white tracking-tight">Nama Barang</h3>
+                                <span id="previewTag" class="px-4 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-[10px] font-bold uppercase">Spesial</span>
+                            </div>
+                            <p id="previewDesc" class="text-gray-400 text-sm leading-relaxed min-h-[60px]">Loading...</p>
+                            <div class="mt-4 text-xl font-bold text-orange-500">
+                                <span id="previewPrice">0 Koin</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
+                            <button onclick="prevShopItem()" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all shadow-xl" aria-label="Previous item"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"/></svg></button>
+                            <button onclick="nextShopItem()" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all shadow-xl" aria-label="Next item"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/2 text-center lg:text-left space-y-8 reveal">
+                    <div class="space-y-4">
+                        <h4 class="text-orange-500 font-bold tracking-[0.3em] uppercase text-sm">Toko Eduverse</h4>
+                        <h2 class="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter">Tingkatkan Skill Mu</h2>
+                    </div>
+                    <p class="text-gray-400 text-lg md:text-xl max-w-md mx-auto lg:mx-0 font-light leading-relaxed">Jelajahi aset digital eksklusif kami untuk menyesuaikan perjalanan Anda dan meningkatkan profil Anda.</p>
+                    <button onclick="openFullShop()" class="group relative px-12 py-5 bg-orange-500 rounded-2xl overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(249,115,22,0.5)]">
+                        <span class="relative text-white font-black text-2xl uppercase tracking-wider">Buka Toko</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="py-24 relative overflow-hidden bg-[#080808]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">Cari Diantara <span class="text-orange-500" id="courseCount">0</span> Kursus</h2>
+                <div class="max-w-3xl mx-auto relative">
+                    <input type="text" id="searchInput" placeholder="Apa yang ingin kamu pelajari?" class="w-full bg-dark-700 border border-white/10 rounded-full py-4 px-8 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all">
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-3 mb-12 justify-center reveal" id="categoryTabs">
+                <button class="category-tab active" data-category="All Course">All Course</button>
+                <button class="category-tab" data-category="Design">Design</button>
+                <button class="category-tab" data-category="Programming">Programming</button>
+                <button class="category-tab" data-category="Music">Music</button>
+                <button class="category-tab" data-category="Marketing">Marketing</button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" id="courseGrid"></div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="py-24 bg-[#080808]">
+        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-3 gap-12 items-center reveal">
+            <div class="lg:col-span-1 text-center lg:text-left">
+                <h2 class="text-4xl md:text-5xl font-black text-orange-500 mb-6 leading-tight tracking-tight uppercase">Mereka yang memegang <br> mahkota</h2>
+                <p class="text-gray-400 text-lg mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0">Mereka yang memegang mahkota bukan yang tak pernah lelah, tapi yang tak pernah menyerah.</p>
+                <button onclick="joinChallenge()" class="px-10 py-4 bg-orange-500 hover:bg-orange-400 text-black font-black rounded-2xl transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)]">Tingkatkan Skill mu!</button>
+            </div>
+            <div class="lg:col-span-2 bg-transparent border-2 border-white rounded-[40px] p-6 md:p-10 shadow-2xl">
+                <div class="flex text-white font-black uppercase tracking-widest text-[10px] md:text-xs mb-6 px-4 md:px-8">
+                    <div class="w-12 md:w-16">Ranking</div><div class="flex-1">Pengguna</div><div class="w-20 md:w-32 text-center">Exp</div><div class="w-24 md:w-32 text-center">Koin</div>
+                </div>
+                <div id="leaderboardBody" class="space-y-4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0a0a0a] pt-20 pb-10 mt-20">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-black uppercase tracking-tighter">
+                        <span class="text-white">Edu</span><span class="text-orange-500">Verse</span>
+                    </h2>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-[250px]">
+                        Pantengi terus update dari platform pembelajaran kami
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" onclick="socialClick('Twitter')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Twitter">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" onclick="socialClick('TikTok')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="TikTok">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </a>
+                        <a href="#" onclick="socialClick('Instagram')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Instagram">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-white font-bold text-xl">Situs Kami</h3>
+                    <ul class="space-y-3 text-gray-400 text-sm font-light">
+                        <li><a href="#hero" class="hover:text-orange-500 transition">Beranda</a></li>
+                        <li><a href="#courses" class="hover:text-orange-500 transition">Kursus</a></li>
+                        <li><a href="#pricing" class="hover:text-orange-500 transition">Harga</a></li>
+                        <li><a href="#about" class="hover:text-orange-500 transition">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-white font-bold text-xl">Sumber Daya</h3>
+                    <ul class="space-y-3 text-gray-400 text-sm font-light">
+                        <li><a href="#" class="hover:text-orange-500 transition">Dokumentasi</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition">Tutorial</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition">Pendukung</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="w-full h-[220px] bg-[#1a1a1a] rounded-3xl overflow-hidden border border-white/5 relative group">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.29277528582!2d107.57311645!3d-6.9174639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64c5e8866e5%3A0x37be7ac9c4a5c36!2sBandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1678888888888!5m2!1sen!2sid" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy" title="Location Map"></iframe>
+                        <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md px-4 py-1 rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
+                            Location: Jawa Barat, Bandung
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/20">
+                <p class="text-center text-gray-500 text-sm tracking-wide">2026 | Eduverse Team All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA DEFINITIONS ---
+        let cart = [];
+        
+        // DATA ITEM TOKO BARU (Sistem Koin) - RELEVAN GAMBAR
+        const shopData = [
+            { name: "XP Booster (2x)", tag: "Power Up", desc: "Gandakan Exp yang didapat selama 1 jam saat belajar.", img: "https://cdn-icons-png.flaticon.com/512/10749/10749600.png", price: 50 },
+            { name: "Coin Doubler", tag: "Item", desc: "Hasil koin dari kuis berikutnya menjadi 2x lipat.", img: "https://cdn-icons-png.flaticon.com/512/898/898450.png", price: 30 },
+            { name: "Streak Freeze", tag: "Utility", desc: "Lindungi streak harianmu agar tidak putus sehari.", img: "https://cdn-icons-png.flaticon.com/512/10804/10804674.png", price: 40 },
+            { name: "Hint Pack (5x)", tag: "Helper", desc: "Dapatkan 5 kesempatan untuk melihat petunjuk jawaban.", img: "https://cdn-icons-png.flaticon.com/512/10749/10749600.png", price: 20 },
+            { name: "Silver Frame", tag: "Cosmetic", desc: "Bingkai profil eksklusif berwarna silver.", img: "https://cdn-icons-png.flaticon.com/512/10486/10486800.png", price: 100 },
+            { name: "VIP Badge", tag: "Status", desc: "Lencana VIP yang ditampilkan di leaderboard.", img: "https://cdn-icons-png.flaticon.com/512/10804/10804674.png", price: 150 }
+        ];
+
+        const coursesData = [
+            { title: "Learn Figma - UI/UX Design Essential Training", lessons: 6, students: 198, level: "Beginner", rating: 4, category: "Design", image: "figma-uiux" },
+            { title: "Python For Beginners - Learn Programming", lessons: 21, students: 99, level: "Advanced", rating: 3, category: "Programming", image: "python-programming" },
+            { title: "Acoustic Guitar And Electric Guitar Started", lessons: 8, students: 301, level: "Average", rating: 5, category: "Music", image: "guitar-music" },
+            { title: "Mobile App Development With Flutter", lessons: 15, students: 215, level: "Beginner", rating: 4, category: "Programming", image: "flutter-mobile" },
+            { title: "Ionic React: Mobile Development With Ionic", lessons: 15, students: 67, level: "Advanced", rating: 5, category: "Programming", image: "ionic-react" },
+            { title: "Sports Management: The Essentials Course", lessons: 26, students: 156, level: "Average", rating: 1, category: "Marketing", image: "sports-management" },
+            { title: "How To Market Yourself As A Consultant", lessons: 33, students: 64, level: "Beginner", rating: 3, category: "Marketing", image: "marketing-consultant" },
+            { title: "Become A Product Manager | Learn The Basics", lessons: 5, students: 134, level: "Advanced", rating: 4, category: "Marketing", image: "product-manager" }
+        ];
+
+        const leaderboardData = [
+            { rank: 1, username: "Vibecode Enjoyer", exp: "188.230", level: 67, coins: "241.337", highlight: true },
+            { rank: 2, username: "CodeMaster_Pro", exp: "175.420", level: 64, coins: "198.550", highlight: false },
+            { rank: 3, username: "DevNinja_X", exp: "162.890", level: 61, coins: "176.220", highlight: true },
+            { rank: 4, username: "ByteWizard", exp: "155.230", level: 59, coins: "154.110", highlight: false },
+            { rank: 5, username: "PixelPunk", exp: "148.760", level: 57, coins: "132.450", highlight: false },
+            { rank: 6, username: "ScriptKiddie", exp: "141.200", level: 55, coins: "118.900", highlight: false }
+        ];
+
+        const learningPathsData = [
+            { title: "Laravel Developer", desc: "Master the PHP framework loved by developers worldwide. Build modern, robust web applications.", color: "red" },
+            { title: "React Specialist", desc: "Build modern user interfaces with the most popular JavaScript library. Component-based architecture.", color: "blue" },
+            { title: "Node.js Backend", desc: "Create scalable server-side applications using JavaScript. Master APIs and databases.", color: "green" }
+        ];
+
+        let currentCourses = [...coursesData];
+        let activeCategory = "All Course";
+        let currentShopIdx = 0;
+        let currentPathIdx = 0;
+        let isYearly = false;
+        let currentUser = null;
+
+        // --- HELPER FUNCTIONS KOIN ---
+        function getCoins() {
+            if (!currentUser) return 0;
+            return currentUser.coins || 0;
+        }
+
+        function updateCoins(amount) {
+            if (!currentUser) return;
+            currentUser.coins = (currentUser.coins || 0) + amount;
+            if (currentUser.coins < 0) currentUser.coins = 0;
+            saveUserData();
+            updateUI();
+        }
+
+        function updateUI() {
+            const coinNav = document.getElementById('coinBalanceNav');
+            if(coinNav) coinNav.innerText = getCoins().toLocaleString();
+        }
+
+        // --- USER SYSTEM ---
+        function loadUserData() {
+            const data = localStorage.getItem('eduverse_user');
+            return data ? JSON.parse(data) : null;
+        }
+
+        function saveUserData() {
+            if (currentUser) {
+                localStorage.setItem('eduverse_user', JSON.stringify(currentUser));
+            }
+        }
+
+        function createUser(username) {
+            return {
+                username: username,
+                level: 1,
+                exp: 0,
+                coins: 100, // Starting coins
+                inventory: [],
+                joinedDate: new Date().toISOString()
+            };
+        }
+
+function gainExp(amount) {
+            if (!currentUser) {
+                showNotification('Silakan login terlebih dahulu!', 'error');
+                return;
+            }
+            currentUser.exp += amount;
+            const newLevel = Math.floor(currentUser.exp / 1000) + 1;
+            if (newLevel > currentUser.level) {
+                currentUser.level = newLevel;
+                showNotification(`🎉 Selamat! Anda naik ke Level ${newLevel}! +${amount} EXP`, 'success');
+            } else {
+                showNotification(`+${amount} EXP didapatkan! Total EXP: ${Math.floor(currentUser.exp).toLocaleString()}`, 'success');
+            }
+            saveUserData();
+            updateUI();
+        }
+
+        function updateLoginUI() {
+            if (currentUser) {
+                document.getElementById('signInBtn').textContent = currentUser.username;
+                document.getElementById('signInBtnMobile').textContent = currentUser.username;
+                document.getElementById('profileBtn').classList.remove('hidden');
+                document.getElementById('profileBtnMobile').classList.remove('hidden');
+            } else {
+                document.getElementById('signInBtn').textContent = 'Mendaftar';
+                document.getElementById('signInBtnMobile').textContent = 'Mendaftar';
+                document.getElementById('profileBtn').classList.add('hidden');
+                document.getElementById('profileBtnMobile').classList.add('hidden');
+            }
+        }
+
+        function openProfileModal() {
+            if (!currentUser) {
+                showNotification('Silakan login terlebih dahulu!', 'error');
+                return;
+            }
+            renderProfile();
+            document.getElementById('profileModal').classList.add('active');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('active');
+        }
+
+        function renderProfile() {
+            const container = document.getElementById('profileContent');
+            const inventory = JSON.parse(localStorage.getItem('eduverse_inventory')) || [];
+            const totalInventoryValue = inventory.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            container.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center mb-4">
+                        <span class="text-3xl font-bold text-white">${currentUser.username.charAt(0).toUpperCase()}</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-1">${currentUser.username}</h4>
+                    <p class="text-gray-400">Bergabung sejak ${new Date(currentUser.joinedDate).toLocaleDateString('id-ID')}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6 text-center p-4 bg-dark-700 rounded-xl">
+                    <div>
+                        <div class="text-2xl font-bold text-white">${currentUser.level}</div>
+                        <div class="text-gray-400 text-sm">Level</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-white">${Math.floor(currentUser.exp).toLocaleString()}</div>
+                        <div class="text-gray-400 text-sm">EXP</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-yellow-400">${getCoins().toLocaleString()}</div>
+                        <div class="text-gray-400 text-sm">Koin</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-white">${inventory.reduce((sum, item) => sum + item.quantity, 0)}</div>
+                        <div class="text-gray-400 text-sm">Items</div>
+                    </div>
+                </div>
+                ${inventory.length > 0 ? `
+                <div>
+                    <h5 class="text-white font-bold mb-3">Inventory (Total Nilai: ${totalInventoryValue.toLocaleString()} Koin)</h5>
+                    <div class="space-y-2 max-h-40 overflow-y-auto pr-2">
+                        ${inventory.slice(0, 6).map(item => `
+                            <div class="flex items-center gap-3 bg-dark-600 p-2 rounded-lg">
+                                <div class="w-8 h-8 rounded-lg overflow-hidden">
+                                    <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}">
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-semibold text-white text-sm">${item.name}</div>
+                                    <div class="text-gray-400 text-xs">${item.quantity}x ${item.price} Koin</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : '<p class="text-gray-500 text-center py-8">Inventory kosong. Belanja di toko!</p>'}
+                <button onclick="gainExp(100)" class="w-full mt-4 btn-orange py-3 font-bold text-white text-sm">Test: Dapatkan 100 EXP</button>
+            `;
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            currentUser = loadUserData();
+            updateLoginUI();
+            updateUI();
+            renderCourses();
+            renderLeaderboard();
+            updateShopPreview();
+            initAnimations();
+            initInteractions();
+            updateCartBadge();
+        });
+
+        // --- RENDER FUNCTIONS ---
+        function renderCourses() {
+            const grid = document.getElementById('courseGrid');
+            if (!grid) return;
+            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            currentCourses = coursesData.filter(c => {
+                const matchesCategory = activeCategory === "All Course" || c.category === activeCategory;
+                const matchesSearch = c.title.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            document.getElementById('courseCount').textContent = coursesData.length;
+
+            grid.innerHTML = currentCourses.map(course => `
+                <div class="bg-[#f97316] rounded-[24px] p-3 shadow-xl transition-transform hover:-translate-y-2 duration-300">
+                    <div class="rounded-[20px] overflow-hidden mb-4 aspect-video">
+                        <img src="https://picsum.photos/seed/${course.image}/400/250" class="w-full h-full object-cover" alt="${course.title}">
+                    </div>
+                    <div class="px-2">
+                        <h3 class="text-black font-extrabold text-[15px] leading-tight mb-4 min-h-[40px] line-clamp-2">${course.title}</h3>
+                        <div class="flex items-center justify-between text-[11px] text-black/80 font-bold mb-6">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/></svg>
+                                Lesson : ${course.lessons}
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                Student : ${course.students}
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                                ${course.level}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pb-2">
+                            <button onclick="startCourse('${course.title}')" class="bg-black text-white text-[12px] font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 hover:bg-neutral-800 transition shadow-lg">
+                                Start Course <span class="text-[14px]">›</span>
+                            </button>
+                            <div class="relative w-10 h-10 border-2 border-dashed border-white rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">${course.rating}</span>
+                                <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-md">
+                                    <svg class="w-2.5 h-2.5 text-orange-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboardBody');
+            if (!container) return;
+            
+            container.innerHTML = leaderboardData.map(user => `
+                <div class="leader-row flex items-center text-white rounded-2xl py-3 px-4 md:px-8 border-2 ${user.highlight ? 'border-orange-500/50' : 'border-white/20'}">
+                    <div class="w-12 md:w-16 font-black text-sm md:text-xl">${user.rank}</div>
+                    <div class="flex-1 flex items-center gap-2 md:gap-4">
+                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-white/20 bg-dark-700">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${user.rank}" class="w-full h-full object-cover" alt="${user.username}">
+                        </div>
+                        <span class="font-bold text-xs md:text-lg truncate">${user.username}</span>
+                    </div>
+                    <div class="w-20 md:w-32 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3">
+                        <span class="font-bold text-gray-200 text-xs md:text-base">${user.exp}</span>
+                        <span class="level-badge">Lv ${user.level}</span>
+                    </div>
+                    <div class="w-24 md:w-32 text-center font-black text-xs md:text-lg">${user.coins}</div>
+                </div>
+            `).join('');
+        }
+
+        function updateShopPreview() {
+            const item = shopData[currentShopIdx];
+            const card = document.getElementById('itemPreviewCard');
+            card.style.opacity = '0.5';
+            setTimeout(() => {
+                document.getElementById('previewImg').src = item.img;
+                document.getElementById('previewTitle').innerText = item.name;
+                document.getElementById('previewTag').innerText = item.tag;
+                document.getElementById('previewDesc').innerText = item.desc;
+                document.getElementById('previewPrice').innerText = `${item.price} Koin`;
+                card.style.opacity = '1';
+            }, 200);
+        }
+
+        // --- CART FUNCTIONS ---
+        function addToCart(item) {
+            const existingItem = cart.find(i => i.name === item.name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+            updateCartBadge();
+            showNotification(`${item.name} ditambahkan ke keranjang!`, 'success');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadgeNav');
+            const mobileCount = document.getElementById('mobileCartCount');
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+                badge.classList.add('pulse');
+                setTimeout(() => badge.classList.remove('pulse'), 300);
+                if (mobileCount) mobileCount.textContent = totalItems;
+            } else {
+                badge.classList.add('hidden');
+                if (mobileCount) mobileCount.textContent = '0';
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalElement = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">Keranjang masih kosong</p>';
+                totalElement.textContent = 'Rp 0';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                total += item.price * item.quantity;
+                return `
+                    <div class="flex items-center gap-4 bg-dark-700 rounded-xl p-3">
+                        <img src="${item.img}" class="w-16 h-16 rounded-lg object-cover" alt="${item.name}">
+                        <div class="flex-1">
+                            <h4 class="text-white font-semibold">${item.name}</h4>
+                            <p class="text-orange-500 font-bold">${item.price} Koin</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-white">${item.quantity}x</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-300 transition-colors p-1" aria-label="Remove item">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            totalElement.textContent = `${total} Koin`;
+        }
+
+        function openCartModal() {
+            renderCartItems();
+            document.getElementById('cartModal').classList.add('active');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('Keranjang masih kosong!', 'error');
+                return;
+            }
+            
+            const totalCost = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const currentBalance = getCoins();
+
+            if (currentBalance < totalCost) {
+                showNotification(`Koin tidak cukup! Butuh ${totalCost}, kamu punya ${currentBalance}.`, 'error');
+                return;
+            }
+
+            // Lakukan pembayaran
+            updateCoins(-totalCost);
+            
+            // Simpan inventory (opsional)
+            let inventory = JSON.parse(localStorage.getItem('eduverse_inventory')) || [];
+            cart.forEach(item => {
+                let found = inventory.find(i => i.name === item.name);
+                if(found) found.quantity += item.quantity;
+                else inventory.push({...item, quantity: item.quantity});
+            });
+            localStorage.setItem('eduverse_inventory', JSON.stringify(inventory));
+
+            showNotification(`Pembelian berhasil! ${totalCost} Koin telah dipotong.`, 'success');
+            
+            cart = [];
+            updateCartBadge();
+            renderCartItems();
+            closeCartModal();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-white font-semibold z-[9999] transition-all transform translate-y-20 ${type === 'error' ? 'bg-red-500' : 'bg-green-500'}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-y-20');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-y-20');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // --- INTERACTION FUNCTIONS ---
+        function initAnimations() {
+            const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+            const observer = new IntersectionObserver((entries) => { 
+                entries.forEach(entry => { 
+                    if (entry.isIntersecting) { 
+                        entry.target.classList.add('active'); 
+                    } 
+                }); 
+            }, observerOptions);
+            document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+        }
+
+        function initInteractions() {
+            // Mobile Menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenuBtn && mobileMenu) { 
+                mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); }); 
+            }
+
+            // Pricing Toggle
+            const pricingToggle = document.getElementById('pricingToggle');
+            if (pricingToggle) { 
+                pricingToggle.addEventListener('click', () => { 
+                    isYearly = !isYearly;
+                    pricingToggle.classList.toggle('active');
+                    updatePricing();
+                }); 
+            }
+
+            // Category Tabs
+            const categoryTabs = document.querySelectorAll('#categoryTabs .category-tab');
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    activeCategory = tab.dataset.category;
+                    renderCourses();
+                });
+            });
+
+            // Search
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.addEventListener('input', renderCourses);
+
+            // Sign In Modal
+            const signInBtn = document.getElementById('signInBtn');
+            const signInBtnMobile = document.getElementById('signInBtnMobile');
+            const handler = () => document.getElementById('loginModal').classList.add('active');
+            if (signInBtn) signInBtn.addEventListener('click', handler);
+            if (signInBtnMobile) signInBtnMobile.addEventListener('click', handler);
+        }
+
+        function updatePricing() {
+            const proPrice = document.getElementById('proPrice');
+            const businessPrice = document.getElementById('businessPrice');
+            const proPeriod = document.getElementById('proPeriod');
+            const businessPeriod = document.getElementById('businessPeriod');
+            
+            if (isYearly) {
+                proPrice.textContent = '$27';
+                businessPrice.textContent = '$45';
+                proPeriod.textContent = '/Bulan';
+                businessPeriod.textContent = '/bulan';
+            } else {
+                proPrice.textContent = '$34';
+                businessPrice.textContent = '$56';
+                proPeriod.textContent = '/Bulan';
+                businessPeriod.textContent = '/bulan';
+            }
+        }
+
+        // --- ACTION FUNCTIONS ---
+        function startCourse(title) {
+            window.location.href = "kursus.html?title=" + encodeURIComponent(title);
+        }
+
+        function nextShopItem() { 
+            currentShopIdx = (currentShopIdx + 1) % shopData.length; 
+            updateShopPreview(); 
+        }
+        
+        function prevShopItem() { 
+            currentShopIdx = (currentShopIdx - 1 + shopData.length) % shopData.length; 
+            updateShopPreview(); 
+        }
+
+function openFullShop() {
+            const grid = document.getElementById('shopGrid');
+            grid.innerHTML = shopData.map((item, index) => `
+                <div class="shop-card bg-white/5 p-5 rounded-[2rem] border border-white/5 hover:border-orange-500 transition-all duration-500 group cursor-pointer" onclick="addToCart(shopData[${index}])">
+                    <img src="${item.img}" class="w-full h-40 object-cover rounded-2xl mb-4 group-hover:scale-110 transition duration-500" alt="${item.name}">
+                    <h4 class="text-white font-bold text-lg mb-2">${item.name}</h4>
+                    <p class="text-orange-500 text-[10px] font-bold uppercase mb-1">${item.tag}</p>
+                    <p class="text-white font-bold mb-3">${item.price} Koin</p>
+                    <div class="w-full btn-orange text-black py-3 rounded-xl text-sm font-bold shadow-lg hover:shadow-orange-500/50 transition-all text-center">Tambah ke Keranjang</div>
+                </div>
+            `).join('');
+            document.getElementById('shopModal').classList.add('active');
+        }
+
+        function addToCartByIndex(index) {
+            const item = shopData[index];
+            addToCart(item);
+        }
+
+        function closeFullShop() { 
+            document.getElementById('shopModal').classList.remove('active'); 
+        }
+        
+        function closeModal() { 
+            document.getElementById('loginModal').classList.remove('active'); 
+        }
+
+function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!username || !password) {
+                showNotification('Mohon isi semua field!', 'error');
+                return;
+            }
+            
+            currentUser = createUser(username);
+            saveUserData();
+            updateLoginUI();
+            updateUI();
+            showNotification(`Selamat datang, ${username}! Dapatkan 100 koin starter!`, 'success');
+            closeModal();
+        }
+
+        function filterByTag(tag) {
+            document.getElementById('courses').scrollIntoView({behavior: 'smooth'});
+            setTimeout(() => {
+                const tabs = document.querySelectorAll('#categoryTabs .category-tab');
+                let found = false;
+                tabs.forEach(t => { 
+                    if(t.dataset.category.toLowerCase().includes(tag.toLowerCase())) { 
+                        t.click(); 
+                        found = true; 
+                    } 
+                });
+                if(!found) {
+                    document.getElementById('searchInput').value = tag;
+                    renderCourses();
+                }
+            }, 500);
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+        }
+
+        // Learning Path Carousel
+        function setPath(index) {
+            currentPathIdx = index;
+            const path = learningPathsData[index];
+            document.getElementById('pathTitle').innerText = path.title;
+            document.getElementById('pathDesc').innerText = path.desc;
+            
+            const dots = document.querySelectorAll('.path-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-white', i === index);
+                dot.classList.toggle('bg-white/40', i !== index);
+            });
+        }
+
+        function nextPath() {
+            setPath((currentPathIdx + 1) % learningPathsData.length);
+        }
+
+        function prevPath() {
+            setPath((currentPathIdx - 1 + learningPathsData.length) % learningPathsData.length);
+        }
+        
+        function showAllPaths() {
+            window.location.href = "learningpath.html";
+        }
+
+        function startPath() {
+            const title = document.getElementById('pathTitle').innerText;
+            window.location.href = "learningpath.html?path=" + encodeURIComponent(title);
+        }
+
+        function selectPlan(planName) {
+            showNotification(`Anda memilih paket ${planName}! Mengarahkan ke checkout...`, 'success');
+        }
+
+        function joinChallenge() {
+            showNotification("Tantangan berikutnya dimulai dalam 24 jam!", 'success');
+        }
+
+        function socialClick(platform) {
+            showNotification(`Membuka ${platform}...`, 'success');
+        }
+    </script>
+</body>
+</html>
