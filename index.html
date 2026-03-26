@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eduverse - Learning Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eduverse - Platform Pembelajaran</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
@@ -20,89 +20,83 @@
         }
     </script>
     <style>
-        * { font-family: 'Poppins', sans-serif !important; }
+        * { font-family: 'Poppins', sans-serif !important; box-sizing: border-box; }
         :root { --bg: #0a0a0a; --fg: #ffffff; --muted: #a3a3a3; --accent: #f97316; --card: #1a1a1a; --border: #333333; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg); color: var(--fg); overflow-x: hidden; }
+        html { scroll-behavior: smooth; font-size: 14px; }
+        body { background-color: var(--bg); color: var(--fg); overflow-x: hidden; line-height: 1.5; }
         
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); } 50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.6); } }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @media (min-width: 768px) { html { font-size: 16px; } }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); } 50% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.5); } }
         @keyframes bounce-subtle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         
-        .animate-fade-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-fade-up { animation: fadeInUp 0.6s ease-out forwards; }
         .animate-float { animation: float 3s ease-in-out infinite; }
         .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
         .animate-bounce-subtle { animation: bounce-subtle 0.3s ease; }
+        .animate-scroll-left { animation: scrollLeft 30s linear infinite; }
         
         .glass { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(16px); }
         .gradient-text { background: linear-gradient(135deg, #f97316, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
         
         .btn-primary { position: relative; overflow: hidden; transition: all 0.3s ease; cursor: pointer; }
-        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
-        .btn-primary:hover::before { left: 100%; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3); }
         
-        .btn-orange { background-color: #f97316; color: black; font-weight: 800; border-radius: 8px; transition: all 0.3s; border: none; cursor: pointer; }
-        .btn-orange:hover { background-color: #fb923c; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3); }
+        .btn-orange { background-color: #f97316; color: black; font-weight: 700; border-radius: 10px; transition: all 0.3s; border: none; cursor: pointer; }
+        .btn-orange:hover { background-color: #fb923c; transform: translateY(-2px); box-shadow: 0 8px 15px rgba(249, 115, 22, 0.3); }
 
-        .card-hover { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .card-hover:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+        .card-hover { transition: all 0.3s ease; }
+        @media (hover: hover) { .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); } }
         
-        .tech-tag { transition: all 0.3s ease; cursor: pointer; user-select: none; }
-        .tech-tag:hover { background: var(--accent); color: white; transform: scale(1.1); }
-        .tech-tag:active { transform: scale(0.95); }
-        
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
         
-        .bg-grid-pattern { background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; }
-        .bg-dots-pattern { background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 24px 24px; }
-        
-        .category-tab { padding: 10px 24px; border-radius: 8px; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
+        .category-tab { padding: 8px 16px; border-radius: 10px; font-weight: 500; transition: all 0.3s ease; cursor: pointer; font-size: 0.75rem; }
         .category-tab:hover { background: rgba(249, 115, 22, 0.1); }
         .category-tab.active { background: #f97316; color: white; }
+        @media (min-width: 640px) { .category-tab { padding: 10px 24px; font-size: 0.875rem; } }
         
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.3s; padding: 1rem; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 2.5rem; width: 90%; max-width: 900px; transform: scale(0.9); transition: 0.3s; overflow-y: auto; max-height: 85vh; }
+        .modal-content { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 1.5rem; width: 100%; max-width: 900px; transform: scale(0.95); transition: 0.3s; overflow-y: auto; max-height: 90vh; }
         .modal-overlay.active .modal-content { transform: scale(1); }
+        @media (min-width: 640px) { .modal-content { padding: 2.5rem; border-radius: 32px; } }
 
-        .outline-text { -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05); color: transparent; }
+        .outline-text { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05); color: transparent; }
         
-        .leader-row { transition: all 0.3s ease; border-width: 2px; }
-        .leader-row:hover { background: rgba(249, 115, 22, 0.1); transform: translateX(10px); border-color: #f97316; }
-        .level-badge { background: rgba(20, 184, 166, 0.2); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+        .leader-row { transition: all 0.3s ease; border-width: 1px; }
+        .leader-row:hover { background: rgba(249, 115, 22, 0.1); transform: translateX(5px); border-color: #f97316; }
+        .level-badge { background: rgba(20, 184, 166, 0.2); color: #2dd4bf; border: 1px solid rgba(45, 212, 191, 0.3); padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; }
 
         .cart-badge {
             position: absolute;
-            top: -8px;
-            right: -8px;
+            top: -6px;
+            right: -6px;
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
-            transition: transform 0.2s ease;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
         }
-        .cart-badge.pulse { animation: bounce-subtle 0.3s ease; }
 
-        /* PERBAIKAN NAVBAR - Dropdown Styles */
+        /* Navbar Styles */
         .nav-link { position: relative; }
-        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #f97316; transition: width 0.3s ease; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #f97316; transition: width 0.3s ease; }
         .nav-link:hover::after { width: 100%; }
 
         .dropdown { position: relative; }
@@ -110,17 +104,17 @@
             position: absolute;
             top: 100%;
             left: 50%;
-            transform: translateX(-50%) translateY(10px);
+            transform: translateX(-50%) translateY(8px);
             background: #1a1a1a;
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 8px;
-            min-width: 200px;
+            border-radius: 12px;
+            padding: 6px;
+            min-width: 180px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 100;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
         .dropdown:hover .dropdown-menu {
             opacity: 1;
@@ -129,27 +123,21 @@
         }
         .dropdown-item {
             display: block;
-            padding: 10px 16px;
+            padding: 8px 14px;
             color: #a3a3a3;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: all 0.2s ease;
             white-space: nowrap;
         }
-        .dropdown-item:hover {
-            background: rgba(249, 115, 22, 0.1);
-            color: #ffffff;
-        }
-
-        .glow-border { position: relative; }
-        .glow-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(135deg, #f97316, #ec4899, #f97316); z-index: -1; opacity: 0; transition: opacity 0.3s; }
-        .glow-border:hover::before { opacity: 1; }
+        .dropdown-item:hover { background: rgba(249, 115, 22, 0.1); color: #ffffff; }
 
         .price-toggle { transition: all 0.3s ease; }
         .price-toggle.active { background: #f97316; }
-        .price-toggle.active .toggle-dot { transform: translateX(24px); }
+        .price-toggle.active .toggle-dot { transform: translateX(20px); }
         .toggle-dot { transition: transform 0.3s ease; }
+        @media (min-width: 640px) { .price-toggle.active .toggle-dot { transform: translateX(24px); } }
 
         .shop-card { position: relative; overflow: hidden; }
         .shop-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(249,115,22,0.1) 100%); opacity: 0; transition: opacity 0.3s; }
@@ -159,6 +147,317 @@
         .stagger-2 { animation-delay: 0.2s; }
         .stagger-3 { animation-delay: 0.3s; }
         .stagger-4 { animation-delay: 0.4s; }
+
+        /* Logo Styles */
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #f97316, #ec4899);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(249, 115, 22, 0.4);
+            flex-shrink: 0;
+        }
+        @media (min-width: 768px) { .logo-icon { width: 40px; height: 40px; border-radius: 12px; } }
+
+        /* Tech Marquee Styles */
+        .tech-marquee-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+        .tech-marquee-container::before,
+        .tech-marquee-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            z-index: 2;
+        }
+        @media (min-width: 640px) { .tech-marquee-container::before, .tech-marquee-container::after { width: 60px; } }
+        .tech-marquee-container::before { left: 0; background: linear-gradient(to right, #0a0a0a, transparent); }
+        .tech-marquee-container::after { right: 0; background: linear-gradient(to left, #0a0a0a, transparent); }
+        
+        .tech-marquee-track { display: flex; gap: 6px; width: max-content; }
+        @media (min-width: 640px) { .tech-marquee-track { gap: 8px; } }
+        
+        .tech-card {
+            flex-shrink: 0;
+            width: 90px;
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        @media (min-width: 640px) { .tech-card { width: 120px; border-radius: 10px; padding: 10px 8px; } }
+        .tech-card:hover { transform: translateY(-2px); border-color: rgba(249, 115, 22, 0.5); }
+        .tech-card img { width: 28px; height: 28px; object-fit: contain; margin-bottom: 6px; }
+        @media (min-width: 640px) { .tech-card img { width: 36px; height: 36px; margin-bottom: 8px; } }
+        .tech-card-title { color: white; font-weight: 600; font-size: 9px; margin-bottom: 1px; line-height: 1.2; }
+        @media (min-width: 640px) { .tech-card-title { font-size: 11px; margin-bottom: 2px; } }
+        .tech-card-desc { color: rgba(255, 255, 255, 0.5); font-size: 7px; font-weight: 400; line-height: 1.2; }
+        @media (min-width: 640px) { .tech-card-desc { font-size: 9px; } }
+
+        /* Hero Stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        @media (min-width: 640px) { .hero-stats { gap: 1.5rem; } }
+        .stat-item {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .stat-item:hover {
+            background: rgba(249, 115, 22, 0.08);
+            border-color: rgba(249, 115, 22, 0.2);
+        }
+        @media (min-width: 640px) { .stat-item { padding: 1.5rem 1rem; border-radius: 16px; } }
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f97316, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @media (min-width: 640px) { .stat-number { font-size: 2rem; } }
+        @media (min-width: 768px) { .stat-number { font-size: 2.5rem; } }
+        .stat-label {
+            color: #a3a3a3;
+            font-size: 0.65rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        @media (min-width: 640px) { .stat-label { font-size: 0.75rem; margin-top: 0.5rem; } }
+
+        /* Section Backgrounds */
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.98) 0%, rgba(15, 10, 20, 0.95) 50%, rgba(10, 10, 10, 0.98) 100%);
+        }
+        @media (min-width: 768px) {
+            .hero-bg {
+                background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(15, 10, 20, 0.9) 50%, rgba(10, 10, 10, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1920&q=80') center/cover fixed;
+            }
+        }
+        
+        .about-bg { background: linear-gradient(180deg, rgba(6, 11, 20, 0.98) 0%, rgba(10, 16, 32, 0.95) 50%, rgba(6, 11, 20, 0.98) 100%); }
+        .learning-bg { background: linear-gradient(180deg, rgba(21, 8, 8, 0.98) 0%, rgba(31, 12, 12, 0.95) 50%, rgba(21, 8, 8, 0.98) 100%); }
+        .pricing-bg { background: linear-gradient(180deg, rgba(13, 8, 18, 0.98) 0%, rgba(21, 12, 26, 0.95) 50%, rgba(13, 8, 18, 0.98) 100%); }
+        .shop-bg { background: linear-gradient(135deg, rgba(8, 8, 8, 0.98) 0%, rgba(12, 8, 16, 0.95) 100%); }
+        
+        /* Shop Preview Card - REDESIGNED */
+        .shop-preview-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        @media (min-width: 640px) { .shop-preview-wrapper { padding: 3rem 0; } }
+        
+        .shop-glow-bg {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 0;
+        }
+        @media (min-width: 640px) { .shop-glow-bg { width: 350px; height: 350px; } }
+        
+        .shop-card-bg {
+            position: absolute;
+            width: 240px;
+            height: 300px;
+            background: linear-gradient(145deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+            border-radius: 24px;
+            transform: rotate(-6deg) translateX(15px);
+            box-shadow: 0 25px 50px rgba(249, 115, 22, 0.3);
+        }
+        @media (min-width: 640px) { 
+            .shop-card-bg { 
+                width: 300px; 
+                height: 380px; 
+                border-radius: 32px;
+                transform: rotate(-6deg) translateX(20px);
+            } 
+        }
+        
+        .shop-preview-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 280px;
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(20, 20, 20, 0.98));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 1.25rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        @media (min-width: 640px) { 
+            .shop-preview-card { 
+                max-width: 320px;
+                border-radius: 24px;
+                padding: 1.5rem;
+            } 
+        }
+        .shop-preview-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+        
+        .shop-preview-image {
+            width: 100%;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        @media (min-width: 640px) { 
+            .shop-preview-image { 
+                height: 160px;
+                border-radius: 18px;
+            } 
+        }
+        .shop-preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .shop-preview-card:hover .shop-preview-image img {
+            transform: scale(1.05);
+        }
+        
+        .shop-preview-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(236, 72, 153, 0.15));
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #fb923c;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        @media (min-width: 640px) { .shop-preview-tag { font-size: 11px; padding: 5px 14px; } }
+        
+        .shop-preview-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        @media (min-width: 640px) { .shop-preview-title { font-size: 1.5rem; } }
+        
+        .shop-preview-desc {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            min-height: 36px;
+        }
+        @media (min-width: 640px) { .shop-preview-desc { font-size: 0.875rem; min-height: 42px; } }
+        
+        .shop-preview-price {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f97316, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        @media (min-width: 640px) { .shop-preview-price { font-size: 1.25rem; } }
+        .shop-preview-price svg {
+            width: 20px;
+            height: 20px;
+            color: #f97316;
+        }
+        
+        .shop-nav-btn {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+        @media (min-width: 640px) { .shop-nav-btn { gap: 16px; bottom: -24px; } }
+        
+        .shop-nav-btn button {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        @media (min-width: 640px) { .shop-nav-btn button { width: 48px; height: 48px; } }
+        .shop-nav-btn button:hover {
+            background: #f97316;
+            transform: scale(1.1);
+        }
+        .shop-nav-btn button:hover svg { color: white; }
+        .shop-nav-btn button svg {
+            width: 18px;
+            height: 18px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        @media (min-width: 640px) { .shop-nav-btn button svg { width: 20px; height: 20px; } }
+        
+        /* Leaderboard Table Responsive */
+        .leaderboard-table { font-size: 10px; }
+        @media (min-width: 640px) { .leaderboard-table { font-size: 12px; } }
+        @media (min-width: 768px) { .leaderboard-table { font-size: 14px; } }
+
+        /* Footer Responsive */
+        .footer-section { padding: 3rem 1rem; }
+        @media (min-width: 768px) { .footer-section { padding: 5rem 2rem; } }
+
+        /* Price Card Responsive */
+        .price-card { padding: 1.5rem; border-radius: 20px; }
+        @media (min-width: 768px) { .price-card { padding: 2rem; border-radius: 28px; } }
+        @media (min-width: 1024px) { .price-card { padding: 2.5rem; border-radius: 36px; } }
+
+        /* PERBAIKAN: Batasi tampilan kursus di mobile (max 4 item) */
+        @media (max-width: 639px) {
+            #courseGrid > div:nth-child(n+5) {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -166,22 +465,22 @@
     <!-- Login Modal -->
     <div id="loginModal" class="modal-overlay">
         <div class="modal-content !max-w-md">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-white">Masuk</h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close modal">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-xl font-bold text-white">Masuk</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors p-1" aria-label="Tutup modal">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
             <form onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                    <label class="block text-gray-400 text-xs mb-1.5 font-medium">Nama Pengguna</label>
+                    <input type="text" id="usernameInput" class="w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-orange-500 transition-colors" placeholder="Masukkan nama pengguna">
+                </div>
                 <div class="mb-4">
-                    <label class="block text-gray-400 text-sm mb-2">Nama Pengguna</label>
-                    <input type="text" id="usernameInput" class="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="Masukkan username">
+                    <label class="block text-gray-400 text-xs mb-1.5 font-medium">Kata Sandi</label>
+                    <input type="password" id="passwordInput" class="w-full bg-dark-700 border border-gray-600 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-orange-500 transition-colors" placeholder="Masukkan kata sandi">
                 </div>
-                <div class="mb-6">
-                    <label class="block text-gray-400 text-sm mb-2">Kata Sandi</label>
-                    <input type="password" id="passwordInput" class="w-full bg-dark-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500 transition-colors" placeholder="Masukkan password">
-                </div>
-                <button type="submit" class="w-full btn-orange py-3 text-white font-semibold">Masuk</button>
+                <button type="submit" class="w-full btn-orange py-2.5 text-white font-semibold text-sm">Masuk</button>
             </form>
         </div>
     </div>
@@ -189,21 +488,21 @@
     <!-- Cart Modal -->
     <div id="cartModal" class="modal-overlay">
         <div class="modal-content !max-w-lg">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-white">Keranjang Belanja</h3>
-                <button onclick="closeCartModal()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close cart">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">Keranjang</h3>
+                <button onclick="closeCartModal()" class="text-gray-400 hover:text-white transition-colors p-1" aria-label="Tutup keranjang">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <div id="cartItemsContainer" class="space-y-4 max-h-96 overflow-y-auto mb-6 pr-2">
-                <p class="text-gray-500 text-center py-8">Keranjang masih kosong</p>
+            <div id="cartItemsContainer" class="space-y-3 max-h-72 overflow-y-auto mb-4 pr-1">
+                <p class="text-gray-500 text-center py-6 text-sm">Keranjang masih kosong</p>
             </div>
-            <div class="border-t border-gray-700 pt-4">
-                <div class="flex justify-between items-center text-xl font-bold text-white mb-6">
+            <div class="border-t border-gray-700 pt-3">
+                <div class="flex justify-between items-center text-lg font-bold text-white mb-4">
                     <span>Total:</span>
                     <span id="cartTotal">0 Koin</span>
                 </div>
-                <button onclick="checkout()" class="w-full btn-orange py-3 text-white font-semibold">Checkout Sekarang</button>
+                <button onclick="checkout()" class="w-full btn-orange py-2.5 text-white font-semibold text-sm">Checkout</button>
             </div>
         </div>
     </div>
@@ -211,374 +510,454 @@
     <!-- Full Shop Modal -->
     <div id="shopModal" class="modal-overlay">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-8">
-                <h3 class="text-3xl font-black text-white">Toko <span class="text-orange-500">Koleksi</span></h3>
-                <button onclick="closeFullShop()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close shop">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-2xl font-bold text-white">Toko <span class="text-orange-500">Koleksi</span></h3>
+                <button onclick="closeFullShop()" class="text-gray-400 hover:text-white transition-colors p-1" aria-label="Tutup toko">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <div id="shopGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="shopGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"></div>
         </div>
     </div>
 
     <!-- Profile Modal -->
     <div id="profileModal" class="modal-overlay">
         <div class="modal-content !max-w-md">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-white">Profil Pengguna</h3>
-                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-white transition-colors" aria-label="Close profile">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">Profil</h3>
+                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-white transition-colors p-1" aria-label="Tutup profil">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <div id="profileContent" class="space-y-4">
-                <!-- Profile content will be populated by JS -->
-            </div>
+            <div id="profileContent" class="space-y-3"></div>
         </div>
     </div>
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
-        <div class="max-w-[1400px] mx-auto px-6 md:px-12 pt-4 pb-3">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 py-3">
             <div class="flex items-center justify-between">
                 <!-- Logo -->
-                <a href="#hero" class="text-2xl font-black uppercase text-white hover:text-orange-500 transition-colors">Edu<span class="text-orange-500">Verse</span></a>
+                <a href="#hero" class="flex items-center gap-2 group flex-shrink-0">
+                    <div class="logo-icon">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <span class="text-lg md:text-xl font-bold text-white whitespace-nowrap">Edu<span class="text-orange-500">Verse</span></span>
+                </a>
                 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-8">
-                    <div class="flex items-center gap-6">
-                        <a href="#hero" class="nav-link text-white text-sm font-medium hover:text-orange-500 transition">Beranda</a>
-                        <a href="#courses" class="nav-link text-white text-sm font-medium hover:text-orange-500 transition">Kursus</a>
-                        
-                        <!-- Dropdown -->
-                        <div class="dropdown">
-                            <button class="text-white text-sm font-medium hover:text-orange-500 transition flex items-center gap-1">
-                                Lainnya
-                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a href="#about" class="dropdown-item">Tentang Kami</a>
-                                <a href="#learningPath" class="dropdown-item">Jalur Belajar</a>
-                                <a href="#shop" class="dropdown-item">Belanja</a>
-                                <a href="#pricing" class="dropdown-item">Harga</a>
-                                <a href="#leaderboard" class="dropdown-item">Papan Peringkat</a>
-                            </div>
+                <div class="hidden lg:flex items-center gap-6">
+                    <a href="#hero" class="nav-link text-white text-sm font-medium hover:text-orange-500 transition">Beranda</a>
+                    <a href="#courses" class="nav-link text-white text-sm font-medium hover:text-orange-500 transition">Kursus</a>
+                    
+                    <!-- Dropdown -->
+                    <div class="dropdown">
+                        <button class="text-white text-sm font-medium hover:text-orange-500 transition flex items-center gap-1">
+                            Lainnya
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#about" class="dropdown-item">Tentang Kami</a>
+                            <a href="#learningPath" class="dropdown-item">Jalur Belajar</a>
+                            <a href="#shop" class="dropdown-item">Belanja</a>
+                            <a href="#pricing" class="dropdown-item">Harga</a>
+                            <a href="#leaderboard" class="dropdown-item">Papan Peringkat</a>
                         </div>
                     </div>
 
                     <!-- KOIN NAVBAR -->
-                    <div class="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg text-white font-bold text-sm">
-                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472a4.265 4.265 0 01.264-.521z"/></svg>
+                    <div class="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 rounded-lg text-white font-bold text-xs">
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472a4.265 4.265 0 01.264-.521z"/></svg>
                         <span id="coinBalanceNav">0</span>
                     </div>
                     
                     <!-- Actions -->
-                    <div class="flex items-center gap-4 pl-6 border-l border-white/10">
-                        <button onclick="openCartModal()" class="text-white hover:text-orange-500 transition relative p-2" aria-label="Shopping cart">
+                    <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+                        <button onclick="openCartModal()" class="text-white hover:text-orange-500 transition relative p-1.5" aria-label="Keranjang">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                             <span id="cartBadgeNav" class="cart-badge hidden">0</span>
                         </button>
-                        <button id="profileBtn" onclick="openProfileModal()" class="text-white hover:text-orange-500 transition p-2 hidden" aria-label="Profile">
+                        <button id="profileBtn" onclick="openProfileModal()" class="text-white hover:text-orange-500 transition p-1.5 hidden" aria-label="Profil">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         </button>
-                        <button id="signInBtn" class="btn-orange px-6 py-2 text-sm">Mendaftar</button>
+                        <button id="signInBtn" class="btn-orange px-4 py-1.5 text-xs">Masuk</button>
                     </div>
                 </div>
                 
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-white p-2" aria-label="Toggle menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
+                <!-- Mobile Right Side -->
+                <div class="flex lg:hidden items-center gap-2">
+                    <!-- Mobile Coins -->
+                    <div class="flex items-center gap-1 px-2 py-1 bg-white/10 rounded-lg text-white font-bold text-xs">
+                        <svg class="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472a4.265 4.265 0 01.264-.521z"/></svg>
+                        <span id="coinBalanceNavMobile">0</span>
+                    </div>
+                    
+                    <!-- Mobile Cart -->
+                    <button onclick="openCartModal()" class="text-white hover:text-orange-500 transition relative p-1.5" aria-label="Keranjang">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span id="cartBadgeNavMobile" class="cart-badge hidden">0</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="text-white p-1.5" aria-label="Menu">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
             </div>
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-dark-900/95 border-t border-gray-800">
-            <div class="px-6 py-4 space-y-1">
-                <a href="#hero" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Beranda</a>
-                <a href="#courses" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Kursus</a>
-                <a href="#about" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Tentang Kami</a>
-                <a href="#learningPath" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Jalur Belajar</a>
-                <a href="#shop" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Belanja</a>
-                <a href="#pricing" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Harga</a>
-                <a href="#leaderboard" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-3 px-4 rounded-lg">Papan Peringkat</a>
-                <div class="pt-3 mt-2 border-t border-gray-700">
-                    <button onclick="openCartModal()" class="flex items-center gap-3 text-gray-300 hover:text-white py-3 px-4 w-full rounded-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        Keranjang (<span id="mobileCartCount">0</span>)
-                    </button>
-                    <button id="profileBtnMobile" onclick="openProfileModal()" class="flex items-center gap-3 text-gray-300 hover:text-white py-3 px-4 w-full rounded-lg hidden">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+        <div id="mobileMenu" class="hidden lg:hidden bg-dark-900/98 border-t border-gray-800">
+            <div class="px-3 py-3 space-y-0.5">
+                <a href="#hero" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Beranda</a>
+                <a href="#courses" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Kursus</a>
+                <a href="#about" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Tentang Kami</a>
+                <a href="#learningPath" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Jalur Belajar</a>
+                <a href="#shop" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Belanja</a>
+                <a href="#pricing" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Harga</a>
+                <a href="#leaderboard" class="block text-gray-300 hover:text-white hover:bg-dark-700 transition-colors py-2.5 px-3 rounded-lg text-sm">Papan Peringkat</a>
+                <div class="pt-2 mt-2 border-t border-gray-700">
+                    <button id="profileBtnMobile" onclick="openProfileModal()" class="flex items-center gap-2 text-gray-300 hover:text-white py-2.5 px-3 w-full rounded-lg text-sm hidden">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         Profil
                     </button>
-                    <button id="signInBtnMobile" class="btn-orange w-full py-3 mt-2 text-white font-semibold">Mendaftar</button>
+                    <button id="signInBtnMobile" class="btn-orange w-full py-2.5 mt-1 text-white font-semibold text-sm">Masuk</button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- CONTENT SECTIONS (Hero, About, Learning Path, Pricing) - Tidak Diubah -->
-    
     <!-- Hero Section -->
-    <section id="hero" class="min-h-screen pt-24 md:pt-32 relative overflow-hidden bg-[#050505] bg-grid-pattern">
-        <div class="absolute top-20 left-10 w-80 h-80 bg-orange-500/25 rounded-full blur-[100px]"></div>
-        <div class="absolute bottom-20 right-10 w-[500px] h-[500px] bg-pink-500/15 rounded-full blur-[120px]"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight animate-fade-up">
-                        <span class="text-white">Selamat Datang Di</span><br><span class="gradient-text">EDUVERSE</span>
-                    </h1>
-                    <p class="text-gray-400 text-lg md:text-xl max-w-lg animate-fade-up stagger-1" style="opacity: 0;">Platform belajar modern untuk meningkatkan skill teknologi dan masa depanmu. Pelajari berbagai kursus seperti programming, web development, dan teknologi terbaru.</p>
-                    <div class="animate-fade-up stagger-2" style="opacity: 0;">
-                        <button onclick="scrollToSection('courses')" class="btn-primary bg-orange-500 hover:bg-orange-400 text-white font-semibold px-8 py-4 rounded-xl text-lg">Jelajahi Kursus</button>
-                    </div>
-                    <div class="flex flex-wrap gap-3 animate-fade-up stagger-3" style="opacity: 0;">
-                        <span onclick="filterByTag('Node.js')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Node.js</span>
-                        <span onclick="filterByTag('Laravel')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Laravel</span>
-                        <span onclick="filterByTag('React')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">React</span>
-                        <span onclick="filterByTag('Java')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Java</span>
-                        <span onclick="filterByTag('Html')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">Html</span>
-                        <span onclick="filterByTag('Css')" class="tech-tag px-4 py-2 bg-dark-700 rounded-lg text-gray-300 border border-gray-700">CSS</span>
-                    </div>
+    <section id="hero" class="min-h-screen pt-20 md:pt-28 lg:pt-36 relative overflow-hidden hero-bg">
+        <div class="absolute top-20 left-10 w-48 md:w-80 h-48 md:h-80 bg-orange-500/15 rounded-full blur-[80px] md:blur-[100px]"></div>
+        <div class="absolute bottom-20 right-10 w-64 md:w-[400px] lg:w-[500px] h-64 md:h-[400px] lg:h-[500px] bg-pink-500/10 rounded-full blur-[80px] md:blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center space-y-5 md:space-y-6">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight animate-fade-up">
+                    <span class="text-white">Selamat Datang di</span><br><span class="gradient-text">EDUVERSE</span>
+                </h1>
+                <p class="text-gray-400 text-sm sm:text-base md:text-lg lg:text-xl max-w-lg mx-auto animate-fade-up stagger-1" style="opacity: 0;">Tingkatkan skill digitalmu dan mulai perjalanan menjadi developer masa depan bersama Eduverse.</p>
+                <div class="animate-fade-up stagger-2" style="opacity: 0;">
+                    <button onclick="scrollToSection('courses')" class="btn-primary bg-orange-500 hover:bg-orange-400 text-white font-semibold px-6 py-3 md:px-8 md:py-4 rounded-xl text-sm md:text-base">Jelajahi Kursus</button>
                 </div>
-                <div class="relative">
-                    <div class="grid grid-cols-3 gap-4">
-                        <div class="space-y-4">
-                            <div class="card-hover bg-gradient-to-br from-pink-500/30 to-pink-600/20 rounded-2xl p-4 border border-pink-500/30">
-                                <div class="aspect-square bg-pink-400/20 rounded-xl mb-3 overflow-hidden">
-                                    <img src="data:image/png;base64,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" alt="Java" class="w-full h-full object-cover">
-                                </div>
-                                <span class="text-xs font-semibold text-pink-400">Java</span>
-                            </div>
-                            <div class="card-hover bg-gradient-to-br from-cyan-500/30 to-cyan-600/20 rounded-2xl p-4 border border-cyan-500/30">
-                                <div class="aspect-square bg-cyan-400/20 rounded-xl mb-3 overflow-hidden">
-                                    <img src="data:image/png;base64,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" alt="React" class="w-full h-full object-cover">
-                                </div>
-                                <span class="text-xs font-semibold text-cyan-400">React</span>
-                            </div>
-                        </div>
-                        <div class="space-y-4 mt-8">
-                            <div class="card-hover bg-gradient-to-br from-green-500/30 to-green-600/20 rounded-2xl p-4 border border-green-500/30">
-                                <div class="aspect-square bg-green-400/20 rounded-xl mb-3 overflow-hidden">
-                                    <img src="data:image/png;base64,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" alt="Node.js" class="w-full h-full object-cover">
-                                </div>
-                                <span class="text-xs font-semibold text-green-400">Node.js</span>
-                            </div>
-                            <div class="card-hover bg-gradient-to-br from-red-500/30 to-red-600/20 rounded-2xl p-4 border border-red-500/30">
-                                <div class="aspect-square bg-red-400/20 rounded-xl mb-3 overflow-hidden">
-                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARMAAAC3CAMAAAAGjUrGAAAAkFBMVEX/////LSD/KRv/AAD/Rz7/Hgr/JRT/OC3/QTj/Jxj/IQ//EQD/GgD/IxP/3dz/Hgn/w8H/k4//Ukr/7ez/2Nf/paL/9/f/NCj/XVb/jIj/d3L/yMb/t7T/WFH/amT/cWv/fnn/mpb/8vL/5uX/y8n/tLL/npv/4uH/TEP/PjT/Y13/qab/09H/U0v/h4P/fXiwsfe9AAAHKklEQVR4nO2d63aiMBCATagXQOulVmvX7ra19uq27/92S24IZAJBt4WE+f7sWevxxE+YTJJJ6PUQBEEQBEEQBEEQBEEQBEEQBEEQBEEQBEEaZbttugVt42kYx+RX061oE1fvASWEBne7plvSGjbBIDGSWAmDz1XTjWkF+/GUEDIevcbJP1H80XR7mucwSlVIOeunptvULFe/g+wtI26i4KbLYWUuHBxDqwi2g+CzyVY1ybYv7pVcF3wYsnupP+5kWFleiEByXfzDR9xP/hC/HZpoVZM8/hGB5B7qez/FLfV+9ePNapKHYJJ86/jvC/zn3Y0IK5ufbVWTbAdjFkjozPyWpzV7y3S8/7lWNcnla5xcBFHwXP62jzhiYWVUK6zs3RxI7oMw+a7BbWUSv/oMCAsrWhA2MqNxvHZxIHlB2X2ztHnrC+uAKLH84Je/MXU04+NOyMAiUGwJeyulVh+7umfXH3Uz4xNOqgOFCDu218m1iD4LPpDsuzaQZE5i9pMGv0vyj8db9rOHsZ2TX6KX6m/ZQJJnfEOnBpKJE3p1J/KPuelNz0HE8pfX3YhWO9nlP23jXsaXOOknvyzhv2wE9p0zyvOXQZK/DCudJN1T4arbvbuW8QknMgLQ+ELrgV4WLJBMggf2n0onMo3Jj46ehm5lfMpJb/XFQ0bw5zH7Z/EqVa9WOBFfvq9/+ZMyvsZInaiMQl4Rgusgf/WUOim7SfRbqsVknKSRI5QjHz3KlDmpCKa7qkDeHnJOjj3MJfwlzE4sOl2puN/6QVDBicpEgvsNdLGbnBzerJIzfisSIJC3i6ITlbFOwKBocHLNrihikcQnKT8fSLa7B9KdJCObCbvIoc7T4ISPhKaGGak8S/bR9OKElv4ckJNe7yG5SiKg/yhzQkOLQLGPiKtOeiNKQuDlMicWgUKEHYedDICXS5zE2dwORK4WxV1xQkdXesaXR66o3TyGXXEyTDI+IsaKYFjZT9MVtX6HnOQyvjyZpfmuOUkzvttcWCmsqHXMCbg0IlfU7lT+0jknSVjJL6FtI/5fclxR66CT3FLrUl422VWhTjpJA8jnvQgvX7kVtW464aUb7Prg18ui0A111Ykq8TlOUB3prpMkcWUDSWBpvstOegNCR8DL6EQHneigEx10ooNOdNCJDjrRQSc66ESnG04GcEmXwcm4A05mA1b0qY/1YCfbiMKq2sPZTtKCSG1OAHIi5hDi25Pb+xOc6WQlCyJjYO5Id6Lmmr7ObPQ3c56TdPHi8kKfY9ScyDnJhdVie4Oc40Quck34Itc2mhbmogtOZmHl9o+WcLoTrfxtXlizyDmx3P7RCk51Igvqc4vmatup2i12dLIC18LayolOZEH9qFBckVsDPToxrpm2k5OcyIL6KbBanlkrV05K19bbyAlO1PZAQ1XnPN2pzZ0AVbdtp64TMpxXVf+qndrzdeJko4ed1lPbCQEK6ouIGi32RupE8WeB+k7Agvoie75Tm+NAkXCBOk527xNivetkPuFGnCgmL1DDiSqot9r0uNpwJ5ETmw4KWDsRBfVjy11sIn9p+6SAAUsnMmpa7nYUGUnfayeFs2IqeLmLeV/8vPbYiXZWTBlqIJQEEsPcY+updrKdAmfFGJHbUfiGDl+dGM+KAZnJbUsif/HTSelZMRqXcmijMhIvnVScFZNHbTE9ZiT+OSG/JsXK1jKeA22DsodOxjUmC8WO08JGdg+d8MlCu0CyyAcSiY9OwjuryUK18UCbI/HMySs7UchukA8EEolnTg4i9aoe8ckdBxNIn2dO2AEDFgdgyr3IhslW35wcT6ozD/ySjA4OJBL/nPBTqcvyepnRmVdtfHSSnqsLpW3y9D+g7CTFTydqwlGrLVnaLP/66iSdT8ou9apAUrH8662TpF+WtSVp56LqSKoyOo+dpLFDFZrY1pF47YRdGjJZlZvarIaGnjuRgxoaxxQoXDMQuusEOugEQAx+rQKJYBM56mQxsFr/5cwIu1Qs55h4ahO+ntO2pjgEdY4lJ/BRMcDHioKlwI1D6jTkaXJWh1RWn/fIKRa2uUdF3VEWOydijSxTAOkiqj6tMqzYOAEKZd3E8pDKaidLqKDaUaB6V50qJ2ogZJe/tB9RDlBeoFjhxHYg5BC5+nmQUifuFNTXQhU8m+oUS5y4VFBfD3XasGFmxOjErYL6uqg1PfD3NjlxrKC+PiVxAXZSHYc8wNh/QE4cLKg/CVOeoTuxy2v8AM5HNSdyH49jBfUnA41bCk5K9vH4irbBL++kxnjaI7R5kIwTp07x/6/kN/hlnIAPxugK2Q1+qRPjgzG6wnGDn3Ti3tNj/j/HR7G+Ubqut4/HX+SzH8I1IWvi4NOovgexpUni3FPLvgt+y4iqWXxMukLkaE4+BfEbeRo6+rTMb2XboaENgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiA+8A8BG3dQqE7bQgAAAABJRU5ErkJggg==" alt="Laravel" class="w-full h-full object-cover">
-                                </div>
-                                <span class="text-xs font-semibold text-red-400">Laravel</span>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="card-hover bg-gradient-to-br from-blue-500/30 to-blue-600/20 rounded-2xl p-4 border border-blue-500/30">
-                                <div class="aspect-square bg-blue-400/20 rounded-xl mb-3 overflow-hidden">
-                                    <img src="data:image/jpeg;base64,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" alt="CSS" class="w-full h-full object-cover">
-                                </div>
-                                <span class="text-xs font-semibold text-blue-400">CSS</span>
-                            </div>
-                            <div class="card-hover bg-gradient-to-br from-orange-500/30 to-orange-600/20 rounded-2xl p-4 border border-orange-500/30">
-                                <div class="aspect-square bg-orange-400/20 rounded-xl mb-3 overflow-hidden">
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQuYP6w7vZZxw4BVP-oiN7bF9wZz7e0q8hA&s" alt="HTML" class="w-full h-full object-cover">
-                                </div>
-                                <span class="text-xs font-semibold text-orange-400">HTML</span>
-                            </div>
-                        </div>
+                
+                <!-- Stats -->
+                <div class="hero-stats max-w-md mx-auto mt-8 sm:mt-10 md:mt-12 animate-fade-up stagger-3" style="opacity: 0;">
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Kursus</div>
                     </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interlude Section -->
-    <section class="py-24 relative bg-[#0a0a0a] bg-dots-pattern border-y border-gray-800/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-6 reveal">
-                <div class="card-hover bg-dark-700/50 backdrop-blur rounded-2xl p-6 border border-gray-700/50 flex items-center gap-4">
-                    <div class="w-16 h-16 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-10 h-10 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Pengguna</div>
                     </div>
-                    <div><h3 class="text-xl font-semibold text-white mb-1">Laravel</h3><p class="text-gray-400 text-sm">Framework PHP untuk membuat website cepat, rapi, dan terstruktur</p></div>
-                </div>
-                <div class="card-hover bg-dark-700/50 backdrop-blur rounded-2xl p-6 border border-gray-700/50 flex items-center gap-4">
-                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-10 h-10 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm16.525 13.707c-.131-.821-.666-1.511-2.252-2.155-.552-.259-1.165-.438-1.349-.854-.068-.248-.083-.382-.038-.528.132-.489.68-.635 1.124-.495.287.086.555.314.719.62.758-.49.758-.49 1.289-.814-.199-.312-.298-.448-.438-.576-.474-.508-1.107-.768-2.133-.744l-.528.066c-.507.124-.99.376-1.274.71-.805.917-.582 2.518.392 3.178.957.7 2.357.866 2.537 1.55.167.761-.564 1.006-1.277.917-.527-.086-.818-.368-1.136-.756l-1.321.762c.154.306.323.449.587.72.976.962 3.419 1.099 3.857-.565.017-.048.134-.391.049-.917zm-6.486-4.192h-1.627c0 1.406-.007 2.805-.007 4.214 0 .896.047 1.719-.104 1.971-.24.498-.859.438-1.141.344-.287-.119-.434-.287-.603-.545-.048-.076-.088-.139-.112-.166l-1.321.803c.221.453.537.844.942 1.087.629.371 1.476.476 2.361.275.577-.169 1.073-.514 1.332-1.061.375-.676.298-1.498.298-2.415.008-1.485 0-2.971 0-4.473l.082-.339z"/></svg>
-                    </div>
-                    <div><h3 class="text-xl font-semibold text-white mb-1">JavaScript</h3><p class="text-gray-400 text-sm">Bahasa pemrograman untuk membuat website interaktif dan dinamis</p></div>
-                </div>
-                <div class="card-hover bg-dark-700/50 backdrop-blur rounded-2xl p-6 border border-gray-700/50 flex items-center gap-4">
-                    <div class="w-16 h-16 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-10 h-10 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2.139" fill="currentColor"/><ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="currentColor" stroke-width="1"/><ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="currentColor" stroke-width="1" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="currentColor" stroke-width="1" transform="rotate(120 12 12)"/></svg>
-                    </div>
-                    <div><h3 class="text-xl font-semibold text-white mb-1">React</h3><p class="text-gray-400 text-sm">Library JavaScript untuk membuat tampilan website interaktif dan modern</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="about" class="py-24 relative overflow-hidden bg-gradient-to-br from-[#060b14] via-[#0a1020] to-[#080d18]">
-        <div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[150px]"></div>
-        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[120px]"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-12 items-center reveal">
-                <div class="relative">
-                    <div class="aspect-square max-w-md mx-auto rounded-3xl overflow-hidden border border-blue-500/30 shadow-2xl shadow-blue-500/10">
-                        <img src="https://i.ibb.co.com/rRvkJ4fk/Screenshot-2026-03-16-213313.png" alt="About Eduverse" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                <div>
-                    <span class="text-sm font-semibold text-blue-400 mb-4 block">// Tentang Eduverse //</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ubah Pengalaman Belajar Anda</h2>
-                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">Eduverse adalah platform pembelajaran online yang berfokus pada pengembangan keterampilan teknologi seperti programming dan web development. Dengan sistem pembelajaran interaktif, kuis, dan reward, Eduverse membantu pengguna belajar dengan cara yang lebih menyenangkan dan efektif.</p>
-                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-6 mb-8 backdrop-blur">
-                        <div class="flex items-center gap-4">
-                            <span class="text-5xl font-bold text-blue-400">61</span>
-                            <p class="text-gray-300">Mahasiswa merasa terbantu dengan adanya platform pembelajaran ini</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <button onclick="scrollToSection('hero')" class="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-xl transition-colors">Sebelumnya</button>
-                        <button onclick="scrollToSection('learningPath')" class="px-6 py-3 bg-purple-500 hover:bg-purple-400 text-white font-semibold rounded-xl transition-colors">Selanjutnya</button>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Mentor</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- LEARNING PATH SECTION -->
-    <section id="learningPath" class="py-24 relative overflow-hidden bg-gradient-to-b from-[#150808] via-[#1f0c0c] to-[#150808]">
-        <div class="absolute inset-0 bg-dots-pattern opacity-30"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-900/20 rounded-full blur-[150px]"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-12 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Jalur Pembelajaran</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto mb-6">Semua orang berhak memiliki jalurnya masing-masing. Pilih jalur Anda dan mulailah belajar hari ini.</p>
-                <button onclick="showAllPaths()" class="btn-primary bg-orange-500 hover:bg-orange-400 text-white font-semibold px-6 py-3 rounded-xl">Semua Jalur Pembelajaran <span class="ml-2">→</span></button>
+    <!-- Tech Marquee Section -->
+    <section class="py-5 sm:py-6 md:py-8 bg-[#0a0a0a] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 mb-2 sm:mb-3 md:mb-4">
+            <p class="text-gray-500 text-[10px] sm:text-xs font-medium">Teknologi yang tersedia</p>
+        </div>
+        
+        <div class="tech-marquee-container">
+            <div class="tech-marquee-track animate-scroll-left" id="techMarquee">
+                <!-- First Set -->
+                <div class="tech-card" onclick="filterByTag('Express')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js">
+                    <span class="tech-card-title">Express.js</span>
+                    <span class="tech-card-desc">Web Framework</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Laravel')">
+                    <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Laravel-Light.svg" alt="Laravel">
+                    <span class="tech-card-title">Laravel</span>
+                    <span class="tech-card-desc">PHP Framework</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Node.js')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                    <span class="tech-card-title">Node.js</span>
+                    <span class="tech-card-desc">JS Runtime</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('React')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+                    <span class="tech-card-title">React</span>
+                    <span class="tech-card-desc">JS Library</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Vue')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue">
+                    <span class="tech-card-title">Vue</span>
+                    <span class="tech-card-desc">JS Framework</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Python')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                    <span class="tech-card-title">Python</span>
+                    <span class="tech-card-desc">Programming</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('TypeScript')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript">
+                    <span class="tech-card-title">TypeScript</span>
+                    <span class="tech-card-desc">JS Superset</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('MongoDB')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                    <span class="tech-card-title">MongoDB</span>
+                    <span class="tech-card-desc">NoSQL</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('MySQL')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+                    <span class="tech-card-title">MySQL</span>
+                    <span class="tech-card-desc">SQL Database</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Docker')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                    <span class="tech-card-title">Docker</span>
+                    <span class="tech-card-desc">Container</span>
+                </div>
+                <!-- Duplicate Set -->
+                <div class="tech-card" onclick="filterByTag('Express')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express.js">
+                    <span class="tech-card-title">Express.js</span>
+                    <span class="tech-card-desc">Web Framework</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Laravel')">
+                    <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Laravel-Light.svg" alt="Laravel">
+                    <span class="tech-card-title">Laravel</span>
+                    <span class="tech-card-desc">PHP Framework</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Node.js')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                    <span class="tech-card-title">Node.js</span>
+                    <span class="tech-card-desc">JS Runtime</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('React')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+                    <span class="tech-card-title">React</span>
+                    <span class="tech-card-desc">JS Library</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Vue')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue">
+                    <span class="tech-card-title">Vue</span>
+                    <span class="tech-card-desc">JS Framework</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Python')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                    <span class="tech-card-title">Python</span>
+                    <span class="tech-card-desc">Programming</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('TypeScript')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript">
+                    <span class="tech-card-title">TypeScript</span>
+                    <span class="tech-card-desc">JS Superset</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('MongoDB')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                    <span class="tech-card-title">MongoDB</span>
+                    <span class="tech-card-desc">NoSQL</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('MySQL')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+                    <span class="tech-card-title">MySQL</span>
+                    <span class="tech-card-desc">SQL Database</span>
+                </div>
+                <div class="tech-card" onclick="filterByTag('Docker')">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                    <span class="tech-card-title">Docker</span>
+                    <span class="tech-card-desc">Container</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION - DIUBAH: Gambar di atas di mobile -->
+    <section id="about" class="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden about-bg">
+        <div class="absolute top-0 right-0 w-[300px] md:w-[400px] lg:w-[500px] h-[300px] md:h-[400px] lg:h-[500px] bg-blue-600/10 rounded-full blur-[100px] md:blur-[150px]"></div>
+        <div class="absolute bottom-0 left-0 w-[200px] md:w-[300px] lg:w-[400px] h-[200px] md:h-[300px] lg:h-[400px] bg-indigo-600/10 rounded-full blur-[80px] md:blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center reveal">
+                <!-- Gambar: order-1 (atas di mobile), lg:order-1 (kiri di desktop) -->
+                <div class="relative order-1 lg:order-1">
+                    <div class="aspect-square max-w-[280px] sm:max-w-sm md:max-w-md mx-auto rounded-2xl md:rounded-3xl overflow-hidden border border-blue-500/30 shadow-xl">
+                        <img src="https://i.ibb.co.com/rRvkJ4fk/Screenshot-2026-03-16-213313.png" alt="Tentang Eduverse" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <!-- Teks: order-2 (bawah di mobile), lg:order-2 (kanan di desktop) -->
+                <div class="order-2 lg:order-2 text-center lg:text-left">
+                    <span class="text-xs sm:text-sm font-semibold text-blue-400 mb-2 sm:mb-4 block">// Tentang Eduverse //</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">Ubah Pengalaman Belajar Anda</h2>
+                    <p class="text-gray-400 text-sm sm:text-base mb-6 sm:mb-8 leading-relaxed">Eduverse adalah platform pembelajaran online yang berfokus pada pengembangan keterampilan teknologi seperti pemrograman dan pengembangan web.</p>
+                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 backdrop-blur">
+                        <div class="flex items-center gap-3 sm:gap-4 justify-center lg:justify-start">
+                            <span class="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-400">61</span>
+                            <p class="text-gray-300 text-xs sm:text-sm">Mahasiswa merasa terbantu dengan platform pembelajaran ini</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 sm:gap-4 justify-center lg:justify-start">
+                        <button onclick="scrollToSection('hero')" class="px-4 sm:px-6 py-2 sm:py-3 bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-lg sm:rounded-xl transition-colors text-xs sm:text-sm">Sebelumnya</button>
+                        <button onclick="scrollToSection('learningPath')" class="px-4 sm:px-6 py-2 sm:py-3 bg-purple-500 hover:bg-purple-400 text-white font-semibold rounded-lg sm:rounded-xl transition-colors text-xs sm:text-sm">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEARNING PATH SECTION - DIUBAH: Laptop tampil di mobile, background diperbesar -->
+    <section id="learningPath" class="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden learning-bg">
+        <!-- Background glow diperbesar agar terlihat di mobile -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[500px] lg:w-[600px] h-[500px] md:h-[500px] lg:h-[600px] bg-red-900/15 rounded-full blur-[100px] md:blur-[150px]"></div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-8 sm:mb-10 md:mb-12 reveal">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">Jalur Pembelajaran</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-4 sm:mb-6 text-sm sm:text-base">Pilih jalur Anda dan mulailah belajar hari ini.</p>
+               <a href="learningPath.html" class="btn-primary bg-orange-500 hover:bg-orange-400 text-white font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm inline-block">Semua Jalur <span class="ml-1 sm:ml-2">→</span></a>
             </div>
             <div class="relative reveal">
-                <div id="learningCarousel" class="overflow-hidden rounded-3xl">
-                    <div class="bg-gradient-to-r from-red-700/80 to-red-800/80 backdrop-blur rounded-3xl p-8 md:p-12 relative min-h-[400px] border border-red-500/20">
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div>
-                                <span class="inline-block bg-white/20 px-4 py-2 rounded-full text-sm font-medium mb-4">Jalur Unggulan</span>
-                                <h3 id="pathTitle" class="text-4xl md:text-5xl font-bold text-white mb-4">Laravel Developer</h3>
-                                <p id="pathDesc" class="text-white/80 text-lg mb-6">Kuasai framework PHP yang digemari oleh para pengembang di seluruh dunia. Bangun aplikasi web modern dan tangguh.</p>
-                                <button onclick="startPath()" class="btn-primary bg-white text-red-600 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100">Mulai Belajar</button>
+                <div id="learningCarousel" class="overflow-hidden rounded-2xl sm:rounded-3xl">
+                    <div class="bg-gradient-to-r from-red-700/80 to-red-800/80 backdrop-blur rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 relative min-h-[300px] sm:min-h-[350px] md:min-h-[400px] border border-red-500/20">
+                        <div class="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-center">
+                            <div class="text-center md:text-left">
+                                <span class="inline-block bg-white/20 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-2 sm:mb-4">Jalur Unggulan</span>
+                                <h3 id="pathTitle" class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 sm:mb-4">Pengembang Laravel</h3>
+                                <p id="pathDesc" class="text-white/80 text-xs sm:text-sm md:text-base mb-4 sm:mb-6">Kuasai framework PHP yang digemari oleh para pengembang.</p>
+                                <button onclick="startPath()" class="btn-primary bg-white text-red-600 font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl hover:bg-gray-100 text-xs sm:text-sm">Mulai Belajar</button>
                             </div>
-                            <div class="relative flex justify-center">
+                            <!-- DIUBAH: flex agar tampil di mobile, ditambah margin bottom -->
+                            <div class="relative flex justify-center mb-8 md:mb-0">
                                 <div class="relative">
-                                    <div class="w-64 h-40 bg-gray-900 rounded-lg border-4 border-gray-700 flex items-center justify-center animate-float shadow-2xl">
-                                        <div id="pathIcon" class="text-2xl font-bold text-red-400">
-                                            <svg class="w-16 h-16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+                                    <div class="w-48 lg:w-64 h-32 lg:h-40 bg-gray-900 rounded-lg border-4 border-gray-700 flex items-center justify-center animate-float shadow-2xl">
+                                        <div id="pathIcon" class="text-xl lg:text-2xl font-bold text-red-400">
+                                            <svg class="w-10 lg:w-16 h-10 lg:h-16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1"/></svg>
                                         </div>
                                     </div>
-                                    <div class="w-72 h-3 bg-gray-700 rounded-b-lg mx-auto"></div>
+                                    <div class="w-56 lg:w-72 h-2 sm:h-3 bg-gray-700 rounded-b-lg mx-auto"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-center gap-2 mt-8" id="pathDots">
-                            <button onclick="setPath(0)" class="w-3 h-3 rounded-full bg-white path-dot" aria-label="Path 1"></button>
-                            <button onclick="setPath(1)" class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/60 transition-colors path-dot" aria-label="Path 2"></button>
-                            <button onclick="setPath(2)" class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/60 transition-colors path-dot" aria-label="Path 3"></button>
+                        <div class="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8" id="pathDots">
+                            <button onclick="setPath(0)" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white path-dot" aria-label="Jalur 1"></button>
+                            <button onclick="setPath(1)" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/40 hover:bg-white/60 transition-colors path-dot" aria-label="Jalur 2"></button>
+                            <button onclick="setPath(2)" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/40 hover:bg-white/60 transition-colors path-dot" aria-label="Jalur 3"></button>
                         </div>
                     </div>
                 </div>
-                <button onclick="prevPath()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur" aria-label="Previous"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-                <button onclick="nextPath()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur" aria-label="Next"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+                <button onclick="prevPath()" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur" aria-label="Sebelumnya"><svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <button onclick="nextPath()" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur" aria-label="Selanjutnya"><svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="py-24 relative overflow-hidden bg-gradient-to-b from-[#0d0812] via-[#150c1a] to-[#0d0812]">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[150px]"></div>
-        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-600/10 rounded-full blur-[120px]"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-12 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Temukan Paket yang Sempurna untuk Anda</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Percepat pertumbuhan anda dan bisnis Anda dengan solusi yang kami sesuaikan. Harga khusus tersedia untuk perusahaan besar.</p>
-                <div class="flex items-center justify-center gap-4 mt-8">
-                    <span class="text-white font-medium" id="monthlyLabel">Bulanan</span>
-                    <button id="pricingToggle" class="price-toggle w-14 h-7 bg-gray-700 rounded-full relative" aria-label="Toggle pricing period">
-                        <span id="toggleDot" class="toggle-dot absolute top-1 left-1 w-5 h-5 bg-purple-500 rounded-full"></span>
+    <section id="pricing" class="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden pricing-bg">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] md:w-[400px] lg:w-[500px] h-[300px] md:h-[400px] lg:h-[500px] bg-purple-600/10 rounded-full blur-[100px] md:blur-[150px]"></div>
+        <div class="absolute bottom-0 left-0 w-[200px] md:w-[300px] lg:w-[400px] h-[200px] md:h-[300px] lg:h-[400px] bg-violet-600/10 rounded-full blur-[80px] md:blur-[120px]"></div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-8 sm:mb-10 md:mb-12 reveal">
+                <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">Temukan Paket Anda</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-xs sm:text-sm md:text-base mb-4 sm:mb-6 md:mb-8">Percepat pertumbuhan Anda dengan solusi yang kami sesuaikan.</p>
+                <div class="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 flex-wrap">
+                    <span class="text-white font-medium text-xs sm:text-sm" id="monthlyLabel">Bulanan</span>
+                    <button id="pricingToggle" class="price-toggle w-12 sm:w-14 h-6 sm:h-7 bg-gray-700 rounded-full relative" aria-label="Toggle harga">
+                        <span id="toggleDot" class="toggle-dot absolute top-0.5 sm:top-1 left-0.5 sm:left-1 w-4 sm:w-5 h-4 sm:h-5 bg-purple-500 rounded-full"></span>
                     </button>
-                    <span class="text-gray-400 font-medium" id="yearlyLabel">Tahunan</span>
-                    <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs font-semibold rounded">-20%</span>
+                    <span class="text-gray-400 font-medium text-xs sm:text-sm" id="yearlyLabel">Tahunan</span>
+                    <span class="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-500/20 text-green-400 text-[10px] sm:text-xs font-semibold rounded">-20%</span>
                 </div>
             </div>
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto reveal">
-                <div class="card-hover bg-[#1a1520]/80 backdrop-blur rounded-3xl p-8 border border-gray-700/50">
-                    <h3 class="text-2xl font-bold text-white mb-2">Pro</h3>
-                    <div class="flex items-baseline gap-2 mb-6">
-                        <span class="text-5xl font-bold text-white" id="proPrice">$34</span>
-                        <span class="text-gray-400" id="proPeriod">/Bulan</span>
+            <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto reveal">
+                <div class="price-card bg-[#1a1520]/80 backdrop-blur border border-gray-700/50">
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-1.5 sm:mb-2">Pro</h3>
+                    <div class="flex items-baseline gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                        <span class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" id="proPrice">$34</span>
+                        <span class="text-gray-400 text-xs sm:text-sm" id="proPeriod">/Bulan</span>
                     </div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Analisis yang Ditingkatkan</li>
-                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Domain Kustom</li>
-                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dukungan Prioritas</li>
+                    <ul class="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
+                        <li class="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm"><svg class="w-4 sm:w-5 h-4 sm:h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Analisis Ditingkatkan</li>
+                        <li class="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm"><svg class="w-4 sm:w-5 h-4 sm:h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Domain Kustom</li>
+                        <li class="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm"><svg class="w-4 sm:w-5 h-4 sm:h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dukungan Prioritas</li>
                     </ul>
-                    <button onclick="selectPlan('Pro')" class="w-full btn-primary bg-purple-500 hover:bg-purple-400 text-white font-semibold py-4 rounded-xl">Mulai</button>
+                    <button onclick="selectPlan('Pro')" class="w-full btn-primary bg-purple-500 hover:bg-purple-400 text-white font-semibold py-3 sm:py-3.5 md:py-4 rounded-lg sm:rounded-xl text-xs sm:text-sm">Mulai</button>
                 </div>
-                <div class="card-hover bg-[#1a1520]/80 backdrop-blur rounded-3xl p-8 border-2 border-purple-500 relative">
-                    <span class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-purple-500 text-white text-sm font-semibold rounded-full">Penawaran Terbaik</span>
-                    <h3 class="text-2xl font-bold text-white mb-2">Kelas Bisnis</h3>
-                    <div class="flex items-baseline gap-2 mb-6">
-                        <span class="text-5xl font-bold text-white" id="businessPrice">$56</span>
-                        <span class="text-gray-400" id="businessPeriod">/bulan</span>
+                <div class="price-card bg-[#1a1520]/80 backdrop-blur border-2 border-purple-500 relative">
+                    <span class="absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-0.5 sm:py-1 bg-purple-500 text-white text-[10px] sm:text-xs font-semibold rounded-full whitespace-nowrap">Penawaran Terbaik</span>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-1.5 sm:mb-2">Kelas Bisnis</h3>
+                    <div class="flex items-baseline gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                        <span class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" id="businessPrice">$56</span>
+                        <span class="text-gray-400 text-xs sm:text-sm" id="businessPeriod">/Bulan</span>
                     </div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Alat Pemasaran Tingkat Lanjut</li>
-                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Domain Tak Terbatas</li>
-                        <li class="flex items-center gap-3 text-gray-300"><svg class="w-5 h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>24/7 Dukungan Khusus</li>
+                    <ul class="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
+                        <li class="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm"><svg class="w-4 sm:w-5 h-4 sm:h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Alat Pemasaran Lanjutan</li>
+                        <li class="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm"><svg class="w-4 sm:w-5 h-4 sm:h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Domain Tak Terbatas</li>
+                        <li class="flex items-center gap-2 sm:gap-3 text-gray-300 text-xs sm:text-sm"><svg class="w-4 sm:w-5 h-4 sm:h-5 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Dukungan 24/7</li>
                     </ul>
-                    <button onclick="selectPlan('Business')" class="w-full btn-primary bg-purple-500 hover:bg-purple-400 text-white font-semibold py-4 rounded-xl animate-pulse-glow">Mulai</button>
+                    <button onclick="selectPlan('Business')" class="w-full btn-primary bg-purple-500 hover:bg-purple-400 text-white font-semibold py-3 sm:py-3.5 md:py-4 rounded-lg sm:rounded-xl animate-pulse-glow text-xs sm:text-sm">Mulai</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SHOP SECTION (UPDATED) -->
-    <section id="shop" class="py-24 relative overflow-hidden bg-[#080808]">
-        <div class="absolute top-10 left-10 outline-text text-8xl md:text-[12rem] font-black opacity-10 pointer-events-none uppercase">Galeri</div>
-        <div class="max-w-7xl mx-auto px-4 relative z-10">
+    <!-- SHOP SECTION - REDESIGNED -->
+    <section id="shop" class="py-16 sm:py-20 md:py-24 lg:py-32 relative overflow-hidden shop-bg">
+        <div class="absolute top-10 left-10 outline-text text-4xl sm:text-6xl md:text-[8rem] lg:text-[10rem] font-bold opacity-5 pointer-events-none uppercase">Galeri</div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-                <div class="w-full lg:w-1/2 relative flex justify-center items-center py-10 reveal">
-                    <div class="absolute w-[80%] h-[80%] bg-orange-600/20 blur-[100px]"></div>
-                    <div class="absolute w-[300px] h-[380px] bg-gradient-to-br from-orange-500 to-orange-700 rounded-[3rem] translate-x-6 translate-y-6"></div>
-                    <div id="itemPreviewCard" class="relative w-full max-w-[420px] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-6 shadow-2xl transition-all duration-500">
-                        <div class="rounded-[2rem] overflow-hidden mb-6 h-64 bg-dark-800">
-                            <img id="previewImg" src="https://picsum.photos/seed/shop-preview/600/400" class="w-full h-full object-cover" alt="Shop item preview">
-                        </div>
-                        <div class="px-2">
-                            <div class="flex items-center justify-between mb-3">
-                                <h3 id="previewTitle" class="text-3xl font-black text-white tracking-tight">Nama Barang</h3>
-                                <span id="previewTag" class="px-4 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 rounded-full text-[10px] font-bold uppercase">Spesial</span>
+                
+                <!-- Left: Preview Card -->
+                <div class="w-full lg:w-1/2 reveal">
+                    <div class="shop-preview-wrapper">
+                        <div class="shop-glow-bg"></div>
+                        <div class="shop-card-bg"></div>
+                        
+                        <div class="shop-preview-card">
+                            <div class="shop-preview-image">
+                                <img id="previewImg" src="https://cdn-icons-png.flaticon.com/512/10749/10749600.png" alt="Item Preview">
                             </div>
-                            <p id="previewDesc" class="text-gray-400 text-sm leading-relaxed min-h-[60px]">Loading...</p>
-                            <div class="mt-4 text-xl font-bold text-orange-500">
-                                <span id="previewPrice">0 Koin</span>
+                            
+                            <span id="previewTag" class="shop-preview-tag">Power Up</span>
+                            
+                            <h3 id="previewTitle" class="shop-preview-title">XP Booster (2x)</h3>
+                            
+                            <p id="previewDesc" class="shop-preview-desc">Gandakan Exp selama 1 jam.</p>
+                            
+                            <div class="shop-preview-price">
+                                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.736 6.979C9.208 6.193 9.696 6 10 6c.304 0 .792.193 1.264.979a1 1 0 001.715-1.029C12.279 4.784 11.232 4 10 4s-2.279.784-2.979 1.95c-.285.475-.507 1-.67 1.55H6a1 1 0 000 2h.013a9.358 9.358 0 000 1H6a1 1 0 100 2h.351c.163.55.385 1.075.67 1.55C7.721 15.216 8.768 16 10 16s2.279-.784 2.979-1.95a1 1 0 10-1.715-1.029c-.472.786-.96.979-1.264.979-.304 0-.792-.193-1.264-.979a4.265 4.265 0 01-.264-.521H10a1 1 0 100-2H8.017a7.36 7.36 0 010-1H10a1 1 0 100-2H8.472a4.265 4.265 0 01.264-.521z"/></svg>
+                                <span id="previewPrice">50 Koin</span>
                             </div>
-                        </div>
-                        <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
-                            <button onclick="prevShopItem()" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all shadow-xl" aria-label="Previous item"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"/></svg></button>
-                            <button onclick="nextShopItem()" class="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all shadow-xl" aria-label="Next item"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"/></svg></button>
+                            
+                            <div class="shop-nav-btn">
+                                <button onclick="prevShopItem()" aria-label="Sebelumnya">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                                </button>
+                                <button onclick="nextShopItem()" aria-label="Selanjutnya">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="w-full lg:w-1/2 text-center lg:text-left space-y-8 reveal">
-                    <div class="space-y-4">
-                        <h4 class="text-orange-500 font-bold tracking-[0.3em] uppercase text-sm">Toko Eduverse</h4>
-                        <h2 class="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter">Tingkatkan Skill Mu</h2>
+                
+                <!-- Right: Content -->
+                <div class="w-full lg:w-1/2 text-center lg:text-left space-y-6 reveal">
+                    <div class="space-y-3">
+                        <h4 class="text-orange-500 font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm">Toko Eduverse</h4>
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">Tingkatkan Skillmu</h2>
                     </div>
-                    <p class="text-gray-400 text-lg md:text-xl max-w-md mx-auto lg:mx-0 font-light leading-relaxed">Jelajahi aset digital eksklusif kami untuk menyesuaikan perjalanan Anda dan meningkatkan profil Anda.</p>
-                    <button onclick="openFullShop()" class="group relative px-12 py-5 bg-orange-500 rounded-2xl overflow-hidden transition-all hover:shadow-[0_0_40px_rgba(249,115,22,0.5)]">
-                        <span class="relative text-white font-black text-2xl uppercase tracking-wider">Buka Toko</span>
-                    </button>
+                    <p class="text-gray-400 text-sm sm:text-base max-w-md mx-auto lg:mx-0 leading-relaxed">Jelajahi aset digital eksklusif untuk meningkatkan profil Anda dan percepat perjalanan belajar Anda.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <button onclick="openFullShop()" class="px-8 py-4 bg-orange-500 hover:bg-orange-400 text-white font-bold rounded-xl transition-all hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] uppercase tracking-wide text-sm">
+                            Buka Toko
+                        </button>
+                        <button onclick="addToCart(shopData[currentShopIdx])" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all border border-white/20 uppercase tracking-wide text-sm">
+                            Tambah ke Keranjang
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -601,120 +980,136 @@
                 <button class="category-tab" data-category="Marketing">Marketing</button>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal" id="courseGrid"></div>
+            
+            <!-- BAGIAN YANG DIUBAH: sm:hidden agar hanya muncul di mobile -->
+            <div id="loadMoreContainer" class="text-center mt-8 reveal sm:hidden">
+                 <button onclick="showAllCoursesMobile()" class="btn-primary bg-white text-black font-semibold px-6 py-3 rounded-xl text-sm">
+                     Lihat Kursus Lainnya
+                 </button>
+            </div>
         </div>
     </section>
 
     <!-- Leaderboard Section -->
-    <section id="leaderboard" class="py-24 bg-[#080808]">
-        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-3 gap-12 items-center reveal">
+    <section id="leaderboard" class="py-12 sm:py-16 md:py-20 lg:py-24 leaderboard-bg">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 grid lg:grid-cols-3 gap-8 lg:gap-10 xl:gap-12 items-center reveal">
             <div class="lg:col-span-1 text-center lg:text-left">
-                <h2 class="text-4xl md:text-5xl font-black text-orange-500 mb-6 leading-tight tracking-tight uppercase">Mereka yang memegang <br> mahkota</h2>
-                <p class="text-gray-400 text-lg mb-8 leading-relaxed max-w-sm mx-auto lg:mx-0">Mereka yang memegang mahkota bukan yang tak pernah lelah, tapi yang tak pernah menyerah.</p>
-                <button onclick="joinChallenge()" class="px-10 py-4 bg-orange-500 hover:bg-orange-400 text-black font-black rounded-2xl transition-all shadow-[0_0_30px_rgba(249,115,22,0.3)]">Tingkatkan Skill mu!</button>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-500 mb-4 sm:mb-6 leading-tight">Mereka yang Memegang Mahkota</h2>
+                <p class="text-gray-400 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 leading-relaxed max-w-xs sm:max-w-sm mx-auto lg:mx-0">Mereka yang tak pernah menyerah.</p>
+                <button onclick="joinChallenge()" class="px-5 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-orange-500 hover:bg-orange-400 text-black font-bold rounded-xl sm:rounded-2xl transition-all shadow-[0_0_20px] sm:shadow-[0_0_30px_rgba(249,115,22,0.3)] text-xs sm:text-sm">Tingkatkan Skillmu!</button>
             </div>
-            <div class="lg:col-span-2 bg-transparent border-2 border-white rounded-[40px] p-6 md:p-10 shadow-2xl">
-                <div class="flex text-white font-black uppercase tracking-widest text-[10px] md:text-xs mb-6 px-4 md:px-8">
-                    <div class="w-12 md:w-16">Ranking</div><div class="flex-1">Pengguna</div><div class="w-20 md:w-32 text-center">Exp</div><div class="w-24 md:w-32 text-center">Koin</div>
+            <div class="lg:col-span-2 bg-transparent border border-white rounded-2xl sm:rounded-[28px] md:rounded-[32px] p-4 sm:p-5 md:p-6 lg:p-8 shadow-2xl overflow-x-auto">
+                <div class="flex text-white font-bold uppercase tracking-widest text-[8px] sm:text-[10px] md:text-xs mb-4 sm:mb-5 md:mb-6 px-2 sm:px-3 md:px-4 lg:px-6 min-w-[400px] sm:min-w-0">
+                    <div class="w-10 sm:w-12 md:w-16">Rank</div>
+                    <div class="flex-1">Pengguna</div>
+                    <div class="w-16 sm:w-20 md:w-28 text-center">Exp</div>
+                    <div class="w-16 sm:w-20 md:w-28 text-center">Koin</div>
                 </div>
-                <div id="leaderboardBody" class="space-y-4"></div>
+                <div id="leaderboardBody" class="space-y-2 sm:space-y-3 md:space-y-4 min-w-[400px] sm:min-w-0"></div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0a0a0a] pt-20 pb-10 mt-20">
-        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-black uppercase tracking-tighter">
-                        <span class="text-white">Edu</span><span class="text-orange-500">Verse</span>
-                    </h2>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-[250px]">
-                        Pantengi terus update dari platform pembelajaran kami
-                    </p>
-                    <div class="flex gap-3">
-                        <a href="#" onclick="socialClick('Twitter')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Twitter">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    <footer class="bg-[#0a0a0a] pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 md:pb-10">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 md:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12 mb-10 sm:mb-12 md:mb-16">
+                <div class="col-span-2 sm:col-span-1 space-y-4 sm:space-y-6">
+                    <a href="#hero" class="flex items-center gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <div class="logo-icon">
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        </div>
+                        <span class="text-lg sm:text-xl md:text-2xl font-bold text-white">Edu<span class="text-orange-500">Verse</span></span>
+                    </a>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed text-center sm:text-left">Pantau terus update dari platform pembelajaran kami</p>
+                    <div class="flex gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <a href="#" onclick="socialClick('Twitter')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Twitter">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
-                        <a href="#" onclick="socialClick('TikTok')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="TikTok">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        <a href="#" onclick="socialClick('TikTok')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="TikTok">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                         </a>
-                        <a href="#" onclick="socialClick('Instagram')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Instagram">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        <a href="#" onclick="socialClick('Instagram')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Instagram">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                     </div>
                 </div>
-                <div class="space-y-6">
-                    <h3 class="text-white font-bold text-xl">Situs Kami</h3>
-                    <ul class="space-y-3 text-gray-400 text-sm font-light">
+                <div class="space-y-3 sm:space-y-4 md:space-y-6">
+                    <h3 class="text-white font-bold text-sm sm:text-base md:text-lg">Situs Kami</h3>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
                         <li><a href="#hero" class="hover:text-orange-500 transition">Beranda</a></li>
                         <li><a href="#courses" class="hover:text-orange-500 transition">Kursus</a></li>
                         <li><a href="#pricing" class="hover:text-orange-500 transition">Harga</a></li>
-                        <li><a href="#about" class="hover:text-orange-500 transition">Tentang Kami</a></li>
+                        <li><a href="#about" class="hover:text-orange-500 transition">Tentang</a></li>
                     </ul>
                 </div>
-                <div class="space-y-6">
-                    <h3 class="text-white font-bold text-xl">Sumber Daya</h3>
-                    <ul class="space-y-3 text-gray-400 text-sm font-light">
+                <div class="space-y-3 sm:space-y-4 md:space-y-6">
+                    <h3 class="text-white font-bold text-sm sm:text-base md:text-lg">Sumber Daya</h3>
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
                         <li><a href="#" class="hover:text-orange-500 transition">Dokumentasi</a></li>
                         <li><a href="#" class="hover:text-orange-500 transition">Tutorial</a></li>
                         <li><a href="#" class="hover:text-orange-500 transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Pendukung</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition">Bantuan</a></li>
                     </ul>
                 </div>
-                <div>
-                    <div class="w-full h-[220px] bg-[#1a1a1a] rounded-3xl overflow-hidden border border-white/5 relative group">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.29277528582!2d107.57311645!3d-6.9174639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64c5e8866e5%3A0x37be7ac9c4a5c36!2sBandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1678888888888!5m2!1sen!2sid" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy" title="Location Map"></iframe>
-                        <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md px-4 py-1 rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
-                            Location: Jawa Barat, Bandung
+                <div class="col-span-2 sm:col-span-1">
+                    <div class="w-full h-[120px] sm:h-[150px] md:h-[200px] bg-[#1a1a1a] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/5 relative group">
+                        <iframe src="Mekarsaluyu, Kec. Cimenyan, Kabupaten Bandung, Jawa Barat 40198" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy" title="Lokasi"></iframe>
+                        <div class="absolute bottom-2 sm:bottom-3 md:bottom-4 left-2 sm:left-3 md:left-4 bg-black/70 backdrop-blur-md px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
+                            Bandung, Jawa Barat
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="pt-8 border-t border-white/20">
-                <p class="text-center text-gray-500 text-sm tracking-wide">2026 | Eduverse Team All rights reserved</p>
+            <div class="pt-6 sm:pt-8 border-t border-white/20">
+                <p class="text-center text-gray-500 text-[10px] sm:text-xs tracking-wide">2026 | Tim Eduverse</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // --- DATA DEFINITIONS ---
+              // --- DATA DEFINITIONS ---
         let cart = [];
         
-        // DATA ITEM TOKO BARU (Sistem Koin) - RELEVAN GAMBAR
+        // TAMBAHKAN VARIABEL STATE INI
+        let isMobileExpanded = false; 
+
         const shopData = [
-            { name: "XP Booster (2x)", tag: "Power Up", desc: "Gandakan Exp yang didapat selama 1 jam saat belajar.", img: "https://cdn-icons-png.flaticon.com/512/10749/10749600.png", price: 50 },
-            { name: "Coin Doubler", tag: "Item", desc: "Hasil koin dari kuis berikutnya menjadi 2x lipat.", img: "https://cdn-icons-png.flaticon.com/512/898/898450.png", price: 30 },
-            { name: "Streak Freeze", tag: "Utility", desc: "Lindungi streak harianmu agar tidak putus sehari.", img: "https://cdn-icons-png.flaticon.com/512/10804/10804674.png", price: 40 },
-            { name: "Hint Pack (5x)", tag: "Helper", desc: "Dapatkan 5 kesempatan untuk melihat petunjuk jawaban.", img: "https://cdn-icons-png.flaticon.com/512/10749/10749600.png", price: 20 },
-            { name: "Silver Frame", tag: "Cosmetic", desc: "Bingkai profil eksklusif berwarna silver.", img: "https://cdn-icons-png.flaticon.com/512/10486/10486800.png", price: 100 },
-            { name: "VIP Badge", tag: "Status", desc: "Lencana VIP yang ditampilkan di leaderboard.", img: "https://cdn-icons-png.flaticon.com/512/10804/10804674.png", price: 150 }
+            { name: "XP Booster (2x)", tag: "Power Up", desc: "Gandakan Exp selama 1 jam.", img: "https://dunb17ur4ymx4.cloudfront.net/packages/images/ad58d893678388b13aab15fcb98c7583c46faeaf.png", price: 50 },
+            { name: "Double Coin", tag: "Item", desc: "Koin dari kuis 2x lipat.", img: "https://tr.rbxcdn.com/180DAY-dde81b40cf18dbea7f88142759ebfe03/150/150/Image/Webp/noFilter", price: 30 },
+            { name: "Streak Freeze", tag: "Utility", desc: "Lindungi streak harian.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq6160YygmkWgn_K0_YOtgpMnwUMkH52qcjQ&s", price: 40 },
+            { name: "Hint Pack (5x)", tag: "Helper", desc: "5x petunjuk jawaban.", img: "data:image/jpeg;base64,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", price: 20 },
+            { name: "Border Profl", tag: "Cosmetic", desc: "Bingkai profil.", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR190E9cSJ1yVhRl9xD7eKDR8Q41PmO4M21Iw&s", price: 100 },
+            { name: "VIP Badge", tag: "Status", desc: "Lencana VIP.", img: "https://img.freepik.com/premium-vector/vip-badge-with-wings-crown-vector-design-icon_172107-3049.jpg?semt=ais_hybrid&w=740&q=80", price: 150 }
         ];
 
+        // BAGIAN YANG DIUBAH: Properti 'image' sekarang berisi URL lengkap
         const coursesData = [
-            { title: "Learn Figma - UI/UX Design Essential Training", lessons: 6, students: 198, level: "Beginner", rating: 4, category: "Design", image: "figma-uiux" },
-            { title: "Python For Beginners - Learn Programming", lessons: 21, students: 99, level: "Advanced", rating: 3, category: "Programming", image: "python-programming" },
-            { title: "Acoustic Guitar And Electric Guitar Started", lessons: 8, students: 301, level: "Average", rating: 5, category: "Music", image: "guitar-music" },
-            { title: "Mobile App Development With Flutter", lessons: 15, students: 215, level: "Beginner", rating: 4, category: "Programming", image: "flutter-mobile" },
-            { title: "Ionic React: Mobile Development With Ionic", lessons: 15, students: 67, level: "Advanced", rating: 5, category: "Programming", image: "ionic-react" },
-            { title: "Sports Management: The Essentials Course", lessons: 26, students: 156, level: "Average", rating: 1, category: "Marketing", image: "sports-management" },
-            { title: "How To Market Yourself As A Consultant", lessons: 33, students: 64, level: "Beginner", rating: 3, category: "Marketing", image: "marketing-consultant" },
-            { title: "Become A Product Manager | Learn The Basics", lessons: 5, students: 134, level: "Advanced", rating: 4, category: "Marketing", image: "product-manager" }
+            { title: "Learn Figma - UI/UX Design Essential Training", lessons: 6, students: 198, level: "Beginner", rating: 4, category: "Design", image: "https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/2151483785/settings_images/C9g0vNbKRr2lhDw4daUR_file.jpg" },
+            { title: "Python For Beginners - Learn Programming", lessons: 21, students: 99, level: "Advanced", rating: 3, category: "Programming", image: "https://365datascience.com/resources/blog/2019-10-python-everything-you-should-know.jpg" },
+            { title: "Acoustic Guitar And Electric Guitar Started", lessons: 8, students: 301, level: "Average", rating: 5, category: "Music", image: "https://i.ytimg.com/vi/e_1xOZblqus/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDPJj_-nZMXe6uq2MqOFgNwYVMh4Q" },
+            { title: "Mobile App Development With Flutter", lessons: 15, students: 215, level: "Beginner", rating: 4, category: "Programming", image: "https://palcomtech.ac.id/wp-content/uploads/2023/10/60bb4a2e143f632da3e56aea_Flutter-app-development-2.png" },
+            { title: "Ionic React: Mobile Development With Ionic", lessons: 15, students: 67, level: "Advanced", rating: 5, category: "Programming", image: "https://s3.ap-south-1.amazonaws.com/stage.radixweb.com/medium_React_Native_VS_Ionic_Which_One_is_Best_94c74e620a.jpg" },
+            { title: "Sports Management: The Essentials Course", lessons: 26, students: 156, level: "Average", rating: 1, category: "Marketing", image: "https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/d4b726f13e90.jpg" },
+            { title: "How To Market Yourself As A Consultant", lessons: 33, students: 64, level: "Beginner", rating: 3, category: "Marketing", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7ipxp2CsBFcH8t5B_qAuf7yKawTUMcVKD2Q&s" },
+            { title: "Become A Product Manager | Learn The Basics", lessons: 5, students: 134, level: "Advanced", rating: 4, category: "Marketing", image: "https://i.ytimg.com/vi/6yfc4rVFkeY/maxresdefault.jpg" }
         ];
 
         const leaderboardData = [
-            { rank: 1, username: "Vibecode Enjoyer", exp: "188.230", level: 67, coins: "241.337", highlight: true },
-            { rank: 2, username: "CodeMaster_Pro", exp: "175.420", level: 64, coins: "198.550", highlight: false },
-            { rank: 3, username: "DevNinja_X", exp: "162.890", level: 61, coins: "176.220", highlight: true },
-            { rank: 4, username: "ByteWizard", exp: "155.230", level: 59, coins: "154.110", highlight: false },
+            { rank: 1, username: "Pecandu Kode", exp: "188.230", level: 67, coins: "241.337", highlight: true },
+            { rank: 2, username: "MasterKode", exp: "175.420", level: 64, coins: "198.550", highlight: false },
+            { rank: 3, username: "NinjaDev_X", exp: "162.890", level: 61, coins: "176.220", highlight: true },
+            { rank: 4, username: "PenyihirByte", exp: "155.230", level: 59, coins: "154.110", highlight: false },
             { rank: 5, username: "PixelPunk", exp: "148.760", level: 57, coins: "132.450", highlight: false },
             { rank: 6, username: "ScriptKiddie", exp: "141.200", level: 55, coins: "118.900", highlight: false }
         ];
 
         const learningPathsData = [
-            { title: "Laravel Developer", desc: "Master the PHP framework loved by developers worldwide. Build modern, robust web applications.", color: "red" },
-            { title: "React Specialist", desc: "Build modern user interfaces with the most popular JavaScript library. Component-based architecture.", color: "blue" },
-            { title: "Node.js Backend", desc: "Create scalable server-side applications using JavaScript. Master APIs and databases.", color: "green" }
+            { title: "Pengembang Laravel", desc: "Kuasai framework PHP.", color: "red" },
+            { title: "Spesialis React", desc: "Bangun UI modern.", color: "blue" },
+            { title: "Backend Node.js", desc: "Server-side JavaScript.", color: "green" }
         ];
 
         let currentCourses = [...coursesData];
@@ -724,7 +1119,6 @@
         let isYearly = false;
         let currentUser = null;
 
-        // --- HELPER FUNCTIONS KOIN ---
         function getCoins() {
             if (!currentUser) return 0;
             return currentUser.coins || 0;
@@ -740,10 +1134,11 @@
 
         function updateUI() {
             const coinNav = document.getElementById('coinBalanceNav');
+            const coinNavMobile = document.getElementById('coinBalanceNavMobile');
             if(coinNav) coinNav.innerText = getCoins().toLocaleString();
+            if(coinNavMobile) coinNavMobile.innerText = getCoins().toLocaleString();
         }
 
-        // --- USER SYSTEM ---
         function loadUserData() {
             const data = localStorage.getItem('eduverse_user');
             return data ? JSON.parse(data) : null;
@@ -760,24 +1155,24 @@
                 username: username,
                 level: 1,
                 exp: 0,
-                coins: 100, // Starting coins
+                coins: 100,
                 inventory: [],
                 joinedDate: new Date().toISOString()
             };
         }
 
-function gainExp(amount) {
+        function gainExp(amount) {
             if (!currentUser) {
-                showNotification('Silakan login terlebih dahulu!', 'error');
+                showNotification('Silakan masuk terlebih dahulu!', 'error');
                 return;
             }
             currentUser.exp += amount;
             const newLevel = Math.floor(currentUser.exp / 1000) + 1;
             if (newLevel > currentUser.level) {
                 currentUser.level = newLevel;
-                showNotification(`🎉 Selamat! Anda naik ke Level ${newLevel}! +${amount} EXP`, 'success');
+                showNotification(`Naik ke Level ${newLevel}!`, 'success');
             } else {
-                showNotification(`+${amount} EXP didapatkan! Total EXP: ${Math.floor(currentUser.exp).toLocaleString()}`, 'success');
+                showNotification(`+${amount} Pengalaman`, 'success');
             }
             saveUserData();
             updateUI();
@@ -790,8 +1185,8 @@ function gainExp(amount) {
                 document.getElementById('profileBtn').classList.remove('hidden');
                 document.getElementById('profileBtnMobile').classList.remove('hidden');
             } else {
-                document.getElementById('signInBtn').textContent = 'Mendaftar';
-                document.getElementById('signInBtnMobile').textContent = 'Mendaftar';
+                document.getElementById('signInBtn').textContent = 'Masuk';
+                document.getElementById('signInBtnMobile').textContent = 'Masuk';
                 document.getElementById('profileBtn').classList.add('hidden');
                 document.getElementById('profileBtnMobile').classList.add('hidden');
             }
@@ -799,7 +1194,7 @@ function gainExp(amount) {
 
         function openProfileModal() {
             if (!currentUser) {
-                showNotification('Silakan login terlebih dahulu!', 'error');
+                showNotification('Masuk dulu!', 'error');
                 return;
             }
             renderProfile();
@@ -813,57 +1208,25 @@ function gainExp(amount) {
         function renderProfile() {
             const container = document.getElementById('profileContent');
             const inventory = JSON.parse(localStorage.getItem('eduverse_inventory')) || [];
-            const totalInventoryValue = inventory.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             
             container.innerHTML = `
-                <div class="text-center mb-6">
-                    <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center mb-4">
-                        <span class="text-3xl font-bold text-white">${currentUser.username.charAt(0).toUpperCase()}</span>
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center mb-3">
+                        <span class="text-2xl sm:text-3xl font-bold text-white">${currentUser.username.charAt(0).toUpperCase()}</span>
                     </div>
-                    <h4 class="text-2xl font-bold text-white mb-1">${currentUser.username}</h4>
-                    <p class="text-gray-400">Bergabung sejak ${new Date(currentUser.joinedDate).toLocaleDateString('id-ID')}</p>
+                    <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-0.5">${currentUser.username}</h4>
+                    <p class="text-gray-400 text-xs">Bergabung ${new Date(currentUser.joinedDate).toLocaleDateString('id-ID')}</p>
                 </div>
-                <div class="grid grid-cols-2 gap-4 mb-6 text-center p-4 bg-dark-700 rounded-xl">
-                    <div>
-                        <div class="text-2xl font-bold text-white">${currentUser.level}</div>
-                        <div class="text-gray-400 text-sm">Level</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white">${Math.floor(currentUser.exp).toLocaleString()}</div>
-                        <div class="text-gray-400 text-sm">EXP</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-yellow-400">${getCoins().toLocaleString()}</div>
-                        <div class="text-gray-400 text-sm">Koin</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white">${inventory.reduce((sum, item) => sum + item.quantity, 0)}</div>
-                        <div class="text-gray-400 text-sm">Items</div>
-                    </div>
+                <div class="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 mb-4 text-center p-3 sm:p-4 bg-dark-700 rounded-lg sm:rounded-xl">
+                    <div><div class="text-lg sm:text-xl md:text-2xl font-bold text-white">${currentUser.level}</div><div class="text-gray-400 text-[10px] sm:text-xs">Level</div></div>
+                    <div><div class="text-lg sm:text-xl md:text-2xl font-bold text-white">${Math.floor(currentUser.exp).toLocaleString()}</div><div class="text-gray-400 text-[10px] sm:text-xs">Exp</div></div>
+                    <div><div class="text-lg sm:text-xl md:text-2xl font-bold text-yellow-400">${getCoins().toLocaleString()}</div><div class="text-gray-400 text-[10px] sm:text-xs">Koin</div></div>
+                    <div><div class="text-lg sm:text-xl md:text-2xl font-bold text-white">${inventory.reduce((sum, item) => sum + item.quantity, 0)}</div><div class="text-gray-400 text-[10px] sm:text-xs">Item</div></div>
                 </div>
-                ${inventory.length > 0 ? `
-                <div>
-                    <h5 class="text-white font-bold mb-3">Inventory (Total Nilai: ${totalInventoryValue.toLocaleString()} Koin)</h5>
-                    <div class="space-y-2 max-h-40 overflow-y-auto pr-2">
-                        ${inventory.slice(0, 6).map(item => `
-                            <div class="flex items-center gap-3 bg-dark-600 p-2 rounded-lg">
-                                <div class="w-8 h-8 rounded-lg overflow-hidden">
-                                    <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}">
-                                </div>
-                                <div class="flex-1">
-                                    <div class="font-semibold text-white text-sm">${item.name}</div>
-                                    <div class="text-gray-400 text-xs">${item.quantity}x ${item.price} Koin</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : '<p class="text-gray-500 text-center py-8">Inventory kosong. Belanja di toko!</p>'}
-                <button onclick="gainExp(100)" class="w-full mt-4 btn-orange py-3 font-bold text-white text-sm">Test: Dapatkan 100 EXP</button>
+                <button onclick="gainExp(100)" class="w-full mt-3 btn-orange py-2 sm:py-2.5 md:py-3 font-bold text-white text-xs sm:text-sm">Tes: +100 Exp</button>
             `;
         }
 
-        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             currentUser = loadUserData();
             updateLoginUI();
@@ -876,7 +1239,7 @@ function gainExp(amount) {
             updateCartBadge();
         });
 
-        // --- RENDER FUNCTIONS ---
+        // RENDER COURSES FUNCTION
         function renderCourses() {
             const grid = document.getElementById('courseGrid');
             if (!grid) return;
@@ -891,10 +1254,11 @@ function gainExp(amount) {
 
             document.getElementById('courseCount').textContent = coursesData.length;
 
+            // BAGIAN YANG DIUBAH: src sekarang langsung mengambil course.image
             grid.innerHTML = currentCourses.map(course => `
                 <div class="bg-[#f97316] rounded-[24px] p-3 shadow-xl transition-transform hover:-translate-y-2 duration-300">
                     <div class="rounded-[20px] overflow-hidden mb-4 aspect-video">
-                        <img src="https://picsum.photos/seed/${course.image}/400/250" class="w-full h-full object-cover" alt="${course.title}">
+                        <img src="${course.image}" class="w-full h-full object-cover" alt="${course.title}">
                     </div>
                     <div class="px-2">
                         <h3 class="text-black font-extrabold text-[15px] leading-tight mb-4 min-h-[40px] line-clamp-2">${course.title}</h3>
@@ -913,9 +1277,9 @@ function gainExp(amount) {
                             </div>
                         </div>
                         <div class="flex items-center justify-between pb-2">
-                            <button onclick="startCourse('${course.title}')" class="bg-black text-white text-[12px] font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 hover:bg-neutral-800 transition shadow-lg">
-                                Start Course <span class="text-[14px]">›</span>
-                            </button>
+                            <a href="kursus.html?title=${encodeURIComponent(course.title)}" class="bg-black text-white text-[12px] font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 hover:bg-neutral-800 transition shadow-lg">
+    Mulai Belajar <span class="text-[14px]">›</span>
+</a>
                             <div class="relative w-10 h-10 border-2 border-dashed border-white rounded-full flex items-center justify-center">
                                 <span class="text-white font-bold text-sm">${course.rating}</span>
                                 <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-md">
@@ -926,6 +1290,49 @@ function gainExp(amount) {
                     </div>
                 </div>
             `).join('');
+            
+            // --- PERBAIKAN LOGIC TOMBOL ---
+            // Reset state expanded setiap render ulang (karena filter/search berubah)
+            isMobileExpanded = false;
+
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
+            const btnText = loadMoreBtn ? loadMoreBtn.querySelector('button') : null;
+
+            if (currentCourses.length <= 4) {
+                // Sembunyikan tombol jika item kurang dari atau sama dengan 4
+                if(loadMoreBtn) loadMoreBtn.style.display = 'none';
+            } else {
+                // Tampilkan tombol, pastikan teks default
+                if(loadMoreBtn) loadMoreBtn.style.display = ''; // Biarkan class sm:hidden bekerja di desktop
+                if(btnText) btnText.innerText = "Lihat Kursus Lainnya";
+            }
+        }
+
+        // FUNGSI TOGGLE: Buka/Tutup
+        function showAllCoursesMobile() {
+            const grid = document.getElementById('courseGrid');
+            const items = grid.children;
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
+            const btnText = loadMoreBtn.querySelector('button');
+
+            // Toggle State
+            isMobileExpanded = !isMobileExpanded;
+
+            if (isMobileExpanded) {
+                // STATE: EXPANDED (Tampilkan Semua)
+                for(let i=0; i<items.length; i++) {
+                    items[i].style.display = 'block'; // Paksa tampil semua
+                }
+                if(btnText) btnText.innerText = "Tampilkan Lebih Sedikit";
+                // Tombol tetap ditampilkan (jangan di-hide)
+            } else {
+                // STATE: COLLAPSED (Sembunyikan item 5+)
+                for(let i=0; i<items.length; i++) {
+                    // Hapus inline style 'block', kembalikan ke control CSS
+                    items[i].style.display = ''; 
+                }
+                if(btnText) btnText.innerText = "Lihat Kursus Lainnya";
+            }
         }
 
         function renderLeaderboard() {
@@ -933,47 +1340,48 @@ function gainExp(amount) {
             if (!container) return;
             
             container.innerHTML = leaderboardData.map(user => `
-                <div class="leader-row flex items-center text-white rounded-2xl py-3 px-4 md:px-8 border-2 ${user.highlight ? 'border-orange-500/50' : 'border-white/20'}">
-                    <div class="w-12 md:w-16 font-black text-sm md:text-xl">${user.rank}</div>
-                    <div class="flex-1 flex items-center gap-2 md:gap-4">
-                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-white/20 bg-dark-700">
+                <div class="leader-row flex items-center text-white rounded-xl sm:rounded-2xl py-2 sm:py-2.5 md:py-3 px-2 sm:px-3 md:px-4 lg:px-6 border ${user.highlight ? 'border-orange-500/50' : 'border-white/10'}">
+                    <div class="w-8 sm:w-10 md:w-12 lg:w-16 font-bold text-[10px] sm:text-xs md:text-sm lg:text-lg">#${user.rank}</div>
+                    <div class="flex-1 flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 min-w-0">
+                        <div class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-full overflow-hidden border border-white/20 bg-dark-700 flex-shrink-0">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${user.rank}" class="w-full h-full object-cover" alt="${user.username}">
                         </div>
-                        <span class="font-bold text-xs md:text-lg truncate">${user.username}</span>
+                        <span class="font-bold text-[10px] sm:text-xs md:text-sm lg:text-base truncate">${user.username}</span>
                     </div>
-                    <div class="w-20 md:w-32 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3">
-                        <span class="font-bold text-gray-200 text-xs md:text-base">${user.exp}</span>
+                    <div class="w-14 sm:w-16 md:w-20 lg:w-28 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1 md:gap-2 lg:gap-3">
+                        <span class="font-bold text-gray-200 text-[9px] sm:text-[10px] md:text-xs lg:text-sm">${user.exp}</span>
                         <span class="level-badge">Lv ${user.level}</span>
                     </div>
-                    <div class="w-24 md:w-32 text-center font-black text-xs md:text-lg">${user.coins}</div>
+                    <div class="w-14 sm:w-16 md:w-20 lg:w-28 text-center font-bold text-[9px] sm:text-[10px] md:text-xs lg:text-base">${user.coins}</div>
                 </div>
             `).join('');
         }
 
         function updateShopPreview() {
             const item = shopData[currentShopIdx];
-            const card = document.getElementById('itemPreviewCard');
-            card.style.opacity = '0.5';
+            const img = document.getElementById('previewImg');
+            const tag = document.getElementById('previewTag');
+            const title = document.getElementById('previewTitle');
+            const desc = document.getElementById('previewDesc');
+            const price = document.getElementById('previewPrice');
+            
+            img.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('previewImg').src = item.img;
-                document.getElementById('previewTitle').innerText = item.name;
-                document.getElementById('previewTag').innerText = item.tag;
-                document.getElementById('previewDesc').innerText = item.desc;
-                document.getElementById('previewPrice').innerText = `${item.price} Koin`;
-                card.style.opacity = '1';
-            }, 200);
+                img.src = item.img;
+                tag.textContent = item.tag;
+                title.textContent = item.name;
+                desc.textContent = item.desc;
+                price.textContent = `${item.price} Koin`;
+                img.style.opacity = '1';
+            }, 150);
         }
 
-        // --- CART FUNCTIONS ---
         function addToCart(item) {
             const existingItem = cart.find(i => i.name === item.name);
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ ...item, quantity: 1 });
-            }
+            if (existingItem) { existingItem.quantity++; } 
+            else { cart.push({ ...item, quantity: 1 }); }
             updateCartBadge();
-            showNotification(`${item.name} ditambahkan ke keranjang!`, 'success');
+            showNotification(`${item.name} ditambahkan!`, 'success');
         }
 
         function removeFromCart(index) {
@@ -984,19 +1392,13 @@ function gainExp(amount) {
 
         function updateCartBadge() {
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const badge = document.getElementById('cartBadgeNav');
-            const mobileCount = document.getElementById('mobileCartCount');
-            
-            if (totalItems > 0) {
-                badge.textContent = totalItems;
-                badge.classList.remove('hidden');
-                badge.classList.add('pulse');
-                setTimeout(() => badge.classList.remove('pulse'), 300);
-                if (mobileCount) mobileCount.textContent = totalItems;
-            } else {
-                badge.classList.add('hidden');
-                if (mobileCount) mobileCount.textContent = '0';
-            }
+            ['cartBadgeNav', 'cartBadgeNavMobile'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if (totalItems > 0) { el.textContent = totalItems; el.classList.remove('hidden'); }
+                    else { el.classList.add('hidden'); }
+                }
+            });
         }
 
         function renderCartItems() {
@@ -1004,8 +1406,8 @@ function gainExp(amount) {
             const totalElement = document.getElementById('cartTotal');
             
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-8">Keranjang masih kosong</p>';
-                totalElement.textContent = 'Rp 0';
+                container.innerHTML = '<p class="text-gray-500 text-center py-6 text-sm">Keranjang masih kosong</p>';
+                totalElement.textContent = '0 Koin';
                 return;
             }
 
@@ -1013,16 +1415,16 @@ function gainExp(amount) {
             container.innerHTML = cart.map((item, index) => {
                 total += item.price * item.quantity;
                 return `
-                    <div class="flex items-center gap-4 bg-dark-700 rounded-xl p-3">
-                        <img src="${item.img}" class="w-16 h-16 rounded-lg object-cover" alt="${item.name}">
-                        <div class="flex-1">
-                            <h4 class="text-white font-semibold">${item.name}</h4>
-                            <p class="text-orange-500 font-bold">${item.price} Koin</p>
+                    <div class="flex items-center gap-3 bg-dark-700 rounded-lg sm:rounded-xl p-2 sm:p-3">
+                        <img src="${item.img}" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg object-cover" alt="${item.name}">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-white font-semibold text-xs sm:text-sm truncate">${item.name}</h4>
+                            <p class="text-orange-500 font-bold text-xs sm:text-sm">${item.price} Koin</p>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-white">${item.quantity}x</span>
-                            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-300 transition-colors p-1" aria-label="Remove item">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <span class="text-white text-xs sm:text-sm">${item.quantity}x</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-300 p-0.5 sm:p-1" aria-label="Hapus">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                             </button>
                         </div>
                     </div>
@@ -1037,28 +1439,13 @@ function gainExp(amount) {
             document.getElementById('cartModal').classList.add('active');
         }
 
-        function closeCartModal() {
-            document.getElementById('cartModal').classList.remove('active');
-        }
+        function closeCartModal() { document.getElementById('cartModal').classList.remove('active'); }
 
         function checkout() {
-            if (cart.length === 0) {
-                showNotification('Keranjang masih kosong!', 'error');
-                return;
-            }
-            
+            if (cart.length === 0) { showNotification('Keranjang masih kosong!', 'error'); return; }
             const totalCost = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const currentBalance = getCoins();
-
-            if (currentBalance < totalCost) {
-                showNotification(`Koin tidak cukup! Butuh ${totalCost}, kamu punya ${currentBalance}.`, 'error');
-                return;
-            }
-
-            // Lakukan pembayaran
+            if (getCoins() < totalCost) { showNotification('Koin tidak cukup!', 'error'); return; }
             updateCoins(-totalCost);
-            
-            // Simpan inventory (opsional)
             let inventory = JSON.parse(localStorage.getItem('eduverse_inventory')) || [];
             cart.forEach(item => {
                 let found = inventory.find(i => i.name === item.name);
@@ -1066,9 +1453,7 @@ function gainExp(amount) {
                 else inventory.push({...item, quantity: item.quantity});
             });
             localStorage.setItem('eduverse_inventory', JSON.stringify(inventory));
-
-            showNotification(`Pembelian berhasil! ${totalCost} Koin telah dipotong.`, 'success');
-            
+            showNotification('Checkout berhasil!', 'success');
             cart = [];
             updateCartBadge();
             renderCartItems();
@@ -1077,150 +1462,91 @@ function gainExp(amount) {
 
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
-            notification.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-white font-semibold z-[9999] transition-all transform translate-y-20 ${type === 'error' ? 'bg-red-500' : 'bg-green-500'}`;
+            notification.className = `fixed bottom-3 sm:bottom-4 right-3 sm:right-4 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-white font-semibold z-[9999] transition-all transform translate-y-20 text-xs sm:text-sm ${type === 'error' ? 'bg-red-500' : 'bg-green-500'}`;
             notification.textContent = message;
             document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.remove('translate-y-20');
-            }, 100);
-            
-            setTimeout(() => {
-                notification.classList.add('translate-y-20');
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
+            setTimeout(() => notification.classList.remove('translate-y-20'), 100);
+            setTimeout(() => { notification.classList.add('translate-y-20'); setTimeout(() => notification.remove(), 300); }, 2500);
         }
 
-        // --- INTERACTION FUNCTIONS ---
         function initAnimations() {
-            const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-            const observer = new IntersectionObserver((entries) => { 
-                entries.forEach(entry => { 
-                    if (entry.isIntersecting) { 
-                        entry.target.classList.add('active'); 
-                    } 
-                }); 
-            }, observerOptions);
-            document.querySelectorAll('.reveal').forEach(el => { observer.observe(el); });
+            const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
 
         function initInteractions() {
-            // Mobile Menu
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
-            if (mobileMenuBtn && mobileMenu) { 
-                mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); }); 
-            }
+            if (mobileMenuBtn && mobileMenu) mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-            // Pricing Toggle
             const pricingToggle = document.getElementById('pricingToggle');
-            if (pricingToggle) { 
-                pricingToggle.addEventListener('click', () => { 
+            if (pricingToggle) {
+                pricingToggle.addEventListener('click', () => {
                     isYearly = !isYearly;
                     pricingToggle.classList.toggle('active');
                     updatePricing();
-                }); 
+                });
             }
 
-            // Category Tabs
-            const categoryTabs = document.querySelectorAll('#categoryTabs .category-tab');
-            categoryTabs.forEach(tab => {
+            document.querySelectorAll('#categoryTabs .category-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
-                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('#categoryTabs .category-tab').forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     activeCategory = tab.dataset.category;
                     renderCourses();
                 });
             });
 
-            // Search
             const searchInput = document.getElementById('searchInput');
             if (searchInput) searchInput.addEventListener('input', renderCourses);
 
-            // Sign In Modal
-            const signInBtn = document.getElementById('signInBtn');
-            const signInBtnMobile = document.getElementById('signInBtnMobile');
-            const handler = () => document.getElementById('loginModal').classList.add('active');
-            if (signInBtn) signInBtn.addEventListener('click', handler);
-            if (signInBtnMobile) signInBtnMobile.addEventListener('click', handler);
+            ['signInBtn', 'signInBtnMobile'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.addEventListener('click', () => document.getElementById('loginModal').classList.add('active'));
+            });
         }
 
         function updatePricing() {
-            const proPrice = document.getElementById('proPrice');
-            const businessPrice = document.getElementById('businessPrice');
-            const proPeriod = document.getElementById('proPeriod');
-            const businessPeriod = document.getElementById('businessPeriod');
-            
-            if (isYearly) {
-                proPrice.textContent = '$27';
-                businessPrice.textContent = '$45';
-                proPeriod.textContent = '/Bulan';
-                businessPeriod.textContent = '/bulan';
-            } else {
-                proPrice.textContent = '$34';
-                businessPrice.textContent = '$56';
-                proPeriod.textContent = '/Bulan';
-                businessPeriod.textContent = '/bulan';
-            }
+            const pro = document.getElementById('proPrice');
+            const biz = document.getElementById('businessPrice');
+            if (isYearly) { pro.textContent = '$27'; biz.textContent = '$45'; }
+            else { pro.textContent = '$34'; biz.textContent = '$56'; }
         }
 
-        // --- ACTION FUNCTIONS ---
-        function startCourse(title) {
-            window.location.href = "kursus.html?title=" + encodeURIComponent(title);
-        }
-
-        function nextShopItem() { 
-            currentShopIdx = (currentShopIdx + 1) % shopData.length; 
-            updateShopPreview(); 
+        function startCourse(title) { 
+            showNotification(`Memulai kursus: ${title}`, 'success'); 
         }
         
-        function prevShopItem() { 
-            currentShopIdx = (currentShopIdx - 1 + shopData.length) % shopData.length; 
-            updateShopPreview(); 
-        }
+        function nextShopItem() { currentShopIdx = (currentShopIdx + 1) % shopData.length; updateShopPreview(); }
+        function prevShopItem() { currentShopIdx = (currentShopIdx - 1 + shopData.length) % shopData.length; updateShopPreview(); }
 
-function openFullShop() {
+        function openFullShop() {
             const grid = document.getElementById('shopGrid');
             grid.innerHTML = shopData.map((item, index) => `
-                <div class="shop-card bg-white/5 p-5 rounded-[2rem] border border-white/5 hover:border-orange-500 transition-all duration-500 group cursor-pointer" onclick="addToCart(shopData[${index}])">
-                    <img src="${item.img}" class="w-full h-40 object-cover rounded-2xl mb-4 group-hover:scale-110 transition duration-500" alt="${item.name}">
-                    <h4 class="text-white font-bold text-lg mb-2">${item.name}</h4>
-                    <p class="text-orange-500 text-[10px] font-bold uppercase mb-1">${item.tag}</p>
-                    <p class="text-white font-bold mb-3">${item.price} Koin</p>
-                    <div class="w-full btn-orange text-black py-3 rounded-xl text-sm font-bold shadow-lg hover:shadow-orange-500/50 transition-all text-center">Tambah ke Keranjang</div>
+                <div class="shop-card bg-white/5 p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-[1.5rem] md:rounded-[2rem] border border-white/5 hover:border-orange-500 transition-all group cursor-pointer" onclick="addToCart(shopData[${index}])">
+                    <img src="${item.img}" class="w-full h-24 sm:h-32 md:h-40 object-cover rounded-lg sm:rounded-xl md:rounded-2xl mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition duration-500" alt="${item.name}">
+                    <h4 class="text-white font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">${item.name}</h4>
+                    <p class="text-orange-500 text-[8px] sm:text-[10px] font-bold uppercase mb-0.5 sm:mb-1">${item.tag}</p>
+                    <p class="text-white font-bold mb-2 sm:mb-3 text-xs sm:text-sm md:text-base">${item.price} Koin</p>
+                    <div class="w-full btn-orange text-black py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold text-center">Tambah</div>
                 </div>
             `).join('');
             document.getElementById('shopModal').classList.add('active');
         }
 
-        function addToCartByIndex(index) {
-            const item = shopData[index];
-            addToCart(item);
-        }
+        function closeFullShop() { document.getElementById('shopModal').classList.remove('active'); }
+        function closeModal() { document.getElementById('loginModal').classList.remove('active'); }
 
-        function closeFullShop() { 
-            document.getElementById('shopModal').classList.remove('active'); 
-        }
-        
-        function closeModal() { 
-            document.getElementById('loginModal').classList.remove('active'); 
-        }
-
-function handleLogin(e) {
+        function handleLogin(e) {
             e.preventDefault();
             const username = document.getElementById('usernameInput').value.trim();
             const password = document.getElementById('passwordInput').value;
-            
-            if (!username || !password) {
-                showNotification('Mohon isi semua field!', 'error');
-                return;
-            }
-            
+            if (!username || !password) { showNotification('Isi semua field!', 'error'); return; }
             currentUser = createUser(username);
             saveUserData();
             updateLoginUI();
             updateUI();
-            showNotification(`Selamat datang, ${username}! Dapatkan 100 koin starter!`, 'success');
+            showNotification(`Selamat datang, ${username}!`, 'success');
             closeModal();
         }
 
@@ -1242,11 +1568,8 @@ function handleLogin(e) {
             }, 500);
         }
 
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({behavior: 'smooth'});
-        }
+        function scrollToSection(id) { document.getElementById(id).scrollIntoView({behavior: 'smooth'}); }
 
-        // Learning Path Carousel
         function setPath(index) {
             currentPathIdx = index;
             const path = learningPathsData[index];
@@ -1269,24 +1592,23 @@ function handleLogin(e) {
         }
         
         function showAllPaths() {
-            window.location.href = "learningpath.html";
+            showNotification("Membuka semua jalur pembelajaran...", "success");
         }
 
         function startPath() {
-            const title = document.getElementById('pathTitle').innerText;
-            window.location.href = "learningpath.html?path=" + encodeURIComponent(title);
+            showNotification(`Memulai jalur: ${document.getElementById('pathTitle').innerText}`, 'success');
         }
 
         function selectPlan(planName) {
-            showNotification(`Anda memilih paket ${planName}! Mengarahkan ke checkout...`, 'success');
+            showNotification(`Anda memilih paket ${planName}!`, 'success');
         }
 
         function joinChallenge() {
-            showNotification("Tantangan berikutnya dimulai dalam 24 jam!", 'success');
+            showNotification("Anda bergabung dalam tantangan!", "success");
         }
 
         function socialClick(platform) {
-            showNotification(`Membuka ${platform}...`, 'success');
+            showNotification(`Mengunjungi ${platform}`, "success");
         }
     </script>
 </body>
