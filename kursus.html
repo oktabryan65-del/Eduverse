@@ -426,7 +426,7 @@
             // Simpan kembali ke local storage dengan key 'eduverse_user'
             localStorage.setItem('eduverse_user', JSON.stringify(user));
         }
-        
+
         function completeCourse(courseKey, courseName) {
             const key = `claimed_course_${courseKey}`;
             if (localStorage.getItem(key)) { showToast("Kamu sudah mengklaim koin dari kursus ini!", "info"); return; }
@@ -698,43 +698,43 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0a0a0a] pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-6 sm:pb-8 md:pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
-            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12 mb-8 sm:mb-10 md:mb-12 lg:mb-16">
-                <div class="col-span-2 sm:col-span-1 space-y-3 sm:space-y-4 md:space-y-6">
+    <footer class="bg-[#0a0a0a] pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 md:pb-10">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 md:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12 mb-10 sm:mb-12 md:mb-16">
+                <div class="col-span-2 sm:col-span-1 space-y-4 sm:space-y-6">
                     <a href="#hero" class="flex items-center gap-2 sm:gap-3 justify-center sm:justify-start">
                         <div class="logo-icon">
                             <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
                         </div>
-                        <span class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white">Edu<span class="text-orange-500">Verse</span></span>
+                        <span class="text-lg sm:text-xl md:text-2xl font-bold text-white">Edu<span class="text-orange-500">Verse</span></span>
                     </a>
                     <p class="text-gray-400 text-xs sm:text-sm leading-relaxed text-center sm:text-left">Pantau terus update dari platform pembelajaran kami</p>
                     <div class="flex gap-2 sm:gap-3 justify-center sm:justify-start">
-                        <a href="#" onclick="socialClick('Twitter')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors active:scale-95" aria-label="Twitter">
+                        <a href="#" onclick="socialClick('Twitter')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Twitter">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
-                        <a href="#" onclick="socialClick('TikTok')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors active:scale-95" aria-label="TikTok">
+                        <a href="#" onclick="socialClick('TikTok')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="TikTok">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                         </a>
-                        <a href="#" onclick="socialClick('Instagram')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors active:scale-95" aria-label="Instagram">
+                        <a href="#" onclick="socialClick('Instagram')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Instagram">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                     </div>
                 </div>
-                <div class="space-y-2 sm:space-y-3 md:space-y-4 md:space-y-6">
+                <div class="space-y-3 sm:space-y-4 md:space-y-6">
                     <h3 class="text-white font-bold text-sm sm:text-base md:text-lg">Situs Kami</h3>
-                    <ul class="space-y-1.5 sm:space-y-2 md:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
                         <li><a href="#hero" class="hover:text-orange-500 transition">Beranda</a></li>
                         <li><a href="#courses" class="hover:text-orange-500 transition">Kursus</a></li>
                         <li><a href="#pricing" class="hover:text-orange-500 transition">Harga</a></li>
                         <li><a href="#about" class="hover:text-orange-500 transition">Tentang</a></li>
                     </ul>
                 </div>
-                <div class="space-y-2 sm:space-y-3 md:space-y-4 md:space-y-6">
+                <div class="space-y-3 sm:space-y-4 md:space-y-6">
                     <h3 class="text-white font-bold text-sm sm:text-base md:text-lg">Sumber Daya</h3>
-                    <ul class="space-y-1.5 sm:space-y-2 md:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
+                    <ul class="space-y-2 sm:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
                         <li><a href="#" class="hover:text-orange-500 transition">Dokumentasi</a></li>
                         <li><a href="#" class="hover:text-orange-500 transition">Tutorial</a></li>
                         <li><a href="#" class="hover:text-orange-500 transition">Blog</a></li>
@@ -742,24 +742,16 @@
                     </ul>
                 </div>
                 <div class="col-span-2 sm:col-span-1">
-                    <div class="w-full h-[100px] sm:h-[120px] md:h-[150px] lg:h-[200px] bg-[#1a1a1a] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden border border-white/5 relative group">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.2585508179654!2d107.6492169499397!3d-6.859584692918202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e74143054c3b%3A0xdcbafc2eac7f6aac!2sJl.%20Daisy%20Garden%2C%20Mekarsaluyu%2C%20Kec.%20Cimenyan%2C%20Kabupaten%20Bandung%2C%20Jawa%20Barat%2040198!5e0!3m2!1sid!2sid!4v1774500941340!5m2!1sid!2sid" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            title="Lokasi">
-                        </iframe>
+                    <div class="w-full h-[120px] sm:h-[150px] md:h-[200px] bg-[#1a1a1a] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/5 relative group">
+                       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.2585508179654!2d107.6492169499397!3d-6.859584692918202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e74143054c3b%3A0xdcbafc2eac7f6aac!2sJl.%20Daisy%20Garden%2C%20Mekarsaluyu%2C%20Kec.%20Cimenyan%2C%20Kabupaten%20Bandung%2C%20Jawa%20Barat%2040198!5e0!3m2!1sid!2sid!4v1774500941340!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy" title="Lokasi"></iframe>
                         <div class="absolute bottom-2 sm:bottom-3 md:bottom-4 left-2 sm:left-3 md:left-4 bg-black/70 backdrop-blur-md px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
                             Bandung, Jawa Barat
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="pt-4 sm:pt-6 md:pt-8 border-t border-white/20">
-                <p class="text-center text-gray-500 text-[10px] sm:text-xs tracking-wide">© 2026 | Tim Eduverse</p>
+            <div class="pt-6 sm:pt-8 border-t border-white/20">
+                <p class="text-center text-gray-500 text-[10px] sm:text-xs tracking-wide">2026 | Tim Eduverse</p>
             </div>
         </div>
     </footer>
