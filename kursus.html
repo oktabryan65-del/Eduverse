@@ -1,556 +1,695 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eduverse - Course Detail</title>
+    <title>Eduverse - Detail Kursus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Poppins', sans-serif; }
         body { background-color: #000000; color: white; overflow-x: hidden; }
         
-        .btn-orange { background-color: #f97316; color: black; font-weight: 800; border-radius: 8px; transition: 0.3s; }
-        .btn-orange:hover { background-color: #fb923c; transform: translateY(-2px); }
+        /* Animasi Fade In Up */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+        }
 
-        /* Style untuk Tab Putih di atas */
-        .tab-pill { background-color: white; color: black; font-weight: 700; padding: 10px 30px; border-radius: 12px; font-size: 14px; }
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
 
-        /* Bar Rating Hitam */
-        .rating-bar { height: 8px; background-color: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #f97316, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-orange { background: linear-gradient(135deg, #f97316, #fb923c); color: black; font-weight: 800; border-radius: 12px; transition: 0.3s; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
+        .btn-orange:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5); }
+        .btn-orange:active { transform: translateY(-1px); }
+
+        /* Tab Style */
+        .tab-pill { background-color: white; color: black; font-weight: 700; padding: 10px 20px; border-radius: 14px; font-size: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s; white-space: nowrap; }
+        .tab-pill:hover { transform: translateY(-2px); }
+        .tab-pill.inactive { background-color: rgba(255,255,255,0.05); color: #9ca3af; box-shadow: none; }
+        
+        @media (min-width: 768px) { 
+            .tab-pill { padding: 12px 32px; font-size: 14px; } 
+        }
+
+        /* Progress Bar */
+        .rating-bar { height: 10px; background-color: rgba(0,0,0,0.15); border-radius: 10px; overflow: hidden; }
         .rating-fill { height: 100%; background-color: #000000; border-radius: 10px; }
 
-        /* Sidebar melayang */
-        .sticky-sidebar { position: sticky; top: 100px; }
+        /* Sticky Sidebar */
+        .sticky-sidebar { position: relative; }
+        @media (min-width: 1024px) { .sticky-sidebar { position: sticky; top: 100px; } }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* TAMBAHAN: CSS untuk Toast Notification */
-        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: #1a1a1a; border: 1px solid #333; padding: 12px 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform: translateX(120%); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; }
-        .toast.show { transform: translateX(0); }
+        /* Toast Notification */
+        .toast-container { position: fixed; bottom: 20px; right: 20px; left: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
+        @media (min-width: 640px) {
+            .toast-container { left: auto; right: 20px; }
+        }
+        .toast { background: #1a1a1a; border: 1px solid #333; padding: 14px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform: translateY(120%); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+        .toast.show { transform: translateY(0); }
         .toast.success { border-left: 4px solid #22c55e; }
         .toast.info { border-left: 4px solid #3b82f6; }
+        
+        /* Mobile Menu */
+        .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .mobile-menu.open { max-height: 400px; }
+
+        /* Module List Animation */
+        .module-item { transition: all 0.3s ease; }
+        .module-item:hover { transform: translateX(5px); background: rgba(249, 115, 22, 0.1); }
+        .module-item:active { transform: translateX(2px); }
+
+        /* Card Hover Effects */
+        .course-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .course-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(249, 115, 22, 0.3); }
+        
+        /* Logo Styles */
+        .logo-icon {
+            width: 32px; height: 32px; background: linear-gradient(135deg, #f97316, #ec4899); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(249, 115, 22, 0.4); flex-shrink: 0;
+        }
+        @media (min-width: 768px) { .logo-icon { width: 40px; height: 40px; border-radius: 12px; } }
+
+        /* Mobile Optimizations */
+        @media (max-width: 640px) {
+            .rating-card-grid { grid-template-columns: 1fr !important; }
+            .rating-card-grid > div:first-child { border-right: none !important; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 1.5rem; margin-bottom: 1rem; }
+            .course-card { transform: none !important; }
+            .course-card:active { transform: scale(0.98) !important; }
+        }
+        
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 20px); }
     </style>
     
-    <!-- SCRIPT DINAMIS UNTUK KURSUS.HTML -->
-    <script>
-        // 1. DATABASE KURSUS (DITAMBAHKAN MODUL/MATERI)
+       <script>
+        // 1. DATABASE KURSUS DENGAN MAPPER KE LEARNING PATH
         const courseDatabase = {
             "Learn Figma - UI/UX Design Essential Training": {
-                title: "Figma UI/UX Masterclass",
-                price: "$45.00",
-                oldPrice: "$90.00",
-                discount: "50% Off",
-                modulesCount: "15 Modules",
-                heroImg: "https://picsum.photos/seed/figma-course/1400/500",
-                sideImg: "https://picsum.photos/seed/figma-side/400/300",
-                desc: "Master Figma from scratch. Learn design systems, prototyping, and collaboration for modern UI/UX.",
+                title: "Masterclass UI/UX Figma",
+                price: "Rp 249.000",
+                oldPrice: "Rp 499.000",
+                discount: "Diskon 50%",
+                modulesCount: "15 Modul",
+                heroImg: "https://i.ytimg.com/vi/PixMVjfkGBs/maxresdefault.jpg",
+                sideImg: "https://learnandearn.edu.lk/wp-content/uploads/2025/05/representations-user-experience-interface-design-1-scaled.jpg",
+                desc: "Kuasai Figma dari nol hingga mahir. Pelajari prinsip desain, sistem desain, prototyping interaktif, dan cara berkolaborasi efektif dalam tim produk modern.",
+                pathId: 1,
                 modules: [
-                    "Introduction to UI/UX Design Principles",
-                    "Getting Started with Figma Interface",
-                    "Mastering Frames & Grids",
-                    "Components and Variants",
-                    "Auto-Layout Deep Dive",
-                    "Prototyping & Interaction Design",
-                    "Collaboration & Handoff"
+                    "Pengantar Prinsip Desain UI/UX",
+                    "Interface Figma & Tools Dasar",
+                    "Menguasai Frame & Grid System",
+                    "Shapes, Layers, dan Objek",
+                    "Membuat Komponen & Variants",
+                    "Auto Layout: Teknik Responsif",
+                    "Prototyping & Interaksi Dasar",
+                    "Desain untuk Mobile & Web",
+                    "Membangun Design System",
+                    "Kolaborasi Tim & Developer Handoff",
+                    "Plugin Essentials untuk Produktivitas",
+                    "Studi Kasus: Redesign Aplikasi",
+                    "Animasi Micro-interaction",
+                    "Eksport Assets & Dokumentasi",
+                    "Tips Portfolio & Karir UI/UX"
+                ],
+                reviews: [
+                    {
+                        name: "Rina Marlina",
+                        role: "UI Designer",
+                        avatar: "https://i.pravatar.cc/100?u=rina",
+                        date: "2 Minggu lalu",
+                        text: "Kursus Figma ini luar biasa! Penjelasan tentang Auto Layout sangat mudah dipahami. Sekarang saya bisa bikin design system sendiri."
+                    }
                 ]
             },
             "Python For Beginners - Learn Programming": {
-                title: "Python Programming Basics",
-                price: "$35.00",
-                oldPrice: "$70.00",
-                discount: "50% Off",
-                modulesCount: "25 Modules",
-                heroImg: "https://picsum.photos/seed/python-course/1400/500",
-                sideImg: "https://picsum.photos/seed/python-side/400/300",
-                desc: "Start your coding journey with Python. Learn syntax, data structures, and object-oriented programming.",
+                title: "Dasar Pemrograman Python",
+                price: "Rp 199.000",
+                oldPrice: "Rp 399.000",
+                discount: "Diskon 50%",
+                modulesCount: "25 Modul",
+                heroImg: "https://miro.medium.com/1*RJMxLdTHqVBSijKmOO5MAg.jpeg",
+                sideImg: "https://webandcrafts.com/_next/image?url=https%3A%2F%2Fadmin.wac.co%2Fuploads%2FFeatures_Of_Python_1_f4ccd6d9f7.jpg&w=4500&q=90",
+                desc: "Mulai perjalanan coding Anda dengan bahasa paling populer di dunia. Pelajari logika pemrograman, struktur data, dan bangun proyek nyata.",
+                pathId: 0,
                 modules: [
-                    "Setting Up Python Environment",
-                    "Variables and Data Types",
-                    "Control Flow (If/Else, Loops)",
-                    "Functions and Modules",
-                    "Working with Files",
-                    "Object-Oriented Programming (OOP)",
-                    "Error Handling & Debugging"
+                    "Pengenalan Python & Instalasi",
+                    "Variabel dan Tipe Data Dasar",
+                    "Operasi Matematika & Logika",
+                    "String Manipulation",
+                    "Control Flow: If, Else, Elif",
+                    "Perulangan: For & While Loops",
+                    "Fungsi & Modularisasi Kode",
+                    "Struktur Data: List",
+                    "Struktur Data: Dictionary",
+                    "Struktur Data: Tuple & Set",
+                    "File Handling: Baca & Tulis",
+                    "Error Handling (Try/Except)",
+                    "Konsep OOP: Class & Object",
+                    "Inheritance & Polymorphism",
+                    "Library Standar Python",
+                    "Virtual Environment",
+                    "Web Scraping Dasar",
+                    "Intro to Data Analysis",
+                    "Project: CLI Inventory App",
+                    "Project: Simple Game",
+                    "Best Practices & PEP 8"
+                ],
+                reviews: [
+                    {
+                        name: "Budi Hartono",
+                        role: "Data Analyst",
+                        avatar: "https://i.pravatar.cc/100?u=budi",
+                        date: "1 Bulan lalu",
+                        text: "Sangat recommended untuk pemula. Materinya terstruktur dan tantangan kodenya seru banget. Dari ga ngerti jadi bisa bikin script sendiri."
+                    }
                 ]
             },
             "Acoustic Guitar And Electric Guitar Started": {
-                title: "Guitar for Beginners",
-                price: "$29.00",
-                oldPrice: "$60.00",
-                discount: "50% Off",
-                modulesCount: "10 Modules",
-                heroImg: "https://picsum.photos/seed/guitar-course/1400/500",
-                sideImg: "https://picsum.photos/seed/guitar-side/400/300",
-                desc: "Learn acoustic and electric guitar fundamentals. Chords, strumming patterns, and your favorite songs.",
+                title: "Gitar untuk Pemula",
+                price: "Rp 149.000",
+                oldPrice: "Rp 299.000",
+                discount: "Diskon 50%",
+                modulesCount: "10 Modul",
+                heroImg: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
+                sideImg: "https://liverpoolacademyofmusic.com.au/wp-content/uploads/2019/07/guitars.jpg",
+                desc: "Pelajari dasar-dasar gitar akustik dan elektrik dari nol. Kuasai chord, teknik strumming, hingga bisa memainkan lagu favorit Anda.",
                 modules: [
-                    "Anatomy of the Guitar",
-                    "Basic Tuning and Maintenance",
-                    "Essential Open Chords (C, G, D, Em, Am)",
-                    "Strumming Patterns & Rhythm",
-                    "Transitioning Between Chords",
-                    "Playing Your First Song",
-                    "Introduction to Electric Guitar Techniques"
+                    "Anatomi Gitar & Perawatan Dasar",
+                    "Cara Memegang Gitar & Pick",
+                    "Penyetelan Tuning (Standard E)",
+                    "Chord Dasar: C, G, D, Em, Am",
+                    "Latihan Jari & Kekuatan Tangan",
+                    "Pola Strumming Dasar",
+                    "Teknik Perpindahan Chord (Transition)",
+                    "Ritmik & Tempo",
+                    "Mainkan Lagu Pertama Anda",
+                    "Pengantar Teknik Gitar Elektrik"
+                ],
+                reviews: [
+                    {
+                        name: "Andi Rianto",
+                        role: "Musisi Amatir",
+                        avatar: "https://i.pravatar.cc/100?u=andi",
+                        date: "3 Hari lalu",
+                        text: "Akhirnya bisa mainkan lagu favorit setelah ikut kursus ini. Instruktornya sabar banget jelasin teknik dasar. Mantap!"
+                    }
                 ]
             },
             "Mobile App Development With Flutter": {
-                title: "Flutter Mobile Development",
-                price: "$55.00",
-                oldPrice: "$110.00",
-                discount: "50% Off",
-                modulesCount: "35 Modules",
-                heroImg: "https://picsum.photos/seed/flutter-course/1400/500",
-                sideImg: "https://picsum.photos/seed/flutter-side/400/300",
-                desc: "Build beautiful cross-platform mobile apps for iOS and Android with Flutter and Dart.",
+                title: "Pengembangan Mobile Flutter",
+                price: "Rp 299.000",
+                oldPrice: "Rp 599.000",
+                discount: "Diskon 50%",
+                modulesCount: "35 Modul",
+                heroImg: "https://encryptedinfoweb.com/uploads/services/1766409237_1765968697_Why-Flutter-is-Better-for-App-Development-jpg-webp.webp",
+                sideImg: "https://riseapps.co/wp-content/uploads/2019/07/Flutter-App-Development-vs-React-Native_-How-to-Make-a-Right-Choice-2021.png",
+                desc: "Bangun aplikasi mobile cross-platform (iOS & Android) dengan satu basis kode menggunakan Flutter dan bahasa Dart.",
+                pathId: 4,
                 modules: [
-                    "Introduction to Dart Language",
-                    "Flutter Widget Tree Basics",
-                    "Layouts: Row, Column, Stack",
-                    "State Management (Provider/Riverpod)",
-                    "Navigation & Routing",
-                    "Networking & APIs Integration",
-                    "Publishing to App Store & Play Store"
+                    "Pengenalan Flutter & Dart",
+                    "Setup Environment (Android Studio/VS Code)",
+                    "Struktur Project Flutter",
+                    "Widget Tree & Element Tree",
+                    "Stateless vs Stateful Widget",
+                    "Layout: Row, Column, Stack",
+                    "Container & Styling Dasar",
+                    "Navigasi & Routing",
+                    "Form Input & Validasi",
+                    "State Management: setState",
+                    "State Management: Provider",
+                    "HTTP Request & REST API",
+                    "Parsing JSON Data",
+                    "Local Storage (SharedPref/SQLite)",
+                    "Firebase Integration",
+                    "Widget Animasi",
+                    "Custom Paint & Canvas",
+                    "Penggunaan Camera & Gallery",
+                    "Push Notification",
+                    "Build & Release ke Play Store"
+                ],
+                reviews: [
+                    {
+                        name: "Sarah Putri",
+                        role: "Mobile Developer",
+                        avatar: "https://i.pravatar.cc/100?u=sarah",
+                        date: "5 Hari lalu",
+                        text: "Kursus Flutter terbaik yang pernah saya ikuti. Materinya up-to-date dan project-nya aplikatif banget untuk portfolio."
+                    }
                 ]
             },
             "Ionic React: Mobile Development With Ionic": {
-                title: "Ionic React Development",
-                price: "$49.00",
-                oldPrice: "$98.00",
-                discount: "50% Off",
-                modulesCount: "20 Modules",
-                heroImg: "https://picsum.photos/seed/ionic-course/1400/500",
-                sideImg: "https://picsum.photos/seed/ionic-side/400/300",
-                desc: "Create mobile apps using Ionic React framework. Fast, efficient, and web-technology based.",
+                title: "Pengembangan Ionic React",
+                price: "Rp 249.000",
+                oldPrice: "Rp 499.000",
+                discount: "Diskon 50%",
+                modulesCount: "20 Modul",
+                heroImg: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
+                sideImg: "https://ionicframework.com/img/meta/ionic-framework-og.png",
+                desc: "Buat aplikasi mobile menggunakan framework Ionic dengan basis React. Cepat, efisien, dan berbasis teknologi web modern.",
+                pathId: 4,
                 modules: [
-                    "Ionic CLI & Project Structure",
+                    "Intro Ionic Framework",
                     "React Basics for Ionic",
-                    "Ionic UI Components",
-                    "Capacitor for Native Features",
-                    "Theming & Styling Apps",
-                    "Deploying Ionic Applications"
+                    "Ionic CLI & Project Structure",
+                    "Ionic React Components",
+                    "Navigation (React Router)",
+                    "Theming & Styling Variabel",
+                    "Handling User Input",
+                    "Capacitor: Native Bridge",
+                    "Accessing Camera",
+                    "Geolocation & Maps",
+                    "Storage & SQLite",
+                    "Integrasi REST API",
+                    "Authentication Flow",
+                    "Hardware Sensors",
+                    "PWA Mode",
+                    "Build iOS & Android"
+                ],
+                reviews: [
+                    {
+                        name: "Joko Widodo",
+                        role: "Web Developer",
+                        avatar: "https://i.pravatar.cc/100?u=joko",
+                        date: "1 Minggu lalu",
+                        text: "Karena udah punya basic React, kursus ini ngebantu banget buat transisi ke mobile. Cepat dan ga ribet musti belajar native."
+                    }
                 ]
             },
             "Sports Management: The Essentials Course": {
-                title: "Sports Management Essentials",
-                price: "$40.00",
-                oldPrice: "$80.00",
-                discount: "50% Off",
-                modulesCount: "12 Modules",
-                heroImg: "https://picsum.photos/seed/sports-course/1400/500",
-                sideImg: "https://picsum.photos/seed/sports-side/400/300",
-                desc: "Understand the business side of sports. Management, marketing, and event operations.",
+                title: "Esensial Manajemen Olahraga",
+                price: "Rp 199.000",
+                oldPrice: "Rp 399.000",
+                discount: "Diskon 50%",
+                modulesCount: "12 Modul",
+                heroImg: "https://youthincmag.com/wp-content/uploads/2023/05/sports-tools.jpg",
+                sideImg: "https://www.sandipuniversity.edu.in/blog/wp-content/uploads/2020/02/bba-sports-management.jpg",
+                desc: "Pahami sisi bisnis dan manajemen di balik industri olahraga. Cocok untuk calon manajer, atlet, atau penggiat industri olahraga.",
                 modules: [
-                    "Overview of Sports Industry",
-                    "Event Planning & Management",
-                    "Sports Marketing Strategies",
-                    "Financial Management in Sports",
-                    "Athlete Representation",
-                    "Legal Aspects of Sports"
+                    "Gambaran Umum Industri Olahraga Global",
+                    "Manajemen Organisasi Olahraga",
+                    "Perencanaan & Manajemen Acara",
+                    "Strategi Pemasaran Olahraga",
+                    "Sponsorship & Partnership",
+                    "Manajemen Fasilitas & Venue",
+                    "Keuangan & Anggaran di Olahraga",
+                    "Media & Broadcasting",
+                    "Hukum & Regulasi Olahraga",
+                    "Manajemen Atlet & Talenta",
+                    "Teknologi dalam Olahraga",
+                    "Studi Kasus: Event Management"
+                ],
+                reviews: [
+                    {
+                        name: "Dimas Prasetyo",
+                        role: "Sports Enthusiast",
+                        avatar: "https://i.pravatar.cc/100?u=dimas",
+                        date: "2 Hari lalu",
+                        text: "Insightnya luar biasa, ga nyangka manajemen olahraga serumit ini. Materi sponsorship sangat berguna untuk karir saya."
+                    }
                 ]
             },
             "How To Market Yourself As A Consultant": {
-                title: "Consultant Marketing Guide",
-                price: "$25.00",
-                oldPrice: "$50.00",
-                discount: "50% Off",
-                modulesCount: "8 Modules",
-                heroImg: "https://picsum.photos/seed/consult-course/1400/500",
-                sideImg: "https://picsum.photos/seed/consult-side/400/300",
-                desc: "Learn how to build your personal brand and market your consulting services effectively.",
+                title: "Panduan Pemasaran Konsultan",
+                price: "Rp 129.000",
+                oldPrice: "Rp 259.000",
+                discount: "Diskon 50%",
+                modulesCount: "8 Modul",
+                heroImg: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
+                sideImg: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                desc: "Pelajari cara membangun personal branding yang kuat dan memasarkan layanan konsultasi Anda agar menarik klien berkualitas.",
                 modules: [
-                    "Defining Your Niche",
-                    "Building a Personal Brand",
-                    "Creating a Winning Portfolio",
-                    "Client Acquisition Strategies",
-                    "Pricing Your Services",
-                    "Contracts & Proposals"
+                    "Menemukan Niche Spesialisasi",
+                    "Membangun Personal Brand",
+                    "Membuat Portfolio Digital",
+                    "Strategi Networking Efektif",
+                    "Pricing & Proposal",
+                    "Cold Emailing & Outreach",
+                    "Content Marketing untuk Konsultan",
+                    "Manajemen Reputasi Online"
+                ],
+                reviews: [
+                    {
+                        name: "Maya Sari",
+                        role: "Freelancer",
+                        avatar: "https://i.pravatar.cc/100?u=maya",
+                        date: "4 Hari lalu",
+                        text: "Setelah ikut kursus ini, saya jadi lebih pede nawarin jasa dan pricing jadi lebih pas. Klien saya nambah 2x lipat!"
+                    }
                 ]
             },
             "Become A Product Manager | Learn The Basics": {
-                title: "Product Manager Bootcamp",
-                price: "$60.00",
-                oldPrice: "$120.00",
-                discount: "50% Off",
-                modulesCount: "40 Modules",
-                heroImg: "https://picsum.photos/seed/pm-course/1400/500",
-                sideImg: "https://picsum.photos/seed/pm-side/400/300",
-                desc: "Transition into product management. Learn strategy, roadmaps, and stakeholder management.",
+                title: "Bootcamp Manajer Produk",
+                price: "Rp 349.000",
+                oldPrice: "Rp 699.000",
+                discount: "Diskon 50%",
+                modulesCount: "40 Modul",
+                heroImg: "https://www.edureka.co/blog/wp-content/uploads/2022/08/New-Blog-Creative_2-1.jpg",
+                sideImg: "https://images.ctfassets.net/4zfc07om50my/4Vwd0rFqflKnZbs6iYctIQ/ef48f5e199f16a1395959237bad9556c/Guide-Product-Manager-Role.png?fm=webp&q=90",
+                desc: "Transisi karir menjadi Product Manager. Pelajari framework strategi, roadmap, hingga cara komunikasi dengan tim engineering.",
                 modules: [
-                    "Role of a Product Manager",
-                    "Market Research & User Insights",
-                    "Building Product Roadmaps",
-                    "Agile & Scrum Methodologies",
-                    "Prioritization Frameworks",
-                    "Key Metrics & KPIs"
+                    "Apa itu Product Manager?",
+                    "Product Lifecycle Management",
+                    "Riset Pasar & User Research",
+                    "Membuat User Persona",
+                    "Jobs To Be Done Framework",
+                    "Membangun Product Roadmap",
+                    "Prioritization Frameworks (RICE, MoSCoW)",
+                    "Membuat PRD (Product Requirements Doc)",
+                    "Metodologi Agile & Scrum",
+                    "Bekerja dengan Tim Engineering",
+                    "Design Collaboration",
+                    "Go-to-Market Strategy",
+                    "Data Analytics untuk PM",
+                    "A/B Testing Dasar",
+                    "Product Sense & Intuition",
+                    "Studi Kasus: Launching a Feature"
+                ],
+                reviews: [
+                    {
+                        name: "Farhan Kurniawan",
+                        role: "Product Manager",
+                        avatar: "https://i.pravatar.cc/100?u=farhan",
+                        date: "1 Minggu lalu",
+                        text: "Materinya komprehensif dan relevan sama industri sekarang. Bagian prioritization framework benar-benar ngebantu kerjaan sehari-hari."
+                    }
                 ]
             }
         };
 
-        // Helper Function untuk Toast (Visual lebih bagus dari alert)
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.innerHTML = `<span class="font-semibold">${message}</span>`;
             container.appendChild(toast);
-            
-            void toast.offsetWidth; // Trigger reflow
+            void toast.offsetWidth;
             toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
         }
 
-        // Fungsi lama (dibiarkan agar tidak merusak fungsi lain yang memakai ini)
-        function showNotification(message) {
-            showToast(message, 'info');
-        }
+        function socialClick(platform) { showToast(`Membuka platform ${platform}...`, 'info'); }
 
-        // Fungsi untuk Social Click
-        function socialClick(platform) {
-            showNotification("Menghubungkan ke " + platform + "...");
-        }
-
-        // --- TAMBAHAN: SISTEM KOIN ---
-        function getCoins() {
-            return parseInt(localStorage.getItem('eduverse_coins')) || 0;
+             function getCoins() {
+            let userData = localStorage.getItem('eduverse_user');
+            if (!userData) return 0;
+            let user = JSON.parse(userData);
+            return user.coins || 0;
         }
 
         function updateCoins(amount) {
-            let current = getCoins();
-            current += amount;
-            if (current < 0) current = 0;
-            localStorage.setItem('eduverse_coins', current);
+            // Ambil data user yang sudah ada
+            let userData = localStorage.getItem('eduverse_user');
+            let user = userData ? JSON.parse(userData) : { coins: 0 };
+            
+            // Update jumlah koin
+            user.coins = (user.coins || 0) + amount;
+            if (user.coins < 0) user.coins = 0;
+            
+            // Simpan kembali ke local storage dengan key 'eduverse_user'
+            localStorage.setItem('eduverse_user', JSON.stringify(user));
         }
-
+        
         function completeCourse(courseKey, courseName) {
             const key = `claimed_course_${courseKey}`;
-
-            // Cek apakah sudah pernah klaim
-            if (localStorage.getItem(key)) {
-                showToast("Kamu sudah mengklaim koin dari kursus ini sebelumnya!", "info");
-                return;
-            }
-
-            // Tambah koin (misal 10 koin per kursus selesai)
+            if (localStorage.getItem(key)) { showToast("Kamu sudah mengklaim koin dari kursus ini!", "info"); return; }
             const reward = 10;
             updateCoins(reward);
-            
-            // Tandai sudah klaim
             localStorage.setItem(key, 'true');
-
-            showToast(`Selamat! Kursus selesai. Kamu mendapat ${reward} Koin.`, 'success');
-
-            // Ubah tampilan tombol
-            const learnBtn = document.querySelector('button.w-full.bg-black.text-white');
+            showToast(`Selamat! Kursus selesai. +${reward} Koin ditambahkan.`, 'success');
+            const learnBtn = document.querySelector('button.w-full.btn-orange');
             if (learnBtn) {
                 learnBtn.innerText = "Sudah Diklaim ✓";
                 learnBtn.disabled = true;
-                learnBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                learnBtn.onclick = null; // Hapus event
+                learnBtn.classList.remove('btn-orange');
+                learnBtn.classList.add('bg-gray-700', 'cursor-not-allowed');
+                learnBtn.onclick = null;
             }
         }
+
+        function toggleMobileMenu() { const menu = document.getElementById('mobileMenu'); menu.classList.toggle('open'); }
 
         // 2. LOGIC UPDATE TAMPILAN
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const courseTitle = decodeURIComponent(urlParams.get('title'));
 
-            // Cari data, jika tidak ada pakai default
+            // Fallback data jika tidak ditemukan
             const data = courseDatabase[courseTitle] || {
-                title: courseTitle || "Course Detail",
-                price: "$49.65",
-                oldPrice: "$99.99",
-                discount: "50% Off",
-                modulesCount: "32 Modules",
-                heroImg: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-                sideImg: "https://images.unsplash.com/photo-1531482615713-2afd69097998",
-                desc: "Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates exclusively...",
-                modules: ["Module 1", "Module 2", "Module 3"] // Default fallback
+                title: courseTitle || "Detail Kursus",
+                price: "Rp 249.000", oldPrice: "Rp 499.000", discount: "Diskon 50%", modulesCount: "32 Modul",
+                heroImg: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
+                sideImg: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                desc: "Kursus ini dirancang untuk meningkatkan skill Anda.",
+                modules: ["Pendahuluan", "Modul Inti", "Studi Kasus", "Penutup"],
+                reviews: [{ name: "Pengguna", role: "Member", avatar: "https://i.pravatar.cc/100?u=default", date: "Baru saja", text: "Kursus yang sangat bermanfaat." }]
             };
 
-            // Update Judul Tab Browser
             document.title = data.title + " - Eduverse";
 
-            // Update Gambar Hero (Atas)
-            const heroImg = document.querySelector('.w-full.h-\\[500px\\] img');
+            // Update Hero Image
+            const heroImg = document.querySelector('.hero-image');
             if (heroImg) heroImg.src = data.heroImg;
 
-            // Update Konten Sidebar (Kanan)
+            // Update Sidebar
             const sidebar = document.querySelector('.sticky-sidebar');
             if (sidebar) {
-                const thumbImg = sidebar.querySelector('.rounded-3xl img');
+                const thumbImg = sidebar.querySelector('.sidebar-thumb');
                 if (thumbImg) thumbImg.src = data.sideImg;
-
-                const priceEl = sidebar.querySelector('h2.text-4xl');
+                const priceEl = sidebar.querySelector('h2.text-2xl');
                 if (priceEl) priceEl.innerText = data.price;
-
                 const oldPriceEl = sidebar.querySelector('.line-through');
                 if (oldPriceEl) oldPriceEl.innerText = data.oldPrice;
-
                 const spans = sidebar.querySelectorAll('span');
-                spans.forEach(span => {
-                    if (span.innerText.includes("Off")) {
-                        span.innerText = data.discount;
-                    }
-                });
-
+                spans.forEach(span => { if (span.innerText.includes("Off") || span.innerText.includes("Diskon")) span.innerText = data.discount; });
                 const listItems = sidebar.querySelectorAll('li');
-                listItems.forEach(li => {
-                    if (li.innerText.includes("Moduls")) {
-                        li.innerHTML = `● ${data.modulesCount}`;
-                    }
-                });
+                listItems.forEach(li => { if (li.innerText.includes("Modul")) li.innerHTML = `<span class="mr-2">📚</span> ${data.modulesCount}`; });
             }
             
-            // --- LOGIKA BARU: RENDER MATERI/KURIKULUM ---
-            const leftContent = document.querySelector('.lg\\:col-span-8');
-            if (leftContent && data.modules) {
-                // Cek apakah container materi sudah ada, jika tidak buat baru
-                let modulesContainer = document.getElementById('dynamic-modules');
-                if (!modulesContainer) {
-                    modulesContainer = document.createElement('div');
-                    modulesContainer.id = 'dynamic-modules';
-                    modulesContainer.className = 'bg-white/5 rounded-[30px] p-8 text-white shadow-lg mb-8 border border-white/10';
-                    
-                    // Sisipkan setelah Tab Pills (sebelum Rating Card)
-                    const tabs = leftContent.querySelector('.flex.gap-4.mb-10');
-                    if (tabs) {
-                        tabs.after(modulesContainer);
-                    } else {
-                        leftContent.prepend(modulesContainer);
-                    }
-                }
-
-                // Isi konten materi
+            // --- RENDER MODUL (PISAH DARI RATING) ---
+            const modulesContainer = document.getElementById('modules-container');
+            if (modulesContainer && data.modules) {
                 modulesContainer.innerHTML = `
-                    <h3 class="text-2xl font-bold mb-6 text-white">Materi Pembelajaran</h3>
-                    <ul class="space-y-3">
+                    <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-white">Materi Pembelajaran</h3>
+                    <ul class="space-y-2 sm:space-y-3">
                         ${data.modules.map((mod, i) => `
-                            <li class="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
-                                <span class="w-8 h-8 flex items-center justify-center bg-orange-500 text-black font-bold rounded-lg text-sm">${i + 1}</span>
-                                <span class="text-gray-200">${mod}</span>
+                            <li class="module-item flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white/5 rounded-xl sm:rounded-2xl hover:bg-orange-500/10 transition-colors cursor-pointer border border-transparent hover:border-orange-500/20">
+                                <span class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-orange-500 text-black font-bold rounded-lg text-xs flex-shrink-0">${i + 1}</span>
+                                <span class="text-gray-200 text-xs sm:text-sm font-medium">${mod}</span>
                             </li>
                         `).join('')}
                     </ul>
                 `;
             }
+
+            // --- RENDER ULASAN DINAMIS ---
+            const reviewsContainer = document.getElementById('reviews-container');
+            if (reviewsContainer && data.reviews) {
+                reviewsContainer.innerHTML = data.reviews.map(review => `
+                    <div class="bg-white/5 border border-white/10 rounded-[20px] sm:rounded-[30px] p-4 sm:p-6 md:p-8 text-white shadow-lg">
+                        <div class="flex items-start sm:items-center justify-between mb-4 flex-col sm:flex-row gap-3">
+                            <div class="flex items-center gap-3 sm:gap-4">
+                                <img src="${review.avatar}" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-orange-500/20">
+                                <div>
+                                    <h4 class="font-bold text-base sm:text-lg">${review.name}</h4>
+                                    <p class="text-xs text-gray-400">${review.role}</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500">🕒 ${review.date}</span>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed">${review.text}</p>
+                    </div>
+                `).join('');
+            }
             
-            // --- MODIFIKASI: Update Tombol Learn Now dengan Logika Klaim ---
-            const learnBtn = document.querySelector('button.w-full.bg-black.text-white');
-            if(learnBtn) {
+            // --- UPDATE TOMBOL MULAI BELAJAR ---
+            const learnLink = document.querySelector('a[href="learningpath.html"]');
+            if(learnLink) {
+                if (data.pathId !== undefined) learnLink.href = `learningpath.html?path=${data.pathId}`;
+                else learnLink.href = "learningpath.html";
+            }
+
+            // --- UPDATE TOMBOL KLAIM KOIN ---
+            const claimBtn = document.querySelector('button.w-full.btn-orange');
+            if(claimBtn) {
                 const key = `claimed_course_${courseTitle}`;
-                
-                // Cek apakah sudah diklaim sebelumnya
                 if (localStorage.getItem(key)) {
-                    learnBtn.innerText = "Sudah Diklaim ✓";
-                    learnBtn.disabled = true;
-                    learnBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    claimBtn.innerText = "Sudah Diklaim ✓";
+                    claimBtn.disabled = true;
+                    claimBtn.classList.remove('btn-orange');
+                    claimBtn.classList.add('bg-gray-700', 'cursor-not-allowed');
                 } else {
-                    // Jika belum, pasang event untuk klaim
-                    learnBtn.onclick = () => completeCourse(courseTitle, data.title);
+                    claimBtn.onclick = () => completeCourse(courseTitle, data.title);
                 }
             }
         };
     </script>
 </head>
-<body>
+<body class="safe-bottom">
 
-    <!-- TAMBAHAN: Container untuk Toast Notification -->
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
-        <div class="max-w-[1400px] mx-auto px-6 md:px-12 pt-6 pb-4">
-            <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                <a href="index2.html" class="text-2xl font-black uppercase text-white">Edu<span class="text-orange-500">Verse</span></a>
-                <div class="hidden md:flex items-center gap-10">
-                    <div class="flex items-center gap-8 text-white text-sm font-medium">
-                        <a href="index2.html" class="hover:text-orange-500 transition">Beranda</a>
-                        <a href="index2.html#courses" class="hover:text-orange-500 transition">Kursus</a>
-                        <a href="learningpath.html" class="hover:text-orange-500 transition">Jalur Belajar</a>
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-3">
+            <div class="flex items-center justify-between">
+                <a href="index2.html" class="flex items-center gap-2 group flex-shrink-0">
+                    <div class="logo-icon">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
                     </div>
-                    <div class="flex items-center gap-6 text-white">
-                        <a href="index2.html#shop" class="hover:text-orange-500 transition" aria-label="Cart">
-                            <svg class="w-6 h-6 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span class="text-base sm:text-lg md:text-xl font-bold text-white whitespace-nowrap">Edu<span class="text-orange-500">Verse</span></span>
+                </a>
+                <div class="hidden md:flex items-center gap-6 lg:gap-10">
+                    <div class="flex items-center gap-6 lg:gap-8 text-white text-sm font-medium">
+                        <a href="index.html" class="hover:text-orange-500 transition">Beranda</a>
+                        <a href="index.html#courses" class="hover:text-orange-500 transition">Kursus</a>
+                        <a href="learningPath.html" class="hover:text-orange-500 transition">Jalur Belajar</a>
+                    </div>
+                    <div class="flex items-center gap-4 lg:gap-6 text-white">
+                        <a href="index2.html#shop" class="hover:text-orange-500 transition" aria-label="Keranjang">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </a>
-                        <a href="learningpath.html" class="bg-orange-500 text-black font-bold px-8 py-2 rounded-lg text-sm hover:bg-orange-400 transition">Mulai Belajar</a>
+                        <a href="learningpath.html" class="btn-orange text-black px-6 lg:px-8 py-2.5 rounded-lg text-sm">Mulai Belajar</a>
                     </div>
                 </div>
+                <div class="md:hidden flex items-center gap-3">
+                    <a href="index2.html#shop" class="text-white" aria-label="Keranjang">
+                        <svg class="w-6 h-6 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </a>
+                    <button onclick="toggleMobileMenu()" class="text-white focus:outline-none p-1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="mobile-menu md:hidden bg-black/95 backdrop-blur-md">
+            <div class="px-4 py-4 space-y-4 border-t border-white/5">
+                <a href="index2.html" class="block text-white text-base hover:text-orange-500 transition py-2">Beranda</a>
+                <a href="index2.html#courses" class="block text-white text-base hover:text-orange-500 transition py-2">Kursus</a>
+                <a href="learningpath.html" class="block text-white text-base hover:text-orange-500 transition py-2">Jalur Belajar</a>
+                <a href="learningpath.html" class="block btn-orange text-black px-6 py-3 rounded-xl text-center text-sm font-bold mt-2">Mulai Belajar</a>
             </div>
         </div>
     </nav>
 
     <!-- TOP HERO IMAGE -->
-    <div class="w-full h-[500px] mt-10 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80" class="w-full h-full object-cover opacity-60">
+    <div class="w-full h-[200px] sm:h-[280px] md:h-[360px] lg:h-[450px] mt-16 sm:mt-20 overflow-hidden relative">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" class="hero-image w-full h-full object-cover opacity-50">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
     </div>
 
     <!-- CONTENT SECTION -->
-    <main class="max-w-[1400px] mx-auto px-6 md:px-12 -mt-32 relative z-10 pb-20">
-        <div class="grid lg:grid-cols-12 gap-10">
+    <main class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 -mt-16 sm:-mt-20 md:-mt-24 lg:-mt-32 relative z-10 pb-16 sm:pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
             
-            <!-- LEFT CONTENT (Overview & Reviews) -->
-            <div class="lg:col-span-8">
-                <!-- TABS OVERVIEW -->
-                <div class="flex gap-4 mb-10 overflow-x-auto no-scrollbar">
-                    <button class="tab-pill shadow-xl">Overview</button>
-                    <button class="tab-pill shadow-xl text-gray-400 bg-white/10">Kurikulum</button>
-                    <button class="tab-pill shadow-xl text-gray-400 bg-white/10">Instruktur</button>
-                    <button class="tab-pill shadow-xl text-gray-400 bg-white/10">Ulasan</button>
+            <!-- LEFT CONTENT -->
+            <div class="lg:col-span-8 order-2 lg:order-1">
+                
+                <!-- TABS -->
+                <div class="flex gap-2 sm:gap-3 mb-6 sm:mb-8 md:mb-10 overflow-x-auto no-scrollbar pb-2 animate-fade-in-up -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <button class="tab-pill">Ringkasan</button>
+                    <button class="tab-pill inactive">Kurikulum</button>
+                    <button class="tab-pill inactive">Instruktur</button>
+                    <button class="tab-pill inactive">Ulasan</button>
                 </div>
 
-                <!-- CONTAINER MATERI AKAN DIRENDER DISINI OLEH JS -->
+                <!-- 1. SECTION MODUL (PISAH) -->
+                <div id="modules-container" class="bg-white/5 rounded-[20px] sm:rounded-[30px] p-4 sm:p-6 md:p-8 text-white shadow-lg mb-8 sm:mb-10 border border-white/10 animate-fade-in-up animate-delay-1">
+                    <!-- Konten modul akan diisi oleh JavaScript di sini -->
+                </div>
 
-                <!-- RATING CARD (ORANGE BOX) -->
-                <div class="bg-[#f97316] rounded-[40px] p-10 text-black mb-8 shadow-2xl">
-                    <div class="grid md:grid-cols-2 gap-10">
-                        <!-- Rating Left -->
-                        <div class="text-center md:border-r border-black/10">
-                            <h2 class="text-7xl font-black mb-2">4 out of 5</h2>
-                            <div class="text-2xl text-black/40 mb-3">★★★★★</div>
-                            <p class="font-bold tracking-[0.2em] uppercase text-sm">Top Raiting</p>
-                        </div>
-                        <!-- Progress Bars Right -->
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-4 text-xs font-black"><span class="w-12">5 Stars</span><div class="rating-bar flex-1"><div class="rating-fill w-[90%]"></div></div></div>
-                            <div class="flex items-center gap-4 text-xs font-black"><span class="w-12">4 Stars</span><div class="rating-bar flex-1"><div class="rating-fill w-[70%]"></div></div></div>
-                            <div class="flex items-center gap-4 text-xs font-black"><span class="w-12">3 Stars</span><div class="rating-bar flex-1"><div class="rating-fill w-[40%]"></div></div></div>
-                            <div class="flex items-center gap-4 text-xs font-black"><span class="w-12">2 Stars</span><div class="rating-bar flex-1"><div class="rating-fill w-[15%]"></div></div></div>
-                            <div class="flex items-center gap-4 text-xs font-black"><span class="w-12">1 Stars</span><div class="rating-bar flex-1"><div class="rating-fill w-[5%]"></div></div></div>
+                <!-- 2. SECTION RATING (PISAH) -->
+                <div class="mb-8 sm:mb-10 animate-fade-in-up animate-delay-2">
+                    <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-white">Penilaian Kursus</h3>
+                    <div class="bg-gradient-to-br from-[#f97316] to-[#fb923c] rounded-[20px] sm:rounded-[30px] p-5 sm:p-6 md:p-8 lg:p-10 text-black shadow-2xl">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 rating-card-grid">
+                            <div class="text-center md:border-r border-black/10 md:pr-8 flex flex-col items-center justify-center">
+                                <h2 class="text-6xl sm:text-7xl md:text-8xl font-black mb-2 leading-none">4.8</h2>
+                                <div class="flex justify-center gap-1 mb-2">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-xs sm:text-sm text-black/70 font-bold uppercase tracking-widest">Rating Kursus</p>
+                                <p class="text-xs text-black/60 mt-1 font-medium">(2,450 Ulasan)</p>
+                            </div>
+                            <div class="space-y-2 sm:space-y-3">
+                                <div class="flex items-center gap-3 sm:gap-4 text-xs font-bold"><span class="w-8 sm:w-10 text-right">5 ★</span><div class="rating-bar flex-1"><div class="rating-fill w-[92%]"></div></div></div>
+                                <div class="flex items-center gap-3 sm:gap-4 text-xs font-bold"><span class="w-8 sm:w-10 text-right">4 ★</span><div class="rating-bar flex-1"><div class="rating-fill w-[65%]"></div></div></div>
+                                <div class="flex items-center gap-3 sm:gap-4 text-xs font-bold"><span class="w-8 sm:w-10 text-right">3 ★</span><div class="rating-bar flex-1"><div class="rating-fill w-[30%]"></div></div></div>
+                                <div class="flex items-center gap-3 sm:gap-4 text-xs font-bold"><span class="w-8 sm:w-10 text-right">2 ★</span><div class="rating-bar flex-1"><div class="rating-fill w-[15%]"></div></div></div>
+                                <div class="flex items-center gap-3 sm:gap-4 text-xs font-bold"><span class="w-8 sm:w-10 text-right">1 ★</span><div class="rating-bar flex-1"><div class="rating-fill w-[5%]"></div></div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- REVIEWS LIST -->
-                <div class="space-y-6">
-                    <!-- Review Item -->
-                    <div class="bg-[#f97316] rounded-[30px] p-8 text-black shadow-lg">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-4">
-                                <img src="https://i.pravatar.cc/100?u=lina" class="w-12 h-12 rounded-full border-2 border-black/20">
-                                <h4 class="font-bold text-lg">Lina</h4>
-                            </div>
-                            <span class="text-xs font-bold opacity-60">🕒 3 Month</span>
-                        </div>
-                        <p class="text-sm leading-relaxed font-medium">Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates exclusively..</p>
-                    </div>
-                    <!-- Review Item -->
-                    <div class="bg-[#f97316] rounded-[30px] p-8 text-black shadow-lg">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-4">
-                                <img src="https://i.pravatar.cc/100?u=jon" class="w-12 h-12 rounded-full border-2 border-black/20">
-                                <h4 class="font-bold text-lg">Jon</h4>
-                            </div>
-                            <span class="text-xs font-bold opacity-60">🕒 1 Month</span>
-                        </div>
-                        <p class="text-sm leading-relaxed font-medium">This course really helped me understand the basics. Highly recommended for beginners.</p>
+                <!-- 3. SECTION ULASAN -->
+                <div class="animate-fade-in-up animate-delay-3">
+                    <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-white">Ulasan Siswa</h3>
+                    <div id="reviews-container" class="space-y-4 sm:space-y-6">
+                        <!-- Konten ulasan diisi JS -->
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT CONTENT (SIDEBAR melayang) -->
-            <div class="lg:col-span-4 relative">
-                <div class="bg-[#f97316] rounded-[40px] p-8 text-black shadow-2xl sticky-sidebar">
-                    <!-- Sidebar Thumbnail -->
-                    <div class="rounded-3xl overflow-hidden h-44 mb-6 bg-black">
-                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400" class="w-full h-full object-cover">
+            <!-- RIGHT CONTENT (SIDEBAR) -->
+            <div class="lg:col-span-4 order-1 lg:order-2">
+                <div class="bg-gradient-to-br from-[#171717] to-[#0a0a0a] rounded-[24px] sm:rounded-[30px] lg:rounded-[40px] p-4 sm:p-5 md:p-6 lg:p-8 text-white shadow-2xl sticky-sidebar border border-white/5 animate-fade-in-up animate-delay-3">
+                    <div class="rounded-2xl sm:rounded-3xl overflow-hidden h-28 sm:h-32 md:h-36 lg:h-44 mb-4 sm:mb-6 bg-neutral-900">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" class="sidebar-thumb w-full h-full object-cover opacity-90">
                     </div>
-                    <!-- Price -->
-                    <div class="flex items-baseline gap-4 mb-2">
-                        <h2 class="text-4xl font-black">$49.65</h2>
-                        <span class="text-black/40 line-through font-bold text-lg">$99.99</span>
-                        <span class="font-black text-sm">50% Off</span>
+                    
+                    <div class="flex items-baseline gap-2 sm:gap-3 mb-1">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white">Rp 249.000</h2>
                     </div>
-                    <p class="text-[12px] font-black italic mb-8">11 hour left at this price</p>
+                    <div class="flex items-center gap-2 mb-4 sm:mb-6">
+                        <span class="text-white/40 line-through font-bold text-xs sm:text-sm">Rp 499.000</span>
+                        <span class="font-black text-[10px] sm:text-xs bg-orange-500 text-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg">Diskon 50%</span>
+                    </div>
                     
-                    <!-- Tombol Learn Now (Akan diupdate oleh JS) -->
-                    <button class="w-full bg-black text-white py-4 rounded-2xl font-black uppercase text-sm mb-10 hover:scale-105 transition">Learn Now</button>
+                    <p class="text-orange-400 font-bold text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-8">🔥 Harga spesial berakhir dalam 2 hari</p>
                     
-                    <div class="space-y-4 mb-10">
-                        <h4 class="font-black text-lg">This Course included</h4>
-                        <ul class="text-[13px] space-y-2 font-bold opacity-80">
-                            <li>● Money Back Guarantee</li>
-                            <li>● Access on all devices</li>
-                            <li>● Certification of completion</li>
-                            <li>● 32 Moduls</li>
+                    <button class="w-full btn-orange text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black uppercase text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-8 active:scale-98">Belajar Sekarang</button>
+                    
+                    <div class="space-y-3 sm:space-y-4 mb-4 sm:mb-6 lg:mb-8">
+                        <h4 class="font-bold text-base sm:text-lg text-white">Termasuk di dalam Kursus</h4>
+                        <ul class="text-xs sm:text-sm space-y-2 sm:space-y-3 text-gray-300">
+                            <li class="flex items-center gap-2 sm:gap-3"><span class="text-orange-500">✓</span> Jaminan Uang Kembali</li>
+                            <li class="flex items-center gap-2 sm:gap-3"><span class="text-orange-500">✓</span> Akses di semua perangkat</li>
+                            <li class="flex items-center gap-2 sm:gap-3"><span class="text-orange-500">✓</span> Sertifikat kelulusan</li>
+                            <li class="flex items-center gap-2 sm:gap-3"><span class="text-orange-500">✓</span> 32 Modul</li>
                         </ul>
                     </div>
 
-                    <div class="border-t border-black/10 pt-6 mb-6">
-                        <h4 class="font-black text-lg mb-2">Training 5 or more people</h4>
-                        <p class="text-[10px] leading-relaxed font-medium opacity-60">Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates exclusively..</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-black text-lg mb-4 text-center">Share this course</h4>
-                        <div class="flex justify-center gap-4">
-                            <div onclick="socialClick('Facebook')" class="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center cursor-pointer hover:bg-black/20 transition font-bold text-xs">f</div>
-                            <div onclick="socialClick('Twitter')" class="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center cursor-pointer hover:bg-black/20 transition font-bold text-xs">t</div>
-                            <div onclick="socialClick('Instagram')" class="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center cursor-pointer hover:bg-black/20 transition font-bold text-xs">i</div>
-                            <div onclick="socialClick('WhatsApp')" class="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center cursor-pointer hover:bg-black/20 transition font-bold text-xs">w</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MARKETING ARTICLES SECTION -->
-        <div class="mt-40">
-            <div class="flex justify-between items-end mb-12">
-                <h2 class="text-4xl font-black tracking-tight">Kursus Terkait</h2>
-                <a href="index2.html#courses" class="text-orange-500 font-bold border-b-2 border-orange-500 pb-1">Lihat Semua</a>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Article Card Loop -->
-                <div class="bg-[#f97316] rounded-[30px] p-4 text-black shadow-xl hover:scale-105 transition-transform cursor-pointer">
-                    <img src="https://picsum.photos/seed/a1/400/250" class="rounded-[24px] mb-4 h-40 w-full object-cover bg-black">
-                    <div class="px-2">
-                        <div class="flex justify-between text-[10px] font-bold opacity-60 mb-4"><span>🎨 Design</span><span>🕒 3 Month</span></div>
-                        <h3 class="font-black text-lg leading-tight mb-6">UI/UX Design System</h3>
-                        <p class="text-[11px] font-medium leading-relaxed mb-8 opacity-70">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <div class="flex justify-between items-center border-t border-black/10 pt-4">
-                            <div class="flex items-center gap-2 font-black text-sm"><img src="https://i.pravatar.cc/50?u=1" class="w-6 h-6 rounded-full">Rina</div>
-                            <span class="font-black text-lg text-black/40"><span class="text-xs line-through">$100</span> $80</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-[#f97316] rounded-[30px] p-4 text-black shadow-xl hover:scale-105 transition-transform cursor-pointer">
-                    <img src="https://picsum.photos/seed/a2/400/250" class="rounded-[24px] mb-4 h-40 w-full object-cover bg-black">
-                    <div class="px-2">
-                        <div class="flex justify-between text-[10px] font-bold opacity-60 mb-4"><span>💻 Coding</span><span>🕒 6 Month</span></div>
-                        <h3 class="font-black text-lg leading-tight mb-6">Web Development</h3>
-                        <p class="text-[11px] font-medium leading-relaxed mb-8 opacity-70">Sed do eiusmod tempor incididunt ut labore et dolore.</p>
-                        <div class="flex justify-between items-center border-t border-black/10 pt-4">
-                            <div class="flex items-center gap-2 font-black text-sm"><img src="https://i.pravatar.cc/50?u=2" class="w-6 h-6 rounded-full">Budi</div>
-                            <span class="font-black text-lg text-black/40"><span class="text-xs line-through">$120</span> $90</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-[#f97316] rounded-[30px] p-4 text-black shadow-xl hover:scale-105 transition-transform cursor-pointer">
-                    <img src="https://picsum.photos/seed/a3/400/250" class="rounded-[24px] mb-4 h-40 w-full object-cover bg-black">
-                    <div class="px-2">
-                        <div class="flex justify-between text-[10px] font-bold opacity-60 mb-4"><span>📊 Data</span><span>🕒 4 Month</span></div>
-                        <h3 class="font-black text-lg leading-tight mb-6">Data Science 101</h3>
-                        <p class="text-[11px] font-medium leading-relaxed mb-8 opacity-70">Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                        <div class="flex justify-between items-center border-t border-black/10 pt-4">
-                            <div class="flex items-center gap-2 font-black text-sm"><img src="https://i.pravatar.cc/50?u=3" class="w-6 h-6 rounded-full">Sarah</div>
-                            <span class="font-black text-lg text-black/40"><span class="text-xs line-through">$80</span> $60</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-[#f97316] rounded-[30px] p-4 text-black shadow-xl hover:scale-105 transition-transform cursor-pointer">
-                    <img src="https://picsum.photos/seed/a4/400/250" class="rounded-[24px] mb-4 h-40 w-full object-cover bg-black">
-                    <div class="px-2">
-                        <div class="flex justify-between text-[10px] font-bold opacity-60 mb-4"><span>📱 Mobile</span><span>🕒 5 Month</span></div>
-                        <h3 class="font-black text-lg leading-tight mb-6">Android Development</h3>
-                        <p class="text-[11px] font-medium leading-relaxed mb-8 opacity-70">Duis aute irure dolor in reprehenderit in voluptate.</p>
-                        <div class="flex justify-between items-center border-t border-black/10 pt-4">
-                            <div class="flex items-center gap-2 font-black text-sm"><img src="https://i.pravatar.cc/50?u=4" class="w-6 h-6 rounded-full">Jon</div>
-                            <span class="font-black text-lg text-black/40"><span class="text-xs line-through">$150</span> $110</span>
+                    <div class="border-t border-white/10 pt-4 sm:pt-6">
+                        <h4 class="font-bold text-xs sm:text-sm mb-3 text-center text-white">Bagikan kursus ini</h4>
+                        <div class="flex justify-center gap-2 sm:gap-3">
+                            <div onclick="socialClick('Facebook')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-orange-500 hover:text-black transition-colors text-white font-bold text-sm active:scale-95">f</div>
+                            <div onclick="socialClick('Twitter')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-orange-500 hover:text-black transition-colors text-white font-bold text-sm active:scale-95">t</div>
+                            <div onclick="socialClick('LinkedIn')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-orange-500 hover:text-black transition-colors text-white font-bold text-sm active:scale-95">in</div>
+                            <div onclick="socialClick('WhatsApp')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center cursor-pointer hover:bg-orange-500 hover:text-black transition-colors text-white font-bold text-sm active:scale-95">w</div>
                         </div>
                     </div>
                 </div>
@@ -559,70 +698,69 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0a0a0a] pt-20 pb-10 mt-20">
-        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-black uppercase tracking-tighter">
-                        <span class="text-white">Edu</span><span class="text-orange-500">Verse</span>
-                    </h2>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-[250px]">
-                        Platform belajar modern untuk developer masa depan.
-                    </p>
-                    <div class="flex gap-3">
-                        <div onclick="socialClick('Twitter')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    <footer class="bg-[#0a0a0a] pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-6 sm:pb-8 md:pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12 mb-8 sm:mb-10 md:mb-12 lg:mb-16">
+                <div class="col-span-2 sm:col-span-1 space-y-3 sm:space-y-4 md:space-y-6">
+                    <a href="#hero" class="flex items-center gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <div class="logo-icon">
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
                         </div>
-                        <div onclick="socialClick('TikTok')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                        </div>
-                        <div onclick="socialClick('Instagram')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </div>
+                        <span class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white">Edu<span class="text-orange-500">Verse</span></span>
+                    </a>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed text-center sm:text-left">Pantau terus update dari platform pembelajaran kami</p>
+                    <div class="flex gap-2 sm:gap-3 justify-center sm:justify-start">
+                        <a href="#" onclick="socialClick('Twitter')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors active:scale-95" aria-label="Twitter">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="#" onclick="socialClick('TikTok')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors active:scale-95" aria-label="TikTok">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </a>
+                        <a href="#" onclick="socialClick('Instagram')" class="w-8 h-8 sm:w-10 sm:h-10 bg-[#222] rounded-lg sm:rounded-xl flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors active:scale-95" aria-label="Instagram">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
                     </div>
                 </div>
-
-                <div class="space-y-6">
-                    <h3 class="text-white font-bold text-xl">Situs Kami</h3>
-                    <ul class="space-y-3 text-gray-400 text-sm font-light">
-                        <li><a href="index2.html" class="hover:text-orange-500 transition">Beranda</a></li>
-                        <li><a href="index2.html#courses" class="hover:text-orange-500 transition">Kursus</a></li>
-                        <li><a href="index2.html#pricing" class="hover:text-orange-500 transition">Harga</a></li>
-                        <li><a href="index2.html#about" class="hover:text-orange-500 transition">Tentang Kami</a></li>
+                <div class="space-y-2 sm:space-y-3 md:space-y-4 md:space-y-6">
+                    <h3 class="text-white font-bold text-sm sm:text-base md:text-lg">Situs Kami</h3>
+                    <ul class="space-y-1.5 sm:space-y-2 md:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
+                        <li><a href="#hero" class="hover:text-orange-500 transition">Beranda</a></li>
+                        <li><a href="#courses" class="hover:text-orange-500 transition">Kursus</a></li>
+                        <li><a href="#pricing" class="hover:text-orange-500 transition">Harga</a></li>
+                        <li><a href="#about" class="hover:text-orange-500 transition">Tentang</a></li>
                     </ul>
                 </div>
-
-                <div class="space-y-6">
-                    <h3 class="text-white font-bold text-xl">Sumber daya</h3>
-                    <ul class="space-y-3 text-gray-400 text-sm font-light">
+                <div class="space-y-2 sm:space-y-3 md:space-y-4 md:space-y-6">
+                    <h3 class="text-white font-bold text-sm sm:text-base md:text-lg">Sumber Daya</h3>
+                    <ul class="space-y-1.5 sm:space-y-2 md:space-y-3 text-gray-400 text-xs sm:text-sm font-light">
                         <li><a href="#" class="hover:text-orange-500 transition">Dokumentasi</a></li>
                         <li><a href="#" class="hover:text-orange-500 transition">Tutorial</a></li>
                         <li><a href="#" class="hover:text-orange-500 transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Pendukung</a></li>
+                        <li><a href="#" class="hover:text-orange-500 transition">Bantuan</a></li>
                     </ul>
                 </div>
-
-                <!-- MAPS LOCATION -->
-                <div>
-                    <div class="w-full h-[220px] bg-[#1a1a1a] rounded-3xl overflow-hidden border border-white/5 relative group">
+                <div class="col-span-2 sm:col-span-1">
+                    <div class="w-full h-[100px] sm:h-[120px] md:h-[150px] lg:h-[200px] bg-[#1a1a1a] rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden border border-white/5 relative group">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.29277528582!2d107.57311645!3d-6.9174639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64c5e8866e5%3A0x37be7ac9c4a5c36!2sBandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1678888888888!5m2!1sen!2sid" 
-                            width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy">
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.2585508179654!2d107.6492169499397!3d-6.859584692918202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e74143054c3b%3A0xdcbafc2eac7f6aac!2sJl.%20Daisy%20Garden%2C%20Mekarsaluyu%2C%20Kec.%20Cimenyan%2C%20Kabupaten%20Bandung%2C%20Jawa%20Barat%2040198!5e0!3m2!1sid!2sid!4v1774500941340!5m2!1sid!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            title="Lokasi">
                         </iframe>
-                        <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md px-4 py-1 rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
-                            Location: Jawa Barat, Bandung
+                        <div class="absolute bottom-2 sm:bottom-3 md:bottom-4 left-2 sm:left-3 md:left-4 bg-black/70 backdrop-blur-md px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
+                            Bandung, Jawa Barat
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            <div class="pt-8 border-t border-white/20">
-                <p class="text-center text-gray-500 text-sm tracking-wide">
-                    2026 | Eduverse Team All right reserves
-                </p>
+            <div class="pt-4 sm:pt-6 md:pt-8 border-t border-white/20">
+                <p class="text-center text-gray-500 text-[10px] sm:text-xs tracking-wide">© 2026 | Tim Eduverse</p>
             </div>
-
         </div>
     </footer>
 
