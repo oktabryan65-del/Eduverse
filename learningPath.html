@@ -5,23 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Path - Eduverse</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* PAKSA FONT POPPINS KE SELURUH HALAMAN */
-        * { font-family: 'Poppins', sans-serif !important; }
-        
-        html { scroll-behavior: smooth; }
-        body { background-color: #000000; color: white; overflow-x: hidden; }
-
-        /* Efek Latar Belakang Garis Gelombang (Wavy) */
-        .bg-wavy {
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.05) 0%, transparent 50%),
-                url("data:image/svg+xml,%3Csvg width='1000' height='1000' viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,1000 C200,700 400,900 700,600 C900,400 1000,500 1000,0 L1000,1000 L0,1000 Z' fill='none' stroke='white' stroke-width='0.5' stroke-opacity='0.1'/%3E%3C/svg%3E");
-            background-attachment: fixed;
+        :root {
+            --bg: #050508;
+            --fg: #ffffff;
+            --muted: #6b7280;
+            --accent: #ff6b35;
+            --accent-glow: rgba(255, 107, 53, 0.4);
+            --card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --gradient-1: #ff6b35;
+            --gradient-2: #f7931e;
         }
 
-        /* Garis Tengah Timeline */
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Space Grotesk', sans-serif; }
+        
+        html { scroll-behavior: smooth; }
+        body { 
+            background-color: var(--bg); 
+            color: var(--fg); 
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ANIMATED BACKGROUND */
+        .bg-animated {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animated::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 60%, rgba(247, 147, 30, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 30% at 50% 90%, rgba(255, 107, 53, 0.03) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            33% { transform: translate(2%, -2%) rotate(1deg); opacity: 0.8; }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); opacity: 0.9; }
+        }
+
+        /* FLOATING ORBS */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            bottom: 20%;
+            left: -100px;
+            animation-delay: -5s;
+            opacity: 0.2;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--gradient-2), #fbbf24);
+            bottom: -50px;
+            right: 20%;
+            animation-delay: -10s;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(10px, 10px) scale(1.02); }
+        }
+
+        /* GRID PATTERN OVERLAY */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        /* NOISE TEXTURE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* GARIS TENGAH TIMELINE */
         .timeline-container::before {
             content: '';
             position: absolute;
@@ -29,31 +136,86 @@
             transform: translateX(-50%);
             width: 2px;
             height: 100%;
-            background: linear-gradient(to bottom, #ffffff, rgba(255,255,255,0.1));
+            background: linear-gradient(to bottom, 
+                transparent 0%,
+                rgba(255, 107, 53, 0.5) 10%,
+                rgba(255, 107, 53, 0.2) 50%,
+                rgba(255, 107, 53, 0.1) 90%,
+                transparent 100%);
             z-index: 1;
+        }
+
+        /* Mobile Timeline Line */
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 20px;
+            }
         }
 
         .step-number {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 45px;
-            height: 45px;
-            background: #000;
-            border: 2px solid #fff;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--bg), #0a0a0f);
+            border: 2px solid var(--border);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
             z-index: 10;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 0 4px var(--bg);
         }
-        
-        /* Animasi Muncul */
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .step-number:hover {
+            transform: translateX(-50%) scale(1.15);
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .step-number:hover::before {
+            opacity: 1;
+            animation: pulseRing 1.5s ease infinite;
+        }
+
+        @keyframes pulseRing {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0; }
+        }
+
+        /* Mobile Step Number */
+        @media (max-width: 768px) {
+            .step-number {
+                left: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+            .step-number:hover {
+                transform: translateX(0) scale(1.15);
+            }
+        }
+
+        /* ANIMASI MUNCUL */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .reveal.active {
@@ -61,126 +223,145 @@
             transform: translateY(0);
         }
 
+        /* INFO CARD */
         .info-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-        }
-        .info-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(249, 115, 22, 0.15);
-            border-color: rgba(249, 115, 22, 0.3);
-        }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Style untuk kategori aktif */
-        .path-btn.active {
-            background-color: white;
-            color: black;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
-        }
-        .path-btn {
-            transition: all 0.3s ease;
-        }
-        .path-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.1);
-            border-color: white;
-        }
-
-        /* MODAL QUIZ STYLES */
-        .quiz-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(12px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s;
-        }
-        .quiz-modal.active { opacity: 1; visibility: visible; }
-        
-        .quiz-container {
-            background: linear-gradient(145deg, #111, #0a0a0a);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
             border-radius: 24px;
-            width: 100%;
-            max-width: 650px;
-            padding: 2.5rem;
-            transform: scale(0.9) translateY(20px);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
-        .quiz-modal.active .quiz-container { transform: scale(1) translateY(0); }
-        
-        .option-btn {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            text-align: left;
-            padding: 1.2rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.15);
-            margin-bottom: 1rem;
-            transition: 0.3s;
-            background: rgba(255,255,255,0.03);
-            color: white;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        .option-btn:hover:not(.disabled) {
-            background: rgba(255,255,255,0.08);
-            border-color: white;
-            transform: translateX(5px);
-        }
-        .option-btn.correct {
-            background: rgba(34, 197, 94, 0.15);
-            border-color: #22c55e;
-            color: #22c55e;
-            font-weight: bold;
-        }
-        .option-btn.wrong {
-            background: rgba(239, 68, 68, 0.15);
-            border-color: #ef4444;
-            color: #ef4444;
-        }
-        
-        /* Tambahan style untuk card test di bawah */
-        .test-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .info-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 40px var(--accent-glow),
+                inset 0 0 30px rgba(255, 107, 53, 0.05);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .info-card:hover::before,
+        .info-card:hover::after {
+            opacity: 1;
+        }
+
+        /* TEST CARD */
+        .test-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
         .test-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, transparent, rgba(249, 115, 22, 0.05));
+            background: linear-gradient(135deg, transparent, rgba(255, 107, 53, 0.08));
             opacity: 0;
-            transition: 0.4s;
+            transition: 0.5s;
         }
-        .test-card:hover {
-            border-color: rgba(249, 115, 22, 0.5);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-        .test-card:hover::before { opacity: 1; }
 
-        /* NAVBAR STYLE */
+        .test-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+            opacity: 0;
+        }
+
+        .test-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.4),
+                0 0 30px var(--accent-glow);
+        }
+
+        .test-card:hover::before { opacity: 1; }
+        .test-card:hover::after { 
+            opacity: 1; 
+            animation: shimmer 1s ease forwards;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(45deg) translateY(100%); }
+            100% { transform: rotate(45deg) translateY(-100%); }
+        }
+
+        /* PATH BUTTONS */
+        .path-btn.active {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            font-weight: 600;
+        }
+
+        .path-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .path-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .path-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: rgba(5, 5, 8, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
         .nav-link {
             position: relative;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -188,55 +369,164 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #f97316;
+            background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
             transition: width 0.3s ease;
         }
+
         .nav-link:hover::after { width: 100%; }
 
+          .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #f97316, #ec4899);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(249, 115, 22, 0.4);
+            flex-shrink: 0;
+        }
+        @media (min-width: 768px) { .logo-icon { width: 40px; height: 40px; border-radius: 12px; } }
+
         /* MOBILE MENU */
-        .mobile-menu {
-            transform: translateY(-100%);
+    .mobile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-20px);
             opacity: 0;
             visibility: hidden;
-            transition: 0.4s ease;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(5, 5, 8, 0.98);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
         }
+
         .mobile-menu.active {
             transform: translateY(0);
             opacity: 1;
             visibility: visible;
         }
 
-        /* TOAST NOTIF */
-        .toast-container {
+        /* HAMBURGER ANIMATION */
+        .hamburger { width: 24px; height: 18px; position: relative; cursor: pointer; }
+        .hamburger span { position: absolute; width: 100%; height: 2px; background: white; border-radius: 2px; transition: all 0.3s ease; }
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        .hamburger span:nth-child(3) { bottom: 0; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg); top: 50%; }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg); bottom: 50%; }
+
+        /* QUIZ MODAL */
+        .quiz-modal {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 12px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transform: translateX(120%);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            inset: 0;
+            background: rgba(5, 5, 8, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s ease;
         }
-        .toast.show { transform: translateX(0); }
-        .toast.success { border-left: 4px solid #22c55e; }
-        .toast.info { border-left: 4px solid #3b82f6; }
+        .quiz-modal.active { opacity: 1; visibility: visible; }
+        
+        .quiz-container {
+            background: linear-gradient(145deg, rgba(20, 20, 25, 0.9), rgba(10, 10, 15, 0.95));
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 650px;
+            padding: 2rem;
+            transform: scale(0.9) translateY(30px);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.5),
+                0 0 60px var(--accent-glow);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
 
-        /* Button Shine Effect */
+        .quiz-modal.active .quiz-container { 
+            transform: scale(1) translateY(0); 
+        }
+        
+        .option-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 1.1rem 1.25rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            margin-bottom: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255,255,255,0.03);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--accent-glow), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent);
+            transform: translateX(8px);
+        }
+
+        .option-btn:hover:not(.disabled)::before {
+            opacity: 0.1;
+        }
+
+        .option-btn.correct {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: #22c55e;
+            color: #22c55e;
+            font-weight: 600;
+            animation: correctPulse 0.5s ease;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #ef4444;
+            animation: wrongShake 0.5s ease;
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* BUTTON SHINE */
         .btn-shine {
             position: relative;
             overflow: hidden;
         }
+
         .btn-shine::before {
             content: '';
             position: absolute;
@@ -244,29 +534,281 @@
             left: -75%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
             transform: skewX(-25deg);
             transition: 0.5s;
         }
+
         .btn-shine:hover::before { left: 125%; }
 
-        /* Progress Bar Quiz */
+        /* PROGRESS BAR */
         .progress-bar {
             height: 6px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
+
         .progress-fill {
             height: 100%;
-            background: #f97316;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
+            transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5));
+            animation: progressShine 1s ease infinite;
+        }
+
+        @keyframes progressShine {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border: 1px solid #333;
+            padding: 14px 28px;
+            border-radius: 14px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transform: translateX(120%);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .toast.show { transform: translateX(0); }
+        .toast.success { 
+            border-left: 4px solid #22c55e;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+        .toast.info { 
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px var(--accent-glow);
+        }
+
+        /* HAMBURGER ANIMATION */
+        .hamburger {
+            width: 24px;
+            height: 18px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        .hamburger span:nth-child(3) { bottom: 0; }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            bottom: 50%;
+        }
+
+        /* GRADIENT TEXT */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* HERO BADGE */
+        .hero-badge {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 107, 53, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            animation: badgePulse 3s ease infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.2); }
+            50% { box-shadow: 0 0 20px 5px rgba(255, 107, 53, 0.1); }
+        }
+
+        /* SCROLL INDICATOR */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
+            z-index: 9998;
+            transition: width 0.1s linear;
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--gradient-1), var(--gradient-2));
+            border-radius: 4px;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* RESPONSIVE STYLES */
+        @media (max-width: 768px) {
+            .info-card {
+                padding: 1.25rem;
+            }
+
+            .quiz-container {
+                padding: 1.5rem;
+            }
+
+            .toast-container {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+            }
+
+            .toast {
+                transform: translateY(120%);
+            }
+
+            .toast.show { 
+                transform: translateY(0); 
+            }
+        }
+
+        /* CART BADGE ANIMATION */
+        .cart-badge {
+            animation: cartPop 0.3s ease;
+        }
+
+        @keyframes cartPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* SECTION DIVIDER */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 4rem 0;
+        }
+
+        /* FOOTER */
+        .footer-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+
+        /* SOCIAL ICON */
+        .social-icon {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-4px);
+            background: var(--accent);
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        /* FOCUS STATES */
+        button:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
-<body class="bg-wavy">
+<body>
+    <!-- ANIMATED BACKGROUND ELEMENTS -->
+    <div class="bg-animated"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+    <div class="noise"></div>
+
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
 
     <!-- TOAST CONTAINER -->
     <div id="toastContainer" class="toast-container"></div>
@@ -274,12 +816,12 @@
     <!-- QUIZ MODAL -->
     <div id="quizModal" class="quiz-modal">
         <div class="quiz-container">
-            <button onclick="closeQuiz()" class="absolute top-4 right-4 text-white/50 hover:text-white text-3xl leading-none">&times;</button>
+            <button onclick="closeQuiz()" class="absolute top-4 right-4 text-white/40 hover:text-white text-3xl leading-none transition-colors hover:rotate-90 duration-300" aria-label="Close quiz">&times;</button>
             
             <!-- Quiz Header -->
             <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
-                <h3 id="quizTitle" class="text-xl font-bold text-orange-500">Course Test</h3>
-                <span id="quizProgress" class="text-sm text-gray-400">Question 1 of 10</span>
+                <h3 id="quizTitle" class="text-xl font-bold gradient-text font-display">Course Test</h3>
+                <span id="quizProgress" class="text-sm text-gray-400 font-medium">Question 1 of 10</span>
             </div>
 
             <!-- Progress Bar -->
@@ -297,28 +839,34 @@
 
             <!-- Result Area (Hidden initially) -->
             <div id="quizResult" class="hidden text-center py-8">
-                <div class="text-6xl mb-4">🏆</div>
-                <h3 class="text-2xl font-bold mb-2 text-white">Test Selesai!</h3>
-                <p class="text-gray-400 mb-6">Skor kamu:</p>
-                <div class="text-6xl font-black text-orange-500 mb-8" id="scoreText">0/10</div>
-                <button onclick="closeQuiz()" class="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition">Tutup</button>
+                <div class="text-6xl mb-6 animate-bounce">🏆</div>
+                <h3 class="text-2xl font-bold mb-2 text-white font-display">Test Selesai!</h3>
+                <p class="text-gray-400 mb-6" id="resultDesc">Skor kamu:</p>
+                <div class="text-6xl font-black gradient-text mb-8 font-display" id="scoreText">0/10</div>
+                <button onclick="closeQuiz()" class="btn-shine px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-100 transition-all">Tutup</button>
             </div>
 
             <!-- Navigation -->
             <div id="quizNav" class="mt-8 flex justify-end">
-                <button id="nextBtn" onclick="nextQuestion()" class="btn-shine px-8 py-3 bg-orange-500 text-black font-bold rounded-xl opacity-50 cursor-not-allowed transition-all hover:shadow-[0_0_15px_rgba(249,115,22,0.5)]" disabled>
+                <button id="nextBtn" onclick="nextQuestion()" class="btn-shine px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl opacity-50 cursor-not-allowed transition-all hover:shadow-[0_0_25px_rgba(255,107,53,0.5)]" disabled>
                     Selanjutnya
                 </button>
             </div>
         </div>
     </div>
 
-   <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 pt-4 pb-3">
+    <!-- NAVBAR -->
+      <nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 py-3">
             <div class="flex items-center justify-between">
-                <a href="index2.html" class="text-2xl font-black uppercase text-white hover:text-orange-500 transition-colors">
-                    Edu<span class="text-orange-500">Verse</span>
+                <!-- Logo -->
+                <a href="#hero" class="flex items-center gap-2 group flex-shrink-0">
+                    <div class="logo-icon">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <span class="text-lg md:text-xl font-bold text-white whitespace-nowrap">Edu<span class="text-orange-500">Verse</span></span>
                 </a>
                 
                 <!-- Desktop Menu -->
@@ -329,158 +877,160 @@
                     </div>
                     <div class="flex items-center gap-6 text-white">
                         <!-- Cart Button -->
-                        <button onclick="handleCart()" class="relative hover:text-orange-500 transition p-1" aria-label="Shopping Cart">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button onclick="handleCart()" class="relative hover:text-orange-500 transition p-1 group" aria-label="Shopping Cart">
+                            <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
-                            <span id="cartCount" class="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 text-[10px] rounded-full flex items-center justify-center font-bold text-black">0</span>
+                            <span id="cartCount" class="cart-badge absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-orange-500 to-amber-500 text-[10px] rounded-full flex items-center justify-center font-bold text-white">0</span>
                         </button>
-                        <a href="index2.html#shop" class="btn-shine bg-white text-black font-bold px-6 py-2 rounded-lg text-sm hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all">
+                        <a href="index2.html#shop" class="btn-shine bg-white text-black font-bold px-6 py-2.5 rounded-xl text-sm hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all">
                             Toko
                         </a>
                     </div>
                 </div>
                 
                 <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-white p-2 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <button id="mobileMenuBtn" class="md:hidden text-white p-2 focus:outline-none hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="mobile-menu md:hidden bg-black/95 border-t border-white/10">
-            <div class="px-6 py-4 space-y-4">
-                <a href="#timelineContent" class="block text-gray-300 hover:text-white transition-colors py-2 font-medium">Materi</a>
-                <a href="#courseTestSection" class="block text-gray-300 hover:text-white transition-colors py-2 font-medium">Course Test</a>
-                <button onclick="handleCart()" class="flex items-center gap-3 text-gray-300 hover:text-white py-2 w-full font-medium">
+        <div id="mobileMenu" class="mobile-menu md:hidden border-t border-white/10">
+            <div class="px-4 sm:px-6 py-6 space-y-4">
+                <a href="#timelineContent" class="mobile-menu-item block text-gray-300 hover:text-white transition-colors py-3 font-medium text-lg">Materi</a>
+                <a href="#courseTestSection" class="mobile-menu-item block text-gray-300 hover:text-white transition-colors py-3 font-medium text-lg">Course Test</a>
+                <button onclick="handleCart()" class="mobile-menu-item flex items-center gap-3 text-gray-300 hover:text-white py-3 w-full font-medium text-lg">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Keranjang (<span id="cartCountMobile">0</span>)
                 </button>
-                <a href="index2.html#shop" class="block w-full text-center bg-white text-black font-bold py-3 rounded-lg mt-4">Kunjungi Toko</a>
+                <a href="index2.html#shop" class="mobile-menu-item block w-full text-center bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold py-3.5 rounded-xl mt-4">Kunjungi Toko</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-28 pb-20">
+    <main class="pt-24 sm:pt-28 pb-20">
         <!-- TOP CATEGORY SLIDER -->
-        <div class="max-w-7xl mx-auto px-6 mb-16 flex items-center gap-4">
-            <button onclick="slideLeft()" class="text-white/30 text-3xl hover:text-white transition-colors px-2 hover:scale-110 transform">‹</button>
-            <div class="flex gap-3 overflow-x-auto no-scrollbar flex-1 py-2 scroll-smooth" id="categorySlider"></div>
-            <button onclick="slideRight()" class="text-white/30 text-3xl hover:text-white transition-colors px-2 hover:scale-110 transform">›</button>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-16 flex items-center gap-2 sm:gap-4">
+            <button onclick="slideLeft()" class="text-white/30 text-2xl sm:text-3xl hover:text-white transition-colors px-2 hover:scale-110 transform flex-shrink-0" aria-label="Slide left">‹</button>
+            <div class="flex gap-2 sm:gap-3 overflow-x-auto no-scrollbar flex-1 py-2 scroll-smooth" id="categorySlider"></div>
+            <button onclick="slideRight()" class="text-white/30 text-2xl sm:text-3xl hover:text-white transition-colors px-2 hover:scale-110 transform flex-shrink-0" aria-label="Slide right">›</button>
         </div>
 
         <!-- HERO TITLE -->
-        <div class="text-center max-w-4xl mx-auto px-6 mb-24 reveal">
-            <div class="inline-block px-4 py-1 border border-orange-500/30 rounded-full text-orange-500 text-xs font-semibold mb-6 tracking-widest uppercase">
+        <div class="text-center max-w-4xl mx-auto px-4 sm:px-6 mb-16 sm:mb-24 reveal">
+            <div class="hero-badge inline-block px-5 py-2 rounded-full text-orange-500 text-xs font-semibold mb-6 tracking-widest uppercase">
                 Learning Path
             </div>
-            <h1 id="mainTitle" class="text-4xl md:text-6xl font-bold text-white mb-6 uppercase tracking-tight leading-tight">
-                Fullstack <span class="text-orange-500">Developer</span>
+            <h1 id="mainTitle" class="font-display text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 uppercase tracking-tight leading-tight">
+                Fullstack <span class="gradient-text">Developer</span>
             </h1>
-            <p id="mainDesc" class="text-gray-400 text-base leading-relaxed max-w-2xl mx-auto">
+            <p id="mainDesc" class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
                 Full Stack Developer adalah profesional teknologi yang mampu membangun aplikasi web dari awal hingga rilis, mencakup front-end (tampilan) dan back-end (server/database).
             </p>
         </div>
 
         <!-- TIMELINE START -->
-        <div class="relative max-w-6xl mx-auto px-6 timeline-container" id="timelineContent"></div>
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 timeline-container" id="timelineContent"></div>
         
         <!-- COURSE TEST SECTION -->
-        <div id="courseTestSection" class="max-w-6xl mx-auto px-6 mt-24 scroll-mt-20"></div>
+        <div id="courseTestSection" class="max-w-6xl mx-auto px-4 sm:px-6 mt-16 sm:mt-24 scroll-mt-20"></div>
     </main>
 
-  <!-- FOOTER -->
-    <footer class="bg-[#0a0a0a] pt-20 pb-10 mt-20">
-        <div class="max-w-[1400px] mx-auto px-6 md:px-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+    <!-- FOOTER -->
+    <footer class="bg-[#030305] pt-16 sm:pt-20 pb-10 mt-16 sm:mt-20 border-t border-white/5">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 mb-12 sm:mb-16">
                 <div class="space-y-6">
-                    <h2 class="text-3xl font-black uppercase tracking-tighter">
-                        <span class="text-white">Edu</span><span class="text-orange-500">Verse</span>
+                    <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tighter font-display">
+                        <span class="text-white">Edu</span><span class="gradient-text">Verse</span>
                     </h2>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-[250px]">
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-[280px]">
                         Pantengi terus update dari platform pembelajaran kami
                     </p>
                     <div class="flex gap-3">
-                        <a href="#" onclick="socialClick('Twitter')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Twitter">
+                        <a href="#" onclick="socialClick('Twitter')" class="social-icon w-10 h-10 bg-[#1a1a1a] rounded-xl flex items-center justify-center cursor-pointer" aria-label="Twitter">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </a>
-                        <a href="#" onclick="socialClick('TikTok')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="TikTok">
+                        <a href="#" onclick="socialClick('TikTok')" class="social-icon w-10 h-10 bg-[#1a1a1a] rounded-xl flex items-center justify-center cursor-pointer" aria-label="TikTok">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.94 3 3 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                         </a>
-                        <a href="#" onclick="socialClick('Instagram')" class="w-10 h-10 bg-[#222] rounded-lg flex items-center justify-center cursor-pointer hover:bg-orange-500 transition-colors" aria-label="Instagram">
+                        <a href="#" onclick="socialClick('Instagram')" class="social-icon w-10 h-10 bg-[#1a1a1a] rounded-xl flex items-center justify-center cursor-pointer" aria-label="Instagram">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                     </div>
                 </div>
                 <div class="space-y-6">
-                    <h3 class="text-white font-bold text-xl">Situs Kami</h3>
+                    <h3 class="text-white font-bold text-lg sm:text-xl font-display">Situs Kami</h3>
                     <ul class="space-y-3 text-gray-400 text-sm font-light">
-                        <li><a href="#hero" class="hover:text-orange-500 transition">Beranda</a></li>
-                        <li><a href="#courses" class="hover:text-orange-500 transition">Kursus</a></li>
-                        <li><a href="#pricing" class="hover:text-orange-500 transition">Harga</a></li>
-                        <li><a href="#about" class="hover:text-orange-500 transition">Tentang Kami</a></li>
+                        <li><a href="#hero" class="footer-link hover:text-orange-500 transition">Beranda</a></li>
+                        <li><a href="#courses" class="footer-link hover:text-orange-500 transition">Kursus</a></li>
+                        <li><a href="#pricing" class="footer-link hover:text-orange-500 transition">Harga</a></li>
+                        <li><a href="#about" class="footer-link hover:text-orange-500 transition">Tentang Kami</a></li>
                     </ul>
                 </div>
                 <div class="space-y-6">
-                    <h3 class="text-white font-bold text-xl">Sumber Daya</h3>
+                    <h3 class="text-white font-bold text-lg sm:text-xl font-display">Sumber Daya</h3>
                     <ul class="space-y-3 text-gray-400 text-sm font-light">
-                        <li><a href="#" class="hover:text-orange-500 transition">Dokumentasi</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Tutorial</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-orange-500 transition">Pendukung</a></li>
+                        <li><a href="#" class="footer-link hover:text-orange-500 transition">Dokumentasi</a></li>
+                        <li><a href="#" class="footer-link hover:text-orange-500 transition">Tutorial</a></li>
+                        <li><a href="#" class="footer-link hover:text-orange-500 transition">Blog</a></li>
+                        <li><a href="#" class="footer-link hover:text-orange-500 transition">Pendukung</a></li>
                     </ul>
                 </div>
                 <div>
-                    <div class="w-full h-[220px] bg-[#1a1a1a] rounded-3xl overflow-hidden border border-white/5 relative group">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.29277528582!2d107.57311645!3d-6.9174639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64c5e8866e5%3A0x37be7ac9c4a5c36!2sBandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1678888888888!5m2!1sen!2sid" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy" title="Location Map"></iframe>
-                        <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md px-4 py-1 rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
+                    <div class="w-full h-[180px] sm:h-[220px] bg-[#0a0a0a] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/5 relative group">
+                        <iframe src="Mekarsaluyu, Kec. Cimenyan, Kabupaten Bandung, Jawa Barat 40198" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy" title="Location Map"></iframe>
+                        <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 bg-black/70 backdrop-blur-md px-3 sm:px-4 py-1.5 rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/10">
                             Location: Jawa Barat, Bandung
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="pt-8 border-t border-white/20">
-                <p class="text-center text-gray-500 text-sm tracking-wide">2026 | Eduverse Team All rights reserved</p>
+            <div class="pt-8 border-t border-white/10">
+                <p class="text-center text-gray-500 text-xs sm:text-sm tracking-wide">2026 | Eduverse Team All rights reserved</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // DATA - PERBAIKAN: Menambahkan soal kuis untuk semua materi
+        // DATA - MATERI DITAMBAHKAN (4 STEPS PER PATH) & QUIZ DIPERBAIKI
         const paths = [
             { 
                 id: 0, 
                 name: "Fullstack Developer", 
                 title: "Fullstack Developer",
-                desc: "Full Stack Developer adalah profesional teknologi yang mampu membangun aplikasi web dari awal hingga rilis, mencakup front-end (tampilan) dan back-end (server/database). Mereka menguasai HTML, CSS, JavaScript, serta teknologi server seperti Node.js, Python, atau PHP.",
+                desc: "Full Stack Developer adalah profesional teknologi yang mampu membangun aplikasi web dari awal hingga rilis. Mereka menguasai HTML, CSS, JavaScript untuk front-end, serta teknologi server seperti Node.js atau PHP untuk back-end. Jalur ini mempersiapkan Anda menjadi developer serbaguna yang siap bekerja di berbagai industri teknologi.",
                 steps: [
                     { 
                         num: 1, 
                         title: "Pengantar UI/UX: Dasar-dasar Desain", 
-                        content: "Belajar perbedaan UI dan UX serta cara membangun fondasi produk digital yang menarik bagi pengguna.", 
-                        cardTitle: "Laravel 13: How to use queue", 
+                        content: "Memahami perbedaan User Interface (UI) yang berfokus pada tampilan visual dan User Experience (UX) yang menitikberatkan pada pengalaman pengguna. Anda akan belajar membuat wireframe, mockup, hingga prototyping interaktif menggunakan tools industri seperti Figma dan Adobe XD untuk memvalidasi ide sebelum coding.", 
+                        cardTitle: "Design Fundamentals", 
                         hours: "60", 
                         rating: "4.78", 
                         modules: "67", 
                         students: "1.230",
                         quiz: [
                             { q: "Apa kepanjangan dari UI?", options: ["User Interface", "User Integration", "Universal Input", "Unified Internet"], answer: 0 },
-                            { q: "Apa tujuan utama dari UX Design?", options: ["Membuat warna yang indah", "Meningkatkan kepuasan pengguna", "Memperbanyak kode program", "Menambah fitur kompleks"], answer: 1 },
+                            { q: "Apa tujuan utama dari UX Design?", options: ["Meningkatkan kepuasan pengguna", "Membuat warna yang indah", "Memperbanyak kode program", "Menambah fitur kompleks"], answer: 0 },
                             { q: "Wireframe biasanya dibuat pada tahap apa?", options: ["Tahap coding", "Tahap testing", "Tahap desain awal", "Tahap peluncuran"], answer: 2 },
-                            { q: "Mana yang termasuk prinsip desain visual?", options: ["Compiling", "Hierarchy", "Debugging", "Deployment"], answer: 1 },
-                            { q: "Apa fungsi utama prototype?", options: ["Mengganti produk akhir", "Menguji ide desain", "Menyimpan data", "Menulis kode server"], answer: 1 },
-                            { q: "Tools apa yang sering digunakan untuk UI Design?", options: ["Microsoft Word", "Figma", "Command Prompt", "Excel"], answer: 1 },
-                            { q: "Apa itu usability?", options: ["Kemudahan penggunaan", "Kecepatan internet", "Jumlah pengguna", "Ukuran layar"], answer: 0 },
+                            { q: "Mana yang termasuk prinsip desain visual?", options: ["Compiling", "Debugging", "Deployment", "Hierarchy"], answer: 3 },
+                            { q: "Apa fungsi utama prototype?", options: ["Menguji ide desain", "Mengganti produk akhir", "Menyimpan data", "Menulis kode server"], answer: 0 },
+                            { q: "Tools apa yang sering digunakan untuk UI Design?", options: ["Microsoft Word", "Command Prompt", "Excel", "Figma"], answer: 3 },
+                            { q: "Apa itu usability?", options: ["Kecepatan internet", "Jumlah pengguna", "Kemudahan penggunaan", "Ukuran layar"], answer: 2 },
                             { q: "Warna kontras digunakan untuk?", options: ["Memperindah tampilan", "Menonjolkan elemen penting", "Menghemat memori", "Mempercepat loading"], answer: 1 },
                             { q: "User Research dilakukan untuk?", options: ["Membeli hardware", "Memahami kebutuhan pengguna", "Menjual produk", "Membuat iklan"], answer: 1 },
-                            { q: "Apa itu accessibility dalam desain?", options: ["Akses internet cepat", "Kemudahan akses untuk penyandang disabilitas", "Harga murah", "Keamanan data"], answer: 1 }
+                            { q: "Apa itu accessibility dalam desain?", options: ["Akses internet cepat", "Harga murah", "Keamanan data", "Kemudahan akses untuk penyandang disabilitas"], answer: 3 }
                         ]
                     },
                     { 
                         num: 2, 
                         title: "Database & Backend Fundamental", 
-                        content: "Memahami struktur data dan logika server-side untuk aplikasi skala besar.", 
+                        content: "Mempelajari cara menyimpan dan mengelola data menggunakan sistem database relasional seperti MySQL dan non-relasional seperti MongoDB. Materi mencakup pembuatan API RESTful, autentikasi pengguna, dan keamanan server dasar menggunakan bahasa pemrograman server-side seperti Node.js atau Python.", 
                         cardTitle: "NodeJS: API Architecture", 
                         hours: "45", 
                         rating: "4.90", 
@@ -488,15 +1038,59 @@
                         students: "980",
                         quiz: [
                             { q: "SQL adalah singkatan dari?", options: ["Structured Query Language", "Simple Query Logic", "Server Question Language", "System Query List"], answer: 0 },
-                            { q: "Perintah SQL untuk mengambil data?", options: ["GET", "SELECT", "PULL", "FETCH"], answer: 1 },
-                            { q: "Node.js menggunakan engine apa?", options: ["V8", "SpiderMonkey", "Chakra", "Nitro"], answer: 0 },
+                            { q: "Perintah SQL untuk mengambil data?", options: ["GET", "PULL", "SELECT", "FETCH"], answer: 2 },
+                            { q: "Node.js menggunakan engine apa?", options: ["SpiderMonkey", "V8", "Chakra", "Nitro"], answer: 1 },
                             { q: "Apa fungsi PRIMARY KEY?", options: ["Menyimpan gambar", "Mengidentifikasi baris unik", "Menghapus data", "Mewarnai tabel"], answer: 1 },
                             { q: "API singkatan dari?", options: ["Application Programming Interface", "Applied Program Integration", "App Private Internet", "Auto Program Input"], answer: 0 },
-                            { q: "HTTP status code 200 berarti?", options: ["Error", "Success", "Not Found", "Redirect"], answer: 1 },
-                            { q: "Database NoSQL yang populer?", options: ["MySQL", "PostgreSQL", "MongoDB", "Oracle"], answer: 2 },
-                            { q: "Express.js adalah framework untuk?", options: ["Python", "Java", "Node.js", "PHP"], answer: 2 },
+                            { q: "HTTP status code 200 berarti?", options: ["Error", "Not Found", "Success", "Redirect"], answer: 2 },
+                            { q: "Database NoSQL yang populer?", options: ["MySQL", "PostgreSQL", "Oracle", "MongoDB"], answer: 3 },
+                            { q: "Express.js adalah framework untuk?", options: ["Python", "Node.js", "Java", "PHP"], answer: 1 },
                             { q: "JSON adalah singkatan dari?", options: ["Java Standard Output Notation", "JavaScript Object Notation", "Java Source Online Network", "Just Simple Object Name"], answer: 1 },
-                            { q: "CRUD singkatan dari?", options: ["Create, Read, Update, Delete", "Copy, Run, Undo, Debug", "Connect, Request, Upload, Download", "Call, Return, Use, Define"], answer: 0 }
+                            { q: "CRUD singkatan dari?", options: ["Copy, Run, Undo, Debug", "Connect, Request, Upload, Download", "Create, Read, Update, Delete", "Call, Return, Use, Define"], answer: 2 }
+                        ]
+                    },
+                    { 
+                        num: 3, 
+                        title: "DevOps & Deployment", 
+                        content: "Mempelajari siklus hidup pengembangan perangkat lunak modern termasuk Continuous Integration/Continuous Deployment (CI/CD). Anda akan memahami containerization menggunakan Docker, orchestration dasar, dan strategi deployment ke cloud provider seperti AWS, Google Cloud, atau Vercel.", 
+                        cardTitle: "Docker & CI/CD", 
+                        hours: "55", 
+                        rating: "4.75", 
+                        modules: "30", 
+                        students: "1.500",
+                        quiz: [
+                            { q: "Apa itu Docker?", options: ["Bahasa pemrograman", "Platform containerization", "Database", "Framework CSS"], answer: 1 },
+                            { q: "CI/CD singkatan dari?", options: ["Continuous Integration/Continuous Deployment", "Code Integration/Code Deployment", "Client Interface/Client Design", "Central Integration/Central Data"], answer: 0 },
+                            { q: "Fungsi utama Git?", options: ["Desain grafis", "Version Control System", "Editing video", "Database management"], answer: 1 },
+                            { q: "Apa itu repository?", options: ["Folder biasa", "Tempat penyimpanan kode proyek", "Jenis database", "Software editing"], answer: 1 },
+                            { q: "Perintah Git untuk upload kode?", options: ["git pull", "git push", "git delete", "git upload"], answer: 1 },
+                            { q: "Apa itu Kubernetes?", options: ["Container orchestration", "Bahasa scripting", "Jenis database", "Text editor"], answer: 0 },
+                            { q: "AWS adalah layanan dari?", options: ["Google", "Microsoft", "Amazon", "Apple"], answer: 2 },
+                            { q: "Apa itu Vercel?", options: ["Platform deployment", "Database service", "Design tool", "Programming language"], answer: 0 },
+                            { q: "Environment variable digunakan untuk?", options: ["Menyimpan konfigurasi sensitif", "Membuat animasi", "Menulis CSS", "Mengedit gambar"], answer: 0 },
+                            { q: "Apa itu staging environment?", options: ["Lingkungan produksi", "Lingkungan pengujian sebelum produksi", "Lingkungan development", "Lingkungan desain"], answer: 1 }
+                        ]
+                    },
+                    { 
+                        num: 4, 
+                        title: "Testing & Quality Assurance", 
+                        content: "Memastikan kode berjalan sesuai ekspektasi melalui pengujian otomatis. Materi mencakup Unit Testing, Integration Testing, dan End-to-End Testing menggunakan tools seperti Jest, Mocha, atau Cypress untuk menjaga kualitas kode sebelum rilis ke pengguna.", 
+                        cardTitle: "Automated Testing", 
+                        hours: "40", 
+                        rating: "4.65", 
+                        modules: "22", 
+                        students: "890",
+                        quiz: [
+                            { q: "Apa itu Unit Testing?", options: ["Menguji seluruh sistem", "Menguji unit terkecil kode", "Menguji database", "Menguji server"], answer: 1 },
+                            { q: "Jest adalah library untuk?", options: ["Frontend styling", "Testing JavaScript", "Backend logic", "Database query"], answer: 1 },
+                            { q: "TDD singkatan dari?", options: ["Test Driven Development", "Total Data Design", "Technical Debug Document", "Test Debug Deploy"], answer: 0 },
+                            { q: "Apa itu mocking?", options: ["Menyimpan data", "Mensimulasikan objek palsu untuk testing", "Menghapus kode", "Mengoptimasi gambar"], answer: 1 },
+                            { q: "Cypress digunakan untuk?", options: ["Unit testing", "Integration testing", "End-to-End testing", "Performance testing"], answer: 2 },
+                            { q: "Code coverage mengukur?", options: ["Jumlah baris kode", "Persentase kode yang diuji", "Kecepatan loading", "Jumlah bug"], answer: 1 },
+                            { q: "Assertion dalam testing adalah?", options: ["Pernyataan yang diverifikasi", "Variabel global", "Fungsi loop", "Komentar kode"], answer: 0 },
+                            { q: "Integration testing menguji?", options: ["Fungsi tunggal", "Interaksi antar modul", "Tampilan UI", "Keamanan jaringan"], answer: 1 },
+                            { q: "Snapshot testing berguna untuk?", options: ["Membandingkan output UI", "Membuat backup", "Menghapus data", "Mengurangi ukuran file"], answer: 0 },
+                            { q: "Regression testing dilakukan saat?", options: ["Saat coding awal", "Setelah perubahan kode", "Saat desain", "Saat meeting"], answer: 1 }
                         ]
                     }
                 ]
@@ -505,12 +1099,12 @@
                 id: 1, 
                 name: "UI/UX Designer", 
                 title: "UI/UX Specialist",
-                desc: "Kuasai seni menciptakan antarmuka yang indah dan pengalaman pengguna yang luar biasa.",
+                desc: "Kuasai seni menciptakan antarmuka yang indah dan pengalaman pengguna yang luar biasa. Jalur ini membentuk kemampuan Anda dalam riset pengguna, visual design, hingga prototyping untuk menciptakan produk digital yang user-centric.",
                 steps: [
                     { 
                         num: 1, 
                         title: "Visual Hierarchy & Typography", 
-                        content: "Pelajari cara mengatur elemen visual.", 
+                        content: "Memahami cara mengatur elemen visual agar pengguna dapat dengan mudah memahami informasi penting. Anda akan mempelajari teori warna, pemilihan font (tipografi), dan cara membuat layout yang seimbang dan estetis menggunakan prinsip-prinsip desain dasar.", 
                         cardTitle: "Figma Masterclass 2026", 
                         hours: "30", 
                         rating: "4.95", 
@@ -518,37 +1112,59 @@
                         students: "3.500", 
                         quiz: [
                             { q: "Apa tujuan utama dari Visual Hierarchy?", options: ["Membuat aplikasi lebih berat", "Membimbing mata pengguna ke elemen penting", "Memperbanyak warna", "Menambah kode program"], answer: 1 },
-                            { q: "Font Sans-serif memiliki ciri?", options: ["Memiliki kaki (serif) di ujung garis", "Tidak memiliki kaki di ujung garis", "Berbentuk kursif", "Monospace"], answer: 1 },
-                            { q: "Kontras dalam desain berfungsi untuk?", options: ["Menyamarkan elemen", "Membedakan elemen satu sama lain", "Menghapus elemen", "Menyederhanakan desain"], answer: 1 },
+                            { q: "Font Sans-serif memiliki ciri?", options: ["Memiliki kaki (serif) di ujung garis", "Berbentuk kursif", "Tidak memiliki kaki di ujung garis", "Monospace"], answer: 2 },
+                            { q: "Kontras dalam desain berfungsi untuk?", options: ["Menyamarkan elemen", "Menghapus elemen", "Menyederhanakan desain", "Membedakan elemen satu sama lain"], answer: 3 },
                             { q: "White space adalah?", options: ["Ruang yang dibiarkan kosong", "Warna putih pada background", "Kesalahan desain", "Teks berwarna putih"], answer: 0 },
-                            { q: "Skala tipografi membantu?", options: ["Membuat teks sulit dibaca", "Menunjukkan pentingnya informasi", "Memperlambat loading", "Menghapus gambar"], answer: 1 },
+                            { q: "Skala tipografi membantu?", options: ["Menunjukkan pentingnya informasi", "Membuat teks sulit dibaca", "Memperlambat loading", "Menghapus gambar"], answer: 0 },
                             { q: "Alignment (Penjajaran) yang rapi dapat?", options: ["Membuat tampilan berantakan", "Meningkatkan keterbacaan", "Mengurangi pengguna", "Menambah bug"], answer: 1 },
-                            { q: "Repetition (Pengulangan) digunakan untuk?", options: ["Membuat kebosanan", "Membuat konsistensi desain", "Mempercepat loading", "Menambah fitur"], answer: 1 },
+                            { q: "Repetition (Pengulangan) digunakan untuk?", options: ["Membuat kebosanan", "Mempercepat loading", "Membuat konsistensi desain", "Menambah fitur"], answer: 2 },
                             { q: "Proximity dalam desain berarti?", options: ["Mengelompokkan elemen terkait", "Menjauhkan semua elemen", "Menghapus batas", "Mengubah warna"], answer: 0 },
-                            { q: "Warna hangat seperti merah biasanya mewakili?", options: ["Ketenangan", "Energi dan urgensi", "Kesedihan", "Alam"], answer: 1 },
-                            { q: "Grid system membantu?", options: ["Mengacak layout", "Menyusun layout dengan rapi", "Menghapus layout", "Mengurangi responsive"], answer: 1 }
+                            { q: "Warna hangat seperti merah biasanya mewakili?", options: ["Ketenangan", "Kesedihan", "Alam", "Energi dan urgensi"], answer: 3 },
+                            { q: "Grid system membantu?", options: ["Mengacak layout", "Menghapus layout", "Menyusun layout dengan rapi", "Mengurangi responsive"], answer: 2 }
                         ]
                     },
                     { 
                         num: 2, 
                         title: "User Research & Interaction", 
-                        content: "Melakukan riset pengguna.", 
+                        content: "Melakukan riset mendalam untuk memahami perilaku, kebutuhan, dan motivasi pengguna melalui wawancara, survei, dan pengujian usability. Anda akan belajar membuat User Persona dan User Journey yang efektif sebagai dasar pengambilan keputusan desain.", 
                         cardTitle: "Research: Prototyping Lab", 
                         hours: "50", 
                         rating: "4.85", 
                         modules: "32", 
                         students: "1.100", 
                         quiz: [
-                            { q: "User Research dilakukan untuk?", options: ["Menebak kebutuhan pengguna", "Memahami perilaku dan kebutuhan pengguna", "Menjual produk", "Membuat coding lebih cepat"], answer: 1 },
+                            { q: "User Research dilakukan untuk?", options: ["Memahami perilaku dan kebutuhan pengguna", "Menebak kebutuhan pengguna", "Menjual produk", "Membuat coding lebih cepat"], answer: 0 },
                             { q: "Apa itu User Persona?", options: ["Karakter fiksi yang mewakili tipe pengguna", "Nama aplikasi", "Teknik coding", "Jenis database"], answer: 0 },
                             { q: "A/B Testing digunakan untuk?", options: ["Membandingkan dua versi desain", "Menguji keamanan server", "Menulis kode", "Membuat database"], answer: 0 },
-                            { q: "Metode kualitatif dalam riset adalah?", options: ["Data berupa angka", "Data berupa opini dan deskripsi", "Statistik", "Grafik pasti"], answer: 1 },
+                            { q: "Metode kualitatif dalam riset adalah?", options: ["Data berupa angka", "Statistik", "Grafik pasti", "Data berupa opini dan deskripsi"], answer: 3 },
                             { q: "Usability Testing bertujuan untuk?", options: ["Menguji kecepatan server", "Menguji kemudahan penggunaan produk", "Menguji database", "Menguji harga produk"], answer: 1 },
-                            { q: "Empathy Map mengukur?", options: ["Kualitas server", "Apa yang pengguna pikirkan dan rasakan", "Kecepatan loading", "Jumlah baris kode"], answer: 1 },
+                            { q: "Empathy Map mengukur?", options: ["Kualitas server", "Kecepatan loading", "Apa yang pengguna pikirkan dan rasakan", "Jumlah baris kode"], answer: 2 },
                             { q: "User Journey adalah?", options: ["Peta perjalanan pengguna dalam produk", "Perjalanan developer", "Lokasi server", "List database"], answer: 0 },
                             { q: "Card Sorting digunakan untuk?", options: ["Menyortir kartu fisik", "Merancang struktur navigasi", "Mengurutkan kode", "Membuat animasi"], answer: 1 },
-                            { q: "Iterasi dalam desain berarti?", options: ["Proses pengulangan untuk perbaikan", "Proses penghapusan", "Proses jual beli", "Proses coding sekali jadi"], answer: 0 },
-                            { q: "Hasil riset berguna untuk?", options: ["Membuang waktu", "Dasar pengambilan keputusan desain", "Memperbanyak bug", "Menghapus fitur"], answer: 1 }
+                            { q: "Iterasi dalam desain berarti?", options: ["Proses penghapusan", "Proses jual beli", "Proses pengulangan untuk perbaikan", "Proses coding sekali jadi"], answer: 2 },
+                            { q: "Hasil riset berguna untuk?", options: ["Membuang waktu", "Memperbanyak bug", "Menghapus fitur", "Dasar pengambilan keputusan desain"], answer: 3 }
+                        ]
+                    },
+                    { 
+                        num: 3, 
+                        title: "Design Systems & Handoff", 
+                        content: "Membangun Design System yang skalabel untuk konsistensi visual di seluruh produk. Anda akan belajar membuat komponen reusable di Figma, mendokumentasikan panduan gaya, dan melakukan developer handoff yang efektif agar desain mudah diimplementasikan oleh tim engineering.", 
+                        cardTitle: "Design Systems 101", 
+                        hours: "35", 
+                        rating: "4.80", 
+                        modules: "20", 
+                        students: "900", 
+                        quiz: [
+                            { q: "Apa itu Design System?", options: ["Kumpulan aturan coding", "Koleksi komponen dan pedoman desain", "Jenis database", "Protokol jaringan"], answer: 1 },
+                            { q: "Fungsi utama Design System?", options: ["Mempercepat desain dan menjaga konsistensi", "Memperbanyak bug", "Memperlambat development", "Menghapus komponen"], answer: 0 },
+                            { q: "Atom dalam atomic design adalah?", options: ["Halaman utuh", "Komponen terkecil", "Template", "Organism"], answer: 1 },
+                            { q: "Developer handoff adalah?", options: ["Serah terima desain ke developer", "Review kode", "Testing server", "Database migration"], answer: 0 },
+                            { q: "Tujuan dokumentasi desain?", options: ["Memperjelas spesifikasi untuk developer", "Memperbanyak halaman", "Menyembunyikan bug", "Menghapus fitur"], answer: 0 },
+                            { q: "Variabel di Figma berguna untuk?", options: ["Menyimpan nilai yang bisa diubah", "Menghapus layer", "Membuat animasi", "Coding backend"], answer: 0 },
+                            { q: "Auto layout di Figma berfungsi?", options: ["Membuat responsivitas otomatis", "Menghapus komponen", "Membuat database", "Editing video"], answer: 0 },
+                            { q: "Komponen di Figma bersifat?", options: ["Statis", "Reusable", "Immutable", "Abstract"], answer: 1 },
+                            { q: "Design token adalah?", options: ["Koin digital", "Nilai desain yang dapat digunakan ulang", "Kunci enkripsi", "Versi software"], answer: 1 },
+                            { q: "Tujuan versioning dalam desain?", options: ["Melacak perubahan", "Menghapus file", "Menambah bug", "Memperbanyak layers"], answer: 0 }
                         ]
                     }
                 ]
@@ -557,34 +1173,34 @@
                 id: 2, 
                 name: "Frontend Engineer", 
                 title: "Frontend Engineering",
-                desc: "Membangun antarmuka web yang responsif.",
+                desc: "Membangun antarmuka web yang responsif dan interaktif menggunakan teknologi modern. Fokus pada HTML, CSS, JavaScript, dan framework populer seperti React atau Vue.js.",
                 steps: [
                     { 
                         num: 1, 
                         title: "Modern CSS & Frameworks", 
-                        content: "Tailwind CSS dan metodologi modern.", 
+                        content: "Menguasai CSS modern termasuk Flexbox, Grid, dan variabel CSS. Anda juga akan belajar menggunakan utility-first framework seperti Tailwind CSS untuk mempercepat proses styling dan membangun layout yang responsif dengan cepat.", 
                         cardTitle: "Tailwind 4: Deep Dive", 
                         hours: "25", 
                         rating: "4.80", 
                         modules: "18", 
                         students: "2.100", 
                         quiz: [
-                            { q: "CSS singkatan dari?", options: ["Cascading Style Sheets", "Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"], answer: 0 },
+                            { q: "CSS singkatan dari?", options: ["Computer Style Sheets", "Creative Style Sheets", "Cascading Style Sheets", "Colorful Style Sheets"], answer: 2 },
                             { q: "Box Model terdiri dari?", options: ["Content, Padding, Border, Margin", "Width, Height, Color", "Div, Span, P", "Header, Body, Footer"], answer: 0 },
-                            { q: "Properti 'display: flex' digunakan untuk?", options: ["Menyembunyikan elemen", "Membuat layout fleksibel satu dimensi", "Membuat tabel", "Mengatur warna"], answer: 1 },
-                            { q: "CSS Grid cocok untuk layout?", options: ["Satu dimensi", "Dua dimensi", "Tiga dimensi", "Animasi saja"], answer: 1 },
-                            { q: "Tailwind CSS adalah framework CSS yang bersifat?", options: ["Opinionated", "Utility-first", "Component-based", "Monolithic"], answer: 1 },
-                            { q: "Class 'mt-4' di Tailwind berarti?", options: ["Margin top 1rem (16px)", "Margin top 4px", "Move top 4px", "Margin transform"], answer: 0 },
-                            { q: "Media query digunakan untuk?", options: ["Membuat responsive design", "Membuat animasi", "Menghubungkan ke database", "Mengimpor gambar"], answer: 0 },
+                            { q: "Properti 'display: flex' digunakan untuk?", options: ["Menyembunyikan elemen", "Membuat tabel", "Mengatur warna", "Membuat layout fleksibel satu dimensi"], answer: 3 },
+                            { q: "CSS Grid cocok untuk layout?", options: ["Satu dimensi", "Tiga dimensi", "Dua dimensi", "Animasi saja"], answer: 2 },
+                            { q: "Tailwind CSS adalah framework CSS yang bersifat?", options: ["Opinionated", "Component-based", "Monolithic", "Utility-first"], answer: 3 },
+                            { q: "Class 'mt-4' di Tailwind berarti?", options: ["Margin top 4px", "Move top 4px", "Margin top 1rem (16px)", "Margin transform"], answer: 2 },
+                            { q: "Media query digunakan untuk?", options: ["Membuat animasi", "Menghubungkan ke database", "Membuat responsive design", "Mengimpor gambar"], answer: 2 },
                             { q: "Pseudo-class ':hover' berarti?", options: ["Saat elemen diklik", "Saat kursor di atas elemen", "Saat elemen loading", "Saat elemen hilang"], answer: 1 },
-                            { q: "Variabel di CSS didefinisikan dengan?", options: ["var()", "--nama-variabel", "$variable", "@var"], answer: 1 },
+                            { q: "Variabel di CSS didefinisikan dengan?", options: ["--nama-variabel", "var()", "$variable", "@var"], answer: 0 },
                             { q: "Z-index mengatur?", options: ["Transparansi", "Posisi kedalaman (stacking order)", "Ukuran font", "Rotasi"], answer: 1 }
                         ]
                     },
                     { 
                         num: 2, 
                         title: "React & State Management", 
-                        content: "Mengelola aplikasi kompleks.", 
+                        content: "Mengelola aplikasi kompleks menggunakan React JS. Materi mencakup komponen, props, state, hooks, dan state management library seperti Redux atau Zustand untuk membangun Single Page Application (SPA) yang skalabel.", 
                         cardTitle: "React 19: The New Era", 
                         hours: "70", 
                         rating: "4.92", 
@@ -595,12 +1211,56 @@
                             { q: "JSX adalah singkatan dari?", options: ["JavaScript XML", "Java Syntax Extension", "JSON XML", "Java Execution"], answer: 0 },
                             { q: "Props digunakan untuk?", options: ["Mengirim data dari parent ke child", "Menyimpan state global", "Mengambil data API", "Menghapus komponen"], answer: 0 },
                             { q: "useState digunakan untuk?", options: ["Mengelola state dalam komponen fungsional", "Membuat variabel global", "Routing", "Styling"], answer: 0 },
-                            { q: "Virtual DOM berguna untuk?", options: ["Mempercepat rendering", "Memperbanyak bug", "Memperbesar file size", "Menambah server load"], answer: 0 },
+                            { q: "Virtual DOM berguna untuk?", options: ["Memperbanyak bug", "Memperbesar file size", "Menambah server load", "Mempercepat rendering"], answer: 3 },
                             { q: "Effect Hook (useEffect) digunakan untuk?", options: ["Side effects seperti fetching data", "Membuat variabel", "Styling komponen", "Mendefinisikan class"], answer: 0 },
-                            { q: "React Component harus diawali huruf?", options: ["Kecil", "Besar (Capital)", "Angka", "Simbol"], answer: 1 },
-                            { q: "Redux adalah library untuk?", options: ["State management", "Routing", "CSS styling", "API testing"], answer: 0 },
-                            { q: "Key prop pada list berguna untuk?", options: ["Memperindah list", "Mengidentifikasi item secara unik", "Menghapus list", "Sorting list"], answer: 1 },
-                            { q: "Context API menghindari masalah?", options: ["Prop drilling", "Memory leak", "CSS error", "Network error"], answer: 0 }
+                            { q: "React Component harus diawali huruf?", options: ["Kecil", "Angka", "Besar (Capital)", "Simbol"], answer: 2 },
+                            { q: "Redux adalah library untuk?", options: ["Routing", "CSS styling", "API testing", "State management"], answer: 3 },
+                            { q: "Key prop pada list berguna untuk?", options: ["Memperindah list", "Menghapus list", "Mengidentifikasi item secara unik", "Sorting list"], answer: 2 },
+                            { q: "Context API menghindari masalah?", options: ["Memory leak", "CSS error", "Network error", "Prop drilling"], answer: 3 }
+                        ]
+                    },
+                    { 
+                        num: 3, 
+                        title: "Testing Frontend Applications", 
+                        content: "Menjamin keandalan aplikasi dengan automated testing. Anda akan mempelajari Unit Testing dengan Jest, Component Testing, dan End-to-End Testing dengan tools seperti Cypress atau Playwright untuk menangkap bug sebelum produksi.", 
+                        cardTitle: "Testing JS Applications", 
+                        hours: "40", 
+                        rating: "4.75", 
+                        modules: "25", 
+                        students: "1.800", 
+                        quiz: [
+                            { q: "Unit test dalam frontend menguji?", options: ["Server database", "Komponen individual/fungsi", "Network speed", "Design files"], answer: 1 },
+                            { q: "Jest biasanya digunakan untuk?", options: ["CSS styling", "JavaScript testing", "Image editing", "Server config"], answer: 1 },
+                            { q: "End-to-End testing menguji?", options: ["Fungsi kecil", "Alur pengguna lengkap", "Warna teks", "Database query"], answer: 1 },
+                            { q: "Cypress adalah alat untuk?", options: ["Backend framework", "CSS preprocessor", "E2E testing", "Database tool"], answer: 2 },
+                            { q: "Test driven development (TDD) dimulai dari?", options: ["Menulis kode lalu test", "Menulis test lalu kode", "Deploy langsung", "Design meeting"], answer: 1 },
+                            { q: "Mocking dalam testing adalah?", options: ["Menjalankan server", "Membuat objek palsu", "Editing video", "Deleting files"], answer: 1 },
+                            { q: "Integration test memeriksa?", options: ["Satu fungsi", "Interaksi antar komponen", "File gambar", "Server log"], answer: 1 },
+                            { q: "Test coverage mengukur?", options: ["Jumlah user", "Persentase kode yang teruji", "Kecepatan loading", "Jumlah fitur"], answer: 1 },
+                            { q: "Snapshot test cocok untuk?", options: ["Backend logic", "UI regression testing", "Database migration", "Network latency"], answer: 1 },
+                            { q: "Playwright adalah alternatif dari?", options: ["Photoshop", "Cypress", "MySQL", "Webpack"], answer: 1 }
+                        ]
+                    },
+                    { 
+                        num: 4, 
+                        title: "Web Performance Optimization", 
+                        content: "Mengoptimalkan kecepatan dan efisiensi aplikasi web. Topik mencakup Code Splitting, Lazy Loading, Image Optimization, Core Web Vitals (LCP, FID, CLS), dan strategi caching untuk meningkatkan skor PageSpeed dan pengalaman pengguna.", 
+                        cardTitle: "Web Performance 101", 
+                        hours: "30", 
+                        rating: "4.70", 
+                        modules: "15", 
+                        students: "1.400", 
+                        quiz: [
+                            { q: "Core Web Vitals adalah?", options: ["Warna utama", "Metrik performa web penting", "Framework CSS", "Bahasa pemrograman"], answer: 1 },
+                            { q: "LCP singkatan dari?", options: ["Largest Contentful Paint", "Low Content Priority", "Local Cache Protocol", "Light Color Palette"], answer: 0 },
+                            { q: "Code splitting berguna untuk?", options: ["Membagi file jadi bagian kecil", "Menggabungkan semua file", "Menghapus kode", "Mengubah warna"], answer: 0 },
+                            { q: "Lazy loading adalah?", options: ["Memuat konten saat dibutuhkan", "Memuat semua sekaligus", "Menghapus konten", "Mempercepat server"], answer: 0 },
+                            { q: "Gambar format WebP?", options: ["Berukuran besar", "Memiliki kompresi lebih baik", "Hanya untuk print", "Tidak didukung browser"], answer: 1 },
+                            { q: "Minification adalah proses?", options: ["Menambah ukuran file", "Menghapus whitespace/karakter tidak perlu", "Menambah komentar", "Membuat file baru"], answer: 1 },
+                            { q: "Caching digunakan untuk?", options: ["Menyimpan data sementara", "Menghapus data", "Mengedit video", "Menambah fitur"], answer: 0 },
+                            { q: "Service worker berjalan di?", options: ["Server", "Browser background", "Database", "Editor"], answer: 1 },
+                            { q: "Browser caching diatur oleh?", options: ["HTML tags", "HTTP headers", "Image size", "Font style"], answer: 1 },
+                            { q: "Critical rendering path adalah?", options: ["Jalur file", "Urutan browser merender halaman", "Warna tema", "Jalur database"], answer: 1 }
                         ]
                     }
                 ]
@@ -609,12 +1269,12 @@
                 id: 3, 
                 name: "Backend Architect",
                 title: "Backend Architecture",
-                desc: "Mendesain fondasi sistem server.",
+                desc: "Mendesain fondasi sistem server yang tangguh. Fokus pada logika server, database management, dan arsitektur microservices.",
                 steps: [
                     { 
                         num: 1, 
                         title: "Database", 
-                        content: "Mengelola informasi aplikasi.", 
+                        content: "Mengelola informasi aplikasi menggunakan sistem database. Anda akan mempelajari SQL, NoSQL, normalisasi data, indexing, dan cara mengoptimalkan query untuk performa tinggi.", 
                         cardTitle: "MySQL : How to use it", 
                         hours: "70", 
                         rating: "4.70", 
@@ -622,12 +1282,12 @@
                         students: "2.000", 
                         quiz: [
                             { q: "RDBMS singkatan dari?", options: ["Relational Database Management System", "Remote Database Management System", "Real-time Database Management System", "Random Database"], answer: 0 },
-                            { q: "Jenis join yang mengembalikan semua baris dari kedua tabel adalah?", options: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "FULL JOIN"], answer: 3 },
-                            { q: "Normalisasi database bertujuan untuk?", options: ["Mengurangi redudansi data", "Memperbanyak data", "Mempercepat insert", "Menghapus tabel"], answer: 0 },
-                            { q: "Index pada database berfungsi untuk?", options: ["Memperlambat pencarian", "Mempercepat pencarian data", "Menghapus data", "Mengubah struktur tabel"], answer: 1 },
+                            { q: "Jenis join yang mengembalikan semua baris dari kedua tabel adalah?", options: ["INNER JOIN", "LEFT JOIN", "FULL JOIN", "RIGHT JOIN"], answer: 2 },
+                            { q: "Normalisasi database bertujuan untuk?", options: ["Memperbanyak data", "Mengurangi redudansi data", "Mempercepat insert", "Menghapus tabel"], answer: 1 },
+                            { q: "Index pada database berfungsi untuk?", options: ["Memperlambat pencarian", "Menghapus data", "Mempercepat pencarian data", "Mengubah struktur tabel"], answer: 2 },
                             { q: "ACID properties adalah singkatan dari?", options: ["Atomicity, Consistency, Isolation, Durability", "Automatic, Consistent, Isolated, Durable", "Atomic, Constant, Isolated, Data", "Acid, Clean, Isolated, Direct"], answer: 0 },
-                            { q: "NoSQL cocok untuk data?", options: ["Terstruktur tabel", "Tidak terstruktur dan skala besar", "Hanya angka", "Relational"], answer: 1 },
-                            { q: "Foreign Key adalah?", options: ["Kunci utama tabel", "Kunci yang menghubungkan ke tabel lain", "Kunci enkripsi", "Kunci primer"], answer: 1 },
+                            { q: "NoSQL cocok untuk data?", options: ["Terstruktur tabel", "Hanya angka", "Relational", "Tidak terstruktur dan skala besar"], answer: 3 },
+                            { q: "Foreign Key adalah?", options: ["Kunci utama tabel", "Kunci enkripsi", "Kunci primer", "Kunci yang menghubungkan ke tabel lain"], answer: 3 },
                             { q: "Transaksi COMMIT berarti?", options: ["Membatalkan perubahan", "Menyimpan perubahan permanen", "Menghapus tabel", "Mengulang transaksi"], answer: 1 },
                             { q: "Stored Procedure adalah?", options: ["Kumpulan query SQL tersimpan", "Prosedur backup", "Jenis database", "Tipe data"], answer: 0 },
                             { q: "Backup database penting untuk?", options: ["Menghapus data", "Keamanan dan pemulihan data", "Mempercepat query", "Memperbesar storage"], answer: 1 }
@@ -636,23 +1296,45 @@
                     { 
                         num: 2, 
                         title: "API", 
-                        content: "Memungkinkan integrasi.", 
+                        content: "Memungkinkan integrasi antar sistem melalui Application Programming Interface. Anda akan belajar membangun RESTful API, autentikasi, dan keamanan API.", 
                         cardTitle: "REST API Design", 
                         hours: "50", 
                         rating: "4.85", 
                         modules: "32", 
                         students: "1.100", 
                         quiz: [
-                            { q: "REST singkatan dari?", options: ["Representational State Transfer", "Remote State Transfer", "Representational Status Text", "Request State Transfer"], answer: 0 },
-                            { q: "Metode HTTP untuk mengambil data?", options: ["POST", "GET", "DELETE", "PUT"], answer: 1 },
-                            { q: "Metode HTTP untuk mengirim data baru?", options: ["GET", "POST", "DELETE", "OPTIONS"], answer: 1 },
-                            { q: "Status code 404 berarti?", options: ["Success", "Not Found", "Server Error", "Unauthorized"], answer: 1 },
-                            { q: "JSON biasanya digunakan untuk?", options: ["Format pertukaran data API", "Styling website", "Database schema", "Client-side logic"], answer: 0 },
-                            { q: "Autentikasi token sering menggunakan?", options: ["JWT (JSON Web Token)", "CSS", "HTML", "SQL"], answer: 0 },
-                            { q: "Rate Limiting pada API berguna untuk?", options: ["Membatasi jumlah request", "Mempercepat request", "Menghapus user", "Menambah bandwidth"], answer: 0 },
-                            { q: "Endpoint dalam API adalah?", options: ["URL tempat API diakses", "Database server", "Client browser", "Frontend code"], answer: 0 },
-                            { q: "PUT vs PATCH?", options: ["PUT update sebagian, PATCH update semua", "PUT update/replace semua, PATCH update sebagian", "Sama saja", "Tidak ada jawaban benar"], answer: 1 },
-                            { q: "GraphQL adalah alternatif dari?", options: ["REST API", "SQL", "HTML", "CSS"], answer: 0 }
+                            { q: "REST singkatan dari?", options: ["Remote State Transfer", "Representational State Transfer", "Representational Status Text", "Request State Transfer"], answer: 1 },
+                            { q: "Metode HTTP untuk mengambil data?", options: ["POST", "DELETE", "GET", "PUT"], answer: 2 },
+                            { q: "Metode HTTP untuk mengirim data baru?", options: ["GET", "DELETE", "OPTIONS", "POST"], answer: 3 },
+                            { q: "Status code 404 berarti?", options: ["Success", "Server Error", "Unauthorized", "Not Found"], answer: 3 },
+                            { q: "JSON biasanya digunakan untuk?", options: ["Styling website", "Database schema", "Client-side logic", "Format pertukaran data API"], answer: 3 },
+                            { q: "Autentikasi token sering menggunakan?", options: ["CSS", "HTML", "JWT (JSON Web Token)", "SQL"], answer: 2 },
+                            { q: "Rate Limiting pada API berguna untuk?", options: ["Mempercepat request", "Membatasi jumlah request", "Menghapus user", "Menambah bandwidth"], answer: 1 },
+                            { q: "Endpoint dalam API adalah?", options: ["Database server", "URL tempat API diakses", "Client browser", "Frontend code"], answer: 1 },
+                            { q: "PUT vs PATCH?", options: ["PUT update sebagian, PATCH update semua", "Sama saja", "Tidak ada jawaban benar", "PUT update/replace semua, PATCH update sebagian"], answer: 3 },
+                            { q: "GraphQL adalah alternatif dari?", options: ["SQL", "HTML", "CSS", "REST API"], answer: 3 }
+                        ]
+                    },
+                    { 
+                        num: 3, 
+                        title: "Microservices Architecture", 
+                        content: "Merancang sistem terdistribusi yang skalabel. Anda akan memahami perbedaan Monolith vs Microservices, inter-service communication (REST/gRPC), Message Brokers (RabbitMQ/Kafka), dan tantangan dalam distributed systems.", 
+                        cardTitle: "Microservices Patterns", 
+                        hours: "60", 
+                        rating: "4.80", 
+                        modules: "28", 
+                        students: "1.600", 
+                        quiz: [
+                            { q: "Monolith adalah?", options: ["Arsitektur terpisah", "Aplikasi tunggal utuh", "Database", "Frontend framework"], answer: 1 },
+                            { q: "Microservices membagi aplikasi menjadi?", options: ["Satu bagian besar", "Layanan kecil independen", "Satu database", "Satu server"], answer: 1 },
+                            { q: "gRPC adalah?", options: ["Framework RPC berkinerja tinggi", "Database", "UI library", "CSS framework"], answer: 0 },
+                            { q: "Message Broker contohnya?", options: ["RabbitMQ", "MySQL", "HTML", "CSS"], answer: 0 },
+                            { q: "Service discovery digunakan untuk?", options: ["Mencari layanan aktif", "Menghapus layanan", "Membuat UI", "Styling"], answer: 0 },
+                            { q: "Containerization membantu?", options: ["Memperbesar aplikasi", "Isolasi dan portabilitas", "Menghapus kode", "Memperbanyak bug"], answer: 1 },
+                            { q: "Docker digunakan untuk?", options: ["Editing video", "Containerization", "Database design", "Writing CSS"], answer: 1 },
+                            { q: "Load balancing bertujuan?", options: ["Menyebar traffic", "Menghapus server", "Membuat database", "Design UI"], answer: 0 },
+                            { q: "Circuit breaker pattern mencegah?", options: ["Response cepat", "Cascading failure", "Database growth", "UI crash"], answer: 1 },
+                            { q: "API Gateway bertindak sebagai?", options: ["Pintu masuk tunggal", "Database", "Storage", "Editor"], answer: 0 }
                         ]
                     }
                 ]
@@ -661,50 +1343,50 @@
                 id: 4,
                 name: "Mobile Developer",
                 title: "Mobile Development",
-                desc: "Mengembangkan aplikasi mobile.",
+                desc: "Mengembangkan aplikasi mobile untuk Android dan iOS. Pilih jalur Native (Kotlin/Swift) atau Hybrid (Flutter/React Native).",
                 steps: [
                     { 
                         num: 1, 
                         title: "Aplikasi Native", 
-                        content: "Khusus OS tertentu.", 
+                        content: "Membangun aplikasi khusus untuk satu platform OS. Anda akan belajar bahasa Kotlin untuk Android dan Swift untuk iOS agar mendapatkan performa maksimal dan akses fitur hardware penuh.", 
                         cardTitle: "Kotlin : Basics", 
                         hours: "80", 
                         rating: "4.50", 
                         modules: "35", 
                         students: "2.350", 
                         quiz: [
-                            { q: "Aplikasi Native berarti?", options: ["Berjalan di semua OS", "Dikembangkan khusus satu platform/OS", "Berbasis web", "Menggunakan framework"], answer: 1 },
-                            { q: "Bahasa utama Android modern?", options: ["Java", "Kotlin", "Swift", "Dart"], answer: 1 },
-                            { q: "Bahasa utama iOS?", options: ["Objective-C", "Swift", "Kotlin", "Python"], answer: 1 },
-                            { q: "Kelebihan aplikasi Native?", options: ["Performa tinggi dan akses hardware penuh", "Murah dan cepat dibuat", "Satu kode untuk semua", "Mudah dikelola"], answer: 0 },
-                            { q: "APK adalah file?", options: ["Installer Android", "Installer iOS", "Source code", "Database"], answer: 0 },
-                            { q: "IPA adalah file?", options: ["Installer Android", "Installer iOS", "Image", "Audio"], answer: 1 },
-                            { q: "IDE resmi untuk Android?", options: ["Xcode", "Android Studio", "VS Code", "IntelliJ IDEA"], answer: 1 },
-                            { q: "Xcode adalah IDE untuk?", options: ["Android", "iOS/macOS", "Windows", "Linux"], answer: 1 },
-                            { q: "Activity dalam Android adalah?", options: ["Database", "Satu layar/Screen UI", "Background service", "Layout file"], answer: 1 },
-                            { q: "ViewController dalam iOS mengatur?", options: ["Data model", "Tampilan layar dan logika", "Database", "Network"], answer: 1 }
+                            { q: "Aplikasi Native berarti?", options: ["Berjalan di semua OS", "Berbasis web", "Menggunakan framework", "Dikembangkan khusus satu platform/OS"], answer: 3 },
+                            { q: "Bahasa utama Android modern?", options: ["Java", "Swift", "Dart", "Kotlin"], answer: 3 },
+                            { q: "Bahasa utama iOS?", options: ["Objective-C", "Python", "Swift", "Kotlin"], answer: 2 },
+                            { q: "Kelebihan aplikasi Native?", options: ["Murah dan cepat dibuat", "Satu kode untuk semua", "Mudah dikelola", "Performa tinggi dan akses hardware penuh"], answer: 3 },
+                            { q: "APK adalah file?", options: ["Installer iOS", "Source code", "Database", "Installer Android"], answer: 3 },
+                            { q: "IPA adalah file?", options: ["Installer Android", "Image", "Audio", "Installer iOS"], answer: 3 },
+                            { q: "IDE resmi untuk Android?", options: ["Xcode", "VS Code", "Android Studio", "IntelliJ IDEA"], answer: 2 },
+                            { q: "Xcode adalah IDE untuk?", options: ["Android", "Windows", "Linux", "iOS/macOS"], answer: 3 },
+                            { q: "Activity dalam Android adalah?", options: ["Database", "Background service", "Satu layar/Screen UI", "Layout file"], answer: 2 },
+                            { q: "ViewController dalam iOS mengatur?", options: ["Data model", "Database", "Network", "Tampilan layar dan logika"], answer: 3 }
                         ]
                     },
                     { 
                         num: 2, 
-                        title: "Aplikasi Hybird", 
-                        content: "Untuk semua platform.", 
+                        title: "Aplikasi Hybrid", 
+                        content: "Membangun aplikasi untuk semua platform sekaligus dengan satu basis kode. Teknologi seperti Flutter dan React Native memungkinkan development yang lebih cepat dengan performa mendekati native.", 
                         cardTitle: "Flutter : Perfect?", 
                         hours: "50", 
                         rating: "4.85", 
                         modules: "32", 
                         students: "2.100", 
                         quiz: [
-                            { q: "Aplikasi Hybrid menggunakan?", options: ["Web technologies (HTML/CSS/JS)", "Native code murni", "Assembly", "Hardware language"], answer: 0 },
-                            { q: "Flutter menggunakan bahasa?", options: ["JavaScript", "Dart", "Kotlin", "Swift"], answer: 1 },
-                            { q: "React Native menggunakan?", options: ["JavaScript/React", "Dart", "Python", "Java"], answer: 0 },
-                            { q: "Kelebihan Hybrid?", options: ["Performa setara native", "Satu kode untuk banyak platform", "Akses hardware terbatas", "Ukuran file kecil"], answer: 1 },
-                            { q: "Widget di Flutter adalah?", options: ["Elemen UI dasar", "Database", "Server", "Plugin"], answer: 0 },
-                            { q: "Hot Reload berguna untuk?", options: ["Melihat perubahan kode secara instan", "Mempercepat download", "Mengamankan aplikasi", "Backup data"], answer: 0 },
-                            { q: "Capacitor/Cordova adalah?", options: ["Framework hybrid", "Database", "OS", "Hardware"], answer: 0 },
-                            { q: "Hybrid app biasanya berjalan di?", options: ["WebView", "Native Kernel", "Bare Metal", "Microservices"], answer: 0 },
-                            { q: "Expo adalah tools untuk?", options: ["React Native development", "Android development", "iOS testing", "Database"], answer: 0 },
-                            { q: "Kelemahan utama Hybrid?", options: ["Performa cenderung lebih rendah dari Native", "Hanya bisa Android", "Tidak bisa kamera", "Mahal"], answer: 0 }
+                            { q: "Aplikasi Hybrid menggunakan?", options: ["Native code murni", "Assembly", "Hardware language", "Web technologies (HTML/CSS/JS)"], answer: 3 },
+                            { q: "Flutter menggunakan bahasa?", options: ["JavaScript", "Kotlin", "Dart", "Swift"], answer: 2 },
+                            { q: "React Native menggunakan?", options: ["Dart", "Python", "Java", "JavaScript/React"], answer: 3 },
+                            { q: "Kelebihan Hybrid?", options: ["Performa setara native", "Akses hardware terbatas", "Ukuran file kecil", "Satu kode untuk banyak platform"], answer: 3 },
+                            { q: "Widget di Flutter adalah?", options: ["Database", "Server", "Plugin", "Elemen UI dasar"], answer: 3 },
+                            { q: "Hot Reload berguna untuk?", options: ["Mempercepat download", "Melihat perubahan kode secara instan", "Mengamankan aplikasi", "Backup data"], answer: 1 },
+                            { q: "Capacitor/Cordova adalah?", options: ["Database", "OS", "Hardware", "Framework hybrid"], answer: 3 },
+                            { q: "Hybrid app biasanya berjalan di?", options: ["Native Kernel", "Bare Metal", "Microservices", "WebView"], answer: 3 },
+                            { q: "Expo adalah tools untuk?", options: ["Android development", "iOS testing", "Database", "React Native development"], answer: 3 },
+                            { q: "Kelemahan utama Hybrid?", options: ["Hanya bisa Android", "Tidak bisa kamera", "Mahal", "Performa cenderung lebih rendah dari Native"], answer: 3 }
                         ]
                     }
                 ]
@@ -713,34 +1395,34 @@
                 id: 5, 
                 name: "Data Scientist",
                 title: "Data Science",
-                desc: "Analisis data mendalam.",
+                desc: "Analisis data mendalam untuk menemukan insight berharga. Mulai dari dasar statistik hingga machine learning.",
                 steps: [
                     { 
                         num: 1, 
                         title: "Machine Learning", 
-                        content: "AI dan keputusan otomatis.", 
+                        content: "Mengajarkan komputer untuk belajar dari data. Anda akan mempelajari algoritma supervised dan unsupervised learning, neural networks, dan cara membangun model prediktif.", 
                         cardTitle: "ML Fundamentals", 
                         hours: "75", 
                         rating: "4.50", 
                         modules: "35", 
                         students: "2.350", 
                         quiz: [
-                            { q: "Machine Learning adalah cabang dari?", options: ["Artificial Intelligence", "Database", "Networking", "Hardware"], answer: 0 },
-                            { q: "Supervised Learning membutuhkan?", options: ["Data tanpa label", "Data berlabel (input-output)", "Tidak butuh data", "Random data"], answer: 1 },
+                            { q: "Machine Learning adalah cabang dari?", options: ["Database", "Networking", "Hardware", "Artificial Intelligence"], answer: 3 },
+                            { q: "Supervised Learning membutuhkan?", options: ["Data tanpa label", "Tidak butuh data", "Random data", "Data berlabel (input-output)"], answer: 3 },
                             { q: "Contoh Unsupervised Learning?", options: ["Klasifikasi", "Regresi", "Clustering", "Prediksi harga"], answer: 2 },
                             { q: "Model yang digunakan untuk prediksi harga (angka)?", options: ["Classification", "Regression", "Clustering", "Association"], answer: 1 },
-                            { q: "Training data digunakan untuk?", options: ["Menguji model", "Melatih model belajar", "Memvisualisasikan", "Menghapus error"], answer: 1 },
-                            { q: "Testing data digunakan untuk?", options: ["Melatih model", "Mengukur performa model", "Menghapus data", "Input user"], answer: 1 },
-                            { q: "Overfitting terjadi jika?", options: ["Model terlalu sederhana", "Model terlalu cocok dengan data training, jelek di data baru", "Model error", "Data hilang"], answer: 1 },
-                            { q: "Algoritma Decision Tree mirip dengan?", options: ["Diagram alir (Flowchart)", "Database", "Array", "Graph network"], answer: 0 },
-                            { q: "Neural Network terinspirasi dari?", options: ["Otak manusia", "Mobil", "Bangunan", "Pohon"], answer: 0 },
-                            { q: "Deep Learning adalah bagian dari?", options: ["Machine Learning", "Web Development", "Mobile App", "Gaming"], answer: 0 }
+                            { q: "Training data digunakan untuk?", options: ["Menguji model", "Memvisualisasikan", "Menghapus error", "Melatih model belajar"], answer: 3 },
+                            { q: "Testing data digunakan untuk?", options: ["Melatih model", "Menghapus data", "Input user", "Mengukur performa model"], answer: 3 },
+                            { q: "Overfitting terjadi jika?", options: ["Model terlalu sederhana", "Model error", "Data hilang", "Model terlalu cocok dengan data training, jelek di data baru"], answer: 3 },
+                            { q: "Algoritma Decision Tree mirip dengan?", options: ["Database", "Diagram alir (Flowchart)", "Array", "Graph network"], answer: 1 },
+                            { q: "Neural Network terinspirasi dari?", options: ["Mobil", "Bangunan", "Otak manusia", "Pohon"], answer: 2 },
+                            { q: "Deep Learning adalah bagian dari?", options: ["Web Development", "Machine Learning", "Mobile App", "Gaming"], answer: 1 }
                         ]
                     },
                     { 
                         num: 2, 
                         title: "Data Mining", 
-                        content: "Teknik pengolahan data.", 
+                        content: "Teknik pengolahan data besar untuk menemukan pola tersembunyi. Anda akan belajar data cleaning, preprocessing, dan visualisasi data menggunakan Python dan SQL.", 
                         cardTitle: "Data Mining Techniques", 
                         hours: "67", 
                         rating: "4.85", 
@@ -748,14 +1430,14 @@
                         students: "2.100", 
                         quiz: [
                             { q: "Data Mining adalah proses?", options: ["Menggali informasi tersembunyi dari data", "Menghapus data", "Membuat database", "Backup data"], answer: 0 },
-                            { q: "Data Cleaning bertujuan?", options: ["Menghilangkan error dan noise", "Menambah data", "Menghapus tabel", "Enkripsi"], answer: 0 },
-                            { q: "Missing Value handling bisa dengan?", options: ["Menghapus baris atau imputasi", "Mengabaikan", "Restart PC", "Copy paste"], answer: 0 },
+                            { q: "Data Cleaning bertujuan?", options: ["Menambah data", "Menghapus tabel", "Enkripsi", "Menghilangkan error dan noise"], answer: 3 },
+                            { q: "Missing Value handling bisa dengan?", options: ["Mengabaikan", "Restart PC", "Copy paste", "Menghapus baris atau imputasi"], answer: 3 },
                             { q: "Outlier adalah?", options: ["Data yang normal", "Data yang menyimpang jauh dari rata-rata", "Data tengah", "Data utama"], answer: 1 },
-                            { q: "Korelasi menunjukkan?", options: ["Hubungan antar variabel", "Ukuran file", "Waktu proses", "Jumlah baris"], answer: 0 },
-                            { q: "Association Rule (Market Basket) contohnya?", options: ["Jika beli roti, beli selai", "Prediksi harga", "Clustering", "Klasifikasi"], answer: 0 },
-                            { q: "Big Data memiliki karakteristik V?", options: ["Volume, Velocity, Variety", "Vertical, Virtual", "Value, Virus", "Victor, Volume"], answer: 0 },
-                            { q: "Visualisasi data penting untuk?", options: ["Memahami pola data", "Membuat coding", "Backup", "Network config"], answer: 0 },
-                            { q: "ETL singkatan dari?", options: ["Extract, Transform, Load", "Edit, Transfer, Log", "Enter, Tab, Line", "Extra, True, Logic"], answer: 0 },
+                            { q: "Korelasi menunjukkan?", options: ["Ukuran file", "Hubungan antar variabel", "Waktu proses", "Jumlah baris"], answer: 1 },
+                            { q: "Association Rule (Market Basket) contohnya?", options: ["Prediksi harga", "Clustering", "Klasifikasi", "Jika beli roti, beli selai"], answer: 3 },
+                            { q: "Big Data memiliki karakteristik V?", options: ["Vertical, Virtual", "Value, Virus", "Victor, Volume", "Volume, Velocity, Variety"], answer: 3 },
+                            { q: "Visualisasi data penting untuk?", options: ["Membuat coding", "Backup", "Network config", "Memahami pola data"], answer: 3 },
+                            { q: "ETL singkatan dari?", options: ["Edit, Transfer, Log", "Enter, Tab, Line", "Extra, True, Logic", "Extract, Transform, Load"], answer: 3 },
                             { q: "Format data tidak terstruktur contohnya?", options: ["Database SQL", "Teks, Gambar, Video", "Excel", "CSV"], answer: 1 }
                         ]
                     }
@@ -772,6 +1454,17 @@
         let score = 0;
         let answered = false;
 
+        // --- SCROLL INDICATOR ---
+        function updateScrollIndicator() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollIndicator.style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateScrollIndicator);
+
         // --- TOAST FUNCTION ---
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
@@ -780,7 +1473,6 @@
             toast.innerHTML = `<span class="font-semibold">${message}</span>`;
             container.appendChild(toast);
             
-            // Trigger reflow
             void toast.offsetWidth;
             toast.classList.add('show');
 
@@ -794,7 +1486,7 @@
             const slider = document.getElementById('categorySlider');
             slider.innerHTML = paths.map(path => `
                 <button onclick="changePath(${path.id})" 
-                    class="path-btn flex-shrink-0 px-6 py-2 border border-white/20 rounded-full text-sm font-semibold transition-all ${path.id === activeId ? 'active' : 'text-white hover:bg-white/5'}">
+                    class="path-btn flex-shrink-0 px-4 sm:px-6 py-2 sm:py-2.5 border border-white/20 rounded-full text-xs sm:text-sm font-semibold transition-all ${path.id === activeId ? 'active' : 'text-white hover:bg-white/5'}">
                     ${path.name}
                 </button>
             `).join('');
@@ -802,7 +1494,7 @@
 
         function renderTimeline() {
             const path = paths[activeId] || paths[0];
-            document.getElementById('mainTitle').innerHTML = path.title.replace(' ', ' <span class="text-orange-500">') + '</span>';
+            document.getElementById('mainTitle').innerHTML = path.title.replace(' ', ' <span class="gradient-text">') + '</span>';
             document.getElementById('mainDesc').innerText = path.desc;
 
             const container = document.getElementById('timelineContent');
@@ -810,27 +1502,27 @@
             const stepsHtml = path.steps ? path.steps.map((step, index) => {
                 const isEven = index % 2 !== 0;
                 return `
-                    <div class="reveal relative flex flex-col md:flex-row ${isEven ? 'md:flex-row-reverse' : ''} items-center justify-between mb-40">
+                    <div class="reveal relative flex flex-col md:flex-row ${isEven ? 'md:flex-row-reverse' : ''} items-center justify-between mb-24 sm:mb-32 md:mb-40">
                         <div class="step-number hover:scale-110 hover:border-orange-500 hover:text-orange-500">${step.num}</div>
                         
                         <!-- Area Teks -->
-                        <div class="w-full md:w-[42%] ${isEven ? 'text-left md:pl-12' : 'text-right md:pr-12'} mb-10 md:mb-0 relative z-10">
-                            <div class="inline-block px-2 py-1 rounded bg-white/5 text-xs font-bold tracking-wider text-orange-500 mb-2">STEP ${step.num}</div>
-                            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">${step.title}</h2>
+                        <div class="w-full md:w-[42%] ${isEven ? 'text-left md:pl-12' : 'text-right md:pr-12'} mb-6 md:mb-0 relative z-10 pl-16 md:pl-0">
+                            <div class="inline-block px-3 py-1 rounded-lg bg-gradient-to-r from-orange-500/10 to-amber-500/10 text-xs font-bold tracking-wider text-orange-400 mb-3 border border-orange-500/20">STEP ${step.num}</div>
+                            <h2 class="font-display text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-white">${step.title}</h2>
                             <p class="text-gray-400 text-sm leading-relaxed">${step.content}</p>
                         </div>
 
                         <!-- Area Kartu -->
-                        <div class="w-full md:w-[42%] ${isEven ? 'md:pr-12' : 'md:pl-12'} relative z-10">
-                            <div class="info-card p-6 group">
-                                <h4 class="font-bold text-lg mb-6 text-white">${step.cardTitle}</h4>
-                                <div class="grid grid-cols-2 gap-y-5 text-[10px] font-bold uppercase tracking-widest ${isEven ? 'justify-items-end' : ''}">
-                                    <div class="flex items-center gap-2 text-teal-400"><span>⏱️</span> ${step.hours} Hours</div>
-                                    <div class="flex items-center gap-2 text-yellow-400"><span>⭐</span> ${step.rating}</div>
-                                    <div class="flex items-center gap-2 text-red-500"><span>📊</span> Expert</div>
-                                    <div class="flex items-center gap-2 text-blue-400"><span>📚</span> ${step.modules} Modul</div>
-                                    <div class="flex items-center gap-2 text-purple-400 col-span-2 mt-2">
-                                        <span class="text-base">👥</span> ${step.students} Students
+                        <div class="w-full md:w-[42%] ${isEven ? 'md:pr-12' : 'md:pl-12'} relative z-10 pl-16 md:pl-0">
+                            <div class="info-card p-5 sm:p-6 group">
+                                <h4 class="font-display font-bold text-base sm:text-lg mb-5 sm:mb-6 text-white">${step.cardTitle}</h4>
+                                <div class="grid grid-cols-2 gap-y-4 gap-x-3 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest ${isEven ? 'justify-items-end' : ''}">
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-teal-400"><span class="text-sm sm:text-base">⏱</span> ${step.hours} Hours</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-yellow-400"><span class="text-sm sm:text-base">⭐</span> ${step.rating}</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-red-400"><span class="text-sm sm:text-base">📊</span> Expert</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-blue-400"><span class="text-sm sm:text-base">📚</span> ${step.modules} Modul</div>
+                                    <div class="flex items-center gap-1.5 sm:gap-2 text-purple-400 col-span-2 mt-1 sm:mt-2">
+                                        <span class="text-base sm:text-lg">👥</span> ${step.students} Students
                                     </div>
                                 </div>
                             </div>
@@ -846,13 +1538,15 @@
             
             // Trigger Reveal Animation
             setTimeout(() => {
-                document.querySelectorAll('.reveal').forEach(el => {
-                    el.classList.add('active');
+                document.querySelectorAll('.reveal').forEach((el, i) => {
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, i * 150);
                 });
             }, 100);
         }
 
-        // FUNGSI BARU: Render Section Course Test
+        // FUNGSI: Render Section Course Test
         function renderCourseTestSection(path) {
             const sectionContainer = document.getElementById('courseTestSection');
             if (!path.steps) {
@@ -861,28 +1555,28 @@
             }
 
             const testsHtml = path.steps.map((step, index) => `
-                <div class="test-card rounded-2xl p-6 cursor-pointer group" onclick="startQuiz(${activeId}, ${index})">
+                <div class="test-card rounded-2xl p-5 sm:p-6 cursor-pointer group" onclick="startQuiz(${activeId}, ${index})">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="px-3 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold rounded-full border border-orange-500/30">
+                        <span class="px-3 py-1 bg-gradient-to-r from-orange-500/10 to-amber-500/10 text-orange-400 text-[10px] font-bold rounded-full border border-orange-500/20">
                             Test ${index + 1}
                         </span>
                         <span class="text-white/30 text-xs font-bold">10 Soal</span>
                     </div>
-                    <h4 class="text-white font-bold text-lg mb-3 group-hover:text-orange-500 transition">${step.title}</h4>
-                    <p class="text-gray-500 text-xs mb-6 leading-relaxed line-clamp-2">${step.content}</p>
-                    <div class="w-full bg-white/5 group-hover:bg-orange-500 text-white font-bold text-sm py-3 rounded-xl transition flex items-center justify-center gap-2">
+                    <h4 class="font-display text-white font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-orange-400 transition-colors">${step.title}</h4>
+                    <p class="text-gray-500 text-xs mb-5 sm:mb-6 leading-relaxed line-clamp-2">${step.content}</p>
+                    <div class="w-full bg-white/5 group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-amber-500 text-white font-bold text-xs sm:text-sm py-2.5 sm:py-3 rounded-xl transition-all flex items-center justify-center gap-2">
                         <span>Mulai Test</span>
-                        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </div>
                 </div>
             `).join('');
 
             sectionContainer.innerHTML = `
-                <div class="text-center mb-12 reveal">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Course Test</h2>
-                    <p class="text-gray-400 text-sm max-w-xl mx-auto">Uji pemahamanmu setelah mempelajari materi di atas.</p>
+                <div class="text-center mb-10 sm:mb-12 reveal">
+                    <h2 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">Course Test</h2>
+                    <p class="text-gray-400 text-xs sm:text-sm max-w-xl mx-auto">Uji pemahamanmu setelah mempelajari materi di atas.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto reveal">
+                <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto reveal">
                     ${testsHtml}
                 </div>
             `;
@@ -892,7 +1586,6 @@
             activeId = id;
             renderSlider();
             renderTimeline();
-            // Scroll ke atas dengan halus
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -905,7 +1598,7 @@
             currentQuestions.sort(() => Math.random() - 0.5);
             
             currentQuestionIndex = 0;
-            score = 0; // Reset skor
+            score = 0;
             answered = false;
 
             document.getElementById('quizTitle').innerText = step.title;
@@ -915,6 +1608,7 @@
             
             renderQuestion();
             document.getElementById('quizModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function renderQuestion() {
@@ -927,7 +1621,7 @@
 
             const optionsHtml = q.options.map((opt, i) => `
                 <button onclick="selectOption(${i})" class="option-btn" id="opt-${i}">
-                    <span class="font-bold mr-3 text-orange-500">${String.fromCharCode(65 + i)}.</span> ${opt}
+                    <span class="font-bold mr-3 text-orange-400">${String.fromCharCode(65 + i)}.</span> ${opt}
                 </button>
             `).join('');
             
@@ -945,7 +1639,6 @@
             }
         }
 
-        // --- PERBAIKAN: Tambah skor jika benar ---
         function selectOption(index) {
             if (answered) return;
             answered = true;
@@ -959,7 +1652,7 @@
 
             if (index === correctIndex) {
                 selectedBtn.classList.add('correct');
-                score++; // <-- SKOR DITAMBAHKAN DI SINI
+                score++;
             } else {
                 selectedBtn.classList.add('wrong');
                 correctBtn.classList.add('correct');
@@ -970,7 +1663,6 @@
             nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
 
-        // --- HELPER FUNCTIONS KOIN (Sinkron Index) ---
         function getCoins() {
             return parseInt(localStorage.getItem('eduverse_coins')) || 0;
         }
@@ -991,24 +1683,20 @@
             }
         }
 
-        // --- PERBAIKAN: Tambah Reward Koin ---
         function showResult() {
             document.getElementById('quizContent').classList.add('hidden');
             document.getElementById('quizNav').classList.add('hidden');
             document.getElementById('quizResult').classList.remove('hidden');
             
-            // --- LOGIKA REWARD KOIN ---
-            const rewardPerCorrect = 5; // 5 Koin per jawaban benar
-            const bonus = (score === currentQuestions.length) ? 20 : 0; // Bonus 20 koin jika skor sempurna
+            const rewardPerCorrect = 5;
+            const bonus = (score === currentQuestions.length) ? 20 : 0;
             const totalReward = (score * rewardPerCorrect) + bonus;
 
-            // Update localStorage
             updateCoins(totalReward);
 
-            // Update UI
             document.getElementById('scoreText').innerText = `${score}/${currentQuestions.length}`;
             
-            const resultDesc = document.querySelector('#quizResult p.text-gray-400');
+            const resultDesc = document.getElementById('resultDesc');
             if(resultDesc) {
                 resultDesc.innerText = `Skor kamu: ${score}/${currentQuestions.length}. Kamu mendapatkan ${totalReward} Koin!`;
             }
@@ -1019,6 +1707,7 @@
 
         function closeQuiz() {
             document.getElementById('quizModal').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         // --- NAV & UI FUNCTIONS ---
@@ -1042,32 +1731,33 @@
         }
 
         // Mobile Menu Toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const hamburger = mobileMenuBtn.querySelector('.hamburger') || mobileMenuBtn;
+        
+        mobileMenuBtn.addEventListener('click', function() {
             const menu = document.getElementById('mobileMenu');
             menu.classList.toggle('active');
+            this.classList.toggle('active');
         });
 
         // Close mobile menu on link click
         document.querySelectorAll('#mobileMenu a').forEach(link => {
             link.addEventListener('click', () => {
                 document.getElementById('mobileMenu').classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
             });
         });
 
-        // Intersection Observer for reveal animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
+        // Close quiz on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeQuiz();
+            }
+        });
 
         // Initial Render
         renderSlider();
         renderTimeline();
-
-        
     </script>
 </body>
 </html>
